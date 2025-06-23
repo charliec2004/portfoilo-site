@@ -1,0 +1,120 @@
+/* ---------------------------------------------------
+   Left and Right Side Containers
+   These two panels sit side-by-side inside <main>.
+---------------------------------------------------- */
+.left-side {
+  /* Make this panel full height of its parent (main) */
+  height: 100%;
+  /* Take up ~69% of the horizontal space */
+  width: 69%;
+  /* Space between child rows */
+  gap: 1rem;
+}
+
+.right-side {
+  /* Match height of .left-side */
+  height: 100%;
+  /* Occupy the remaining ~31% width */
+  width: 31%;
+  /* Space between child rows */
+  gap: 1rem;
+}
+
+/* ---------------------------------------------------
+   Shared Flexbox Layout
+   Both sides use a columnar flex layout to center
+   their content vertically and horizontally.
+---------------------------------------------------- */
+.left-side,
+.right-side {
+  display: flex;
+  flex-direction: column; /* Stack children top to bottom */
+  justify-content: center; /* Center content vertically */
+  align-items: center; /* Center content horizontally */
+}
+
+/* ---------------------------------------------------
+   Rows inside the Left Side Panel
+   Two stacked rows (.left-top-row & .left-bottom-row)
+   splitting the left panel’s space 60/40 vertically.
+---------------------------------------------------- */
+.left-top-row,
+.left-bottom-row {
+  /* Span the full width of the left panel */
+  width: 100%;
+
+  display: flex;
+  flex-direction: row; /* Stack children side by side */
+  justify-content: center; /* Center content horizontally */
+  align-items: center; /* Center content vertically */
+  gap: 1rem; /* Space between child blocks */
+}
+
+.left-top-row {
+  height: 60%;
+}
+
+.left-bottom-row {
+  height: 40%;
+}
+
+/* ---------------------------------------------------
+   Blocks inside the Right Side Panel
+   Two stacked rows (.right-top-block & .right-bottom-block)
+   splitting the left panel’s space 82/18 vertically.
+---------------------------------------------------- */
+
+.projects,
+.links {
+  /* Full width of the right panel */
+  width: 100%;
+}
+.projects {
+  /* Top block uses 80% of the right panel’s height */
+  height: 82%;
+}
+.links {
+  /* Bottom block uses the remaining 20% */
+  height: 18%;
+}
+
+.skills {
+  width: 47%;
+  height: 100%;
+}
+
+.contact {
+  width: 53%;
+  height: 100%;
+}
+
+.about-me {
+  width: 70%;
+  height: 100%;
+}
+
+.profile {
+  width: 30%;
+  min-width: 350px;
+  height: 100%;
+}
+
+.about-me,
+.profile,
+.skills,
+.contact,
+.projects,
+.links {
+  border-radius: 35px;
+  background: var(--green-gradient);
+  box-shadow: 1px 1px 0px 0px rgba(255, 255, 255, 0.25) inset,
+    1px 1px 0px 0px rgba(0, 0, 0, 0.25);
+}
+
+.profile,
+.contact {
+  border-radius: 35px;
+  background: var(--gold-gradient);
+  box-shadow: 1px 1px 0px 0px rgba(255, 255, 255, 0.25) inset,
+    1px 1px 0px 0px rgba(0, 0, 0, 0.25);
+}

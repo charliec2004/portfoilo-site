@@ -1,0 +1,16 @@
+/* 1. Vars & resets */
+@import "./index.css";
+
+/* 2. Base/body */
+@import "./body.css";
+
+/* 3. Header, main & blocks */
+@import "./header.css";
+@import "./main.css";
+@import "./blocks.css";
+
+/* 4. Footer */
+@import "./footer.css";
+
+/* 5. Block Content */
+@import "./block-content/about-me.css";

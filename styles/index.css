@@ -1,0 +1,63 @@
+/* styles/index.css */
+:root {
+--white-text: #F9F6EE;
+--background: radial-gradient(94.2% 94.2% at 53.97% 5.8%, #242221 0%, #2B2625 100%);
+--green-gradient: radial-gradient(50% 50% at 50% 50%, #2D5132 0%, #2D5132 100%);
+--gold-gradient: linear-gradient(180deg, rgba(155, 124, 51, 0.75) 0%, rgba(155, 124, 51, 0.75) 100%);
+}
+/* Reset & Box Sizing */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Full viewport & disable scroll */
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Centered container */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Main wrapper fills viewport */
+.container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+p {
+  font-size: 1.125rem;
+  line-height: 1.6;
+  max-width: 600px;
+}
+
+
+/* Utility: hidden overflow for non-scroll */
+.no-scroll {
+  overflow: hidden;
+}
+
+.no-wrap {
+  flex-shrink: 1;          /* let it get smaller than its content */
+  min-width: 0;            /* required for flex‐item shrinking */
+  overflow: hidden;
+  text-overflow: none; /* show “…” when text is too long */
+  white-space: nowrap;
+}

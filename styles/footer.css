@@ -1,0 +1,10 @@
+footer {
+  width: 100%;
+  flex: 0 0 auto;
+  text-align: center;
+  color: var(--white-text);
+  font-size: 0.5rem;
+  background-color: var(--background);
+
+  font-family: var(--white-text, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif);
+}

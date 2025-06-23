@@ -1,0 +1,65 @@
+header {
+  border-radius: 35px;
+  background: var(--green-gradient);
+  box-shadow: 1px 1px 0px 0px rgba(255, 255, 255, 0.25) inset, 1px 1px 0px 0px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  height: 5rem;
+  max-width: 2000px;
+  
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 0 2rem;
+}
+
+.name {
+  font-size: 2.25rem;
+  color: var(--white-text);
+  margin:0;
+
+  margin-right: 0.5rem;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: -0.7px;
+  
+}
+
+.line {
+  font-size: 2rem;
+  color: rgba(236, 236, 236, 0.65);
+  margin-right: 0.5rem;
+
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 350;
+  line-height: normal;
+  letter-spacing: -1.7px;
+}
+
+.title {
+  color: rgba(179, 142, 57, 0.80);
+  font-family: Merriweather;
+  font-size: 1.8rem;
+  font-style: italic;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: -0.7px;
+}
+
+.header-space {
+  flex-grow: 1;      
+  height: 100%;      /* let it take up remaining space */
+}
+
+.nav-btn {
+  background: transparent;
+  border: none;
+  color: var(--white-text);
+  font-size: 0.9rem;
+  font-family: merriweather;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+}

@@ -1,14 +1,13 @@
-.about-me {
+.skills {
   display: flex;
   flex-direction: column;
-  justify-content: start;
-  padding: 2rem 2rem;
+  justify-content: center;
+  align-items: start;
+  padding: 2rem 2rem 1.25rem 2rem;
 }
 
-.abt-top {
-  /* fill the full width of .about-me */
+.skills-top{
   width: 100%;
-
   /* remove the self-alignment override so it can stretch */
   /* align-self: flex-start; */
 
@@ -18,21 +17,17 @@
   justify-content: flex-start;
 }
 
-.abt-left {
-  width: auto;
-}
-
-h2 {
-  font-size:2.5rem;
-  color: var(--white-text);
-  font-weight: 600;
-}
-
-.abt-me-txt {
-  font-size: 1.25rem;
+.skills-top p {
+  font-size: 0.85rem;
   font-family: merriweather, sans-serif;
   font-style: italic;
-  color: #d2cebf;
+  color: var(--white-text);
   font-weight: 400;
   line-height: 1.5;
+}
+
+.skills-title {
+  font-size: 2.5rem;
+  color: var(--white-text);
+  font-weight: 600;
 }

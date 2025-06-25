@@ -1,0 +1,37 @@
+:root {
+  /* Colors */
+  --color-text-primary: #F9F6EE;
+  --color-text-secondary: #d2cebf;
+  --color-text-muted: rgba(236, 236, 236, 0.65);
+  --color-text-accent: rgba(179, 142, 57, 0.80);
+  --color-separator: rgba(178, 178, 178, 0.50);
+  
+  /* Gradients */
+  --gradient-background: radial-gradient(94.2% 94.2% at 53.97% 5.8%, #242221 0%, #2B2625 100%);
+  --gradient-green: radial-gradient(50% 50% at 50% 50%, #2D5132 0%, #2D5132 100%);
+  --gradient-gold: linear-gradient(180deg, rgba(155, 124, 51, 0.75) 0%, rgba(155, 124, 51, 0.75) 100%);
+  
+  /* Shadows */
+  --shadow-inset: 1px 1px 0px 0px rgba(255, 255, 255, 0.25) inset, 1px 1px 0px 0px rgba(0, 0, 0, 0.25);
+  
+  /* Typography */
+  --font-primary: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-heading: Inter, var(--font-primary);
+  --font-accent: Merriweather, serif;
+  --font-mono: Menlo, Monaco, "Courier New", monospace;
+  
+  /* Spacing */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 1.5rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 2.5rem;
+  
+  /* Border radius */
+  --radius-card: 35px;
+  
+  /* Layout dimensions */
+  --header-height: 5rem;
+  --max-content-width: 2000px;
+  --profile-min-width: 350px;
+}

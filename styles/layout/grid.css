@@ -1,0 +1,36 @@
+.main__left {
+  height: 100%;
+  width: 69%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.main__right {
+  height: 100%;
+  width: 31%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.main__row {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.main__row--top {
+  height: 55%;
+}
+
+.main__row--bottom {
+  height: 45%;
+}

@@ -5,10 +5,11 @@
   gap: 1rem;
 }
 
-.h2 {
+.section-title {
   font-size: 2.5rem;
   color: var(--white-text);
   font-weight: 600;
+  margin: 0;
 }
 
 .projects p {
@@ -25,7 +26,8 @@
 
 .projects-container {
   display: flex;
-  flex-direction: column; /* Stack project items vertically */
+  flex-direction: row;    /* allow wrapping on larger screens */
+  flex-wrap: wrap;
   gap: 2rem; /* Space between project items */
   height: auto;
   width: 100%;

@@ -1,0 +1,21 @@
+.page {
+  background: var(--gradient-background);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm);
+  min-height: 100vh;
+}
+
+.main {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: row;
+  width: 100%;
+  padding: 0;
+  max-width: var(--max-content-width);
+  gap: var(--spacing-sm);
+  overflow-y: auto;
+}

@@ -1,0 +1,9 @@
+:root {
+  --clr-text-light: #F9F6EE;
+  --clr-bg-dark: radial-gradient(94% 94% at 54% 6%, #242221 0%, #2B2625 100%);
+  --clr-green-grad: radial-gradient(50% 50% at 50% 50%, #2D5132 0%, #2D5132 100%);
+  --clr-gold-grad: linear-gradient(180deg, rgba(155,124,51,0.75) 0%, rgba(155,124,51,0.75) 100%);
+  --fs-heading: 2.5rem;
+  --fs-subheading: 1.8rem;
+  --fs-body: 1.125rem;
+}

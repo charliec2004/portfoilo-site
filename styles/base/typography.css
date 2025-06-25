@@ -1,0 +1,24 @@
+body {
+  font-family: var(--font-primary);
+  color: var(--color-text-primary);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  line-height: normal;
+}
+
+p {
+  line-height: 1.6;
+  margin: 0;
+}
+
+.text--nowrap {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.text--unselectable {
+  user-select: none;
+}

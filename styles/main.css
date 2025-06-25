@@ -1,11 +1,31 @@
-main{
+/* Base styles */
+@import "./base/variables.css";
+@import "./base/reset.css";
+@import "./base/typography.css";
+
+/* Layout */
+@import "./layout/page.css";
+@import "./layout/grid.css";
+
+/* Components */
+@import "./components/header.css";
+@import "./components/card.css";
+@import "./components/profile.css";
+@import "./components/projects.css";
+@import "./components/social.css";
+@import "./components/footer.css";
+
+/* Utilities */
+@import "./utilities/interactive.css";
+@import "./utilities/helpers.css";
+
+main {
   display: flex;
-  width: 100%;
-  height: calc(100vh - 5rem); /* full height minus header */
+  flex: 1 1 auto;
   flex-direction: row;
+  width: 100%;
+  /* height: calc(100vh - 5rem); removed to allow flex-based sizing */
   padding: 0;
-
   max-width: 2000px;
-
   gap: 1rem;
 }

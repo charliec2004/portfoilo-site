@@ -1,6 +1,11 @@
+/* all blocks should show pointer cursor */
 .about-me,
+.profile,
 .skills,
-.contact {
+.contact,
+.projects,
+.links,
+.proj-item {
   cursor: pointer;
 }
 
@@ -8,6 +13,6 @@
   cursor: pointer;
 }
 
-.projects a{
+.projects a {
   cursor: pointer;
 }

@@ -1,0 +1,20 @@
+.social__link {
+  cursor: pointer;
+}
+
+.social__separator {
+  width: 0.94px;
+  height: 46.158px;
+  flex-shrink: 0;
+  background: var(--color-separator);
+}
+
+.contact__link {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: var(--spacing-lg) var(--spacing-lg) 1.25rem var(--spacing-lg);
+  width: 100%;
+  height: 100%;
+}

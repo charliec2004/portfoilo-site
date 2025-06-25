@@ -1,0 +1,20 @@
+.card--profile {
+  width: 37.5%;
+  min-width: var(--profile-min-width);
+  height: 100%;
+  background: var(--gradient-gold);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  padding: var(--spacing-lg) var(--spacing-lg) 0 0;
+}
+
+.profile__image {
+  width: 160%;
+  height: 120%;
+  object-fit: cover;
+  object-position: 60% 20%;
+  user-select: none;
+}

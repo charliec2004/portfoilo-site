@@ -1,0 +1,6 @@
+.card,
+.project__item,
+.social__link,
+.nav__button {
+  cursor: pointer;
+}

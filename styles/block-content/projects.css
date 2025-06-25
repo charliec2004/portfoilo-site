@@ -12,20 +12,22 @@
 }
 
 .projects p {
+  display: flex;
   font-size: 0.85rem;
   font-family: merriweather, sans-serif;
   font-style: italic;
   color: var(--white-text);
   font-weight: 400;
-  line-height: 1.5;
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.5rem;
+  width: 100%;
+  flex-grow: 0;
 }
 
 .projects-container {
   display: flex;
   flex-direction: column; /* Stack project items vertically */
   gap: 2rem; /* Space between project items */
-  height: 100%;
+  height: auto;
   width: 100%;
 }
 
@@ -37,12 +39,12 @@
 
 .proj-item p {
   font-size: 1.25rem;
-  font-family: merriweather, sans-serif;
+  font-family: menlo, merriweather, sans-serif;
   font-style: italic;
   color: var(--white-text);
   font-weight: 400;
   line-height: 1.5;
-  letter-spacing: 0.05rem;
+  letter-spacing: 0.01rem;
   margin: 0;
   width: 100%;
   user-select: none;

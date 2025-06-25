@@ -9,7 +9,6 @@
 .project__item {
   display: flex;
   flex-direction: column;
-  cursor: pointer;
   flex-shrink: 1;
   min-width: 0;
   overflow: hidden;

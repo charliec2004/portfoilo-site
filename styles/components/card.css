@@ -2,7 +2,6 @@
   border-radius: var(--radius-card);
   background: var(--gradient-green);
   box-shadow: var(--shadow-inset);
-  cursor: pointer;
 }
 
 .card--about {
@@ -109,4 +108,9 @@
 
 .icon {
   user-select: none;
+}
+
+.card__title-section {
+  display: flex;
+  flex-direction: column;
 }

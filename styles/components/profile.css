@@ -12,8 +12,8 @@
 }
 
 .profile__image {
-  width: 160%;
-  height: 120%;
+  width: 130%;
+  height: 100%;
   object-fit: cover;
   object-position: 60% 20%;
   user-select: none;

@@ -19,6 +19,3 @@ p {
   text-overflow: ellipsis;
 }
 
-.text--unselectable {
-  user-select: none;
-}

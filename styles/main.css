@@ -18,14 +18,3 @@
 /* Utilities */
 @import "./utilities/interactive.css";
 @import "./utilities/helpers.css";
-
-main {
-  display: flex;
-  flex: 1 1 auto;
-  flex-direction: row;
-  width: 100%;
-  /* height: calc(100vh - 5rem); removed to allow flex-based sizing */
-  padding: 0;
-  max-width: 2000px;
-  gap: 1rem;
-}

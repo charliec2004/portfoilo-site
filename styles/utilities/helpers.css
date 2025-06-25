@@ -1,16 +1,28 @@
+/*==============================================================================
+  Utility helper classes
+==============================================================================*/
+
+/* .u-flex-grow
+   Allows flex items to grow and fill available space */
 .u-flex-grow {
   flex: 1;
 }
 
+/* .u-flex-shrink
+   Allows flex items to shrink when necessary and prevent overflow */
 .u-flex-shrink {
   flex-shrink: 1;
-  min-width: 0;
+  min-width: 0; /* Ensures items can shrink below their content width */
 }
 
+/* .u-no-scroll
+   Hides overflow and prevents scrolling */
 .u-no-scroll {
   overflow: hidden;
 }
 
+/* .u-visually-hidden
+   Hides content visually but keeps it accessible to screen readers */
 .u-visually-hidden {
   position: absolute;
   width: 1px;

@@ -1,0 +1,13 @@
+.about-me,
+.skills,
+.contact {
+  cursor: pointer;
+}
+
+.links img {
+  cursor: pointer;
+}
+
+.projects a{
+  cursor: pointer;
+}

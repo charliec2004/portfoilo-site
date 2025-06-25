@@ -17,3 +17,8 @@
 @import "./block-content/skills.css";
 @import "./block-content/contact.css";
 @import "./block-content/links.css";
+@import "./block-content/profile.css";
+@import "./block-content/projects.css";
+
+/* 6. Interactivity */
+@import "../interactivity/behaviors.css";

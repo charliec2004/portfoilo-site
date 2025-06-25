@@ -22,7 +22,9 @@
     <div class="header-space"></div>
     <nav>
       <button class="nav-btn">Projects</button>
-      <button class="nav-btn">&#183; Skills &#183;</button>
+      <p>&#183;</p>
+      <button class="nav-btn">Skills</button>
+      <p>&#183;</p>
       <button class="nav-btn">About Me</button>
     </nav>
   </header>
@@ -32,48 +34,73 @@
         <div class="about-me">
           <div class="abt-top no-wrap">
             <div class="abt-left">
-              <h2>About me</h2>
+              <h2 class="no-wrap" style="user-select: none;">About me</h2>
             </div>
             <div style="flex: 1 1 auto; min-width: 0;"></div>
             <div class="abt-right">
-              <img src="assets/profile.svg" alt="profile-icon">
+              <img src="assets/profile.svg" alt="profile-icon" style="user-select: none;">
             </div>
           </div>
           <div style="flex: 1"></div>
           <div class="abt-me-txt">I enjoy creating digital solutions that solve real problems in thoughtful, creative ways through intuitive design and clever engineering...</div>
         </div>
-        <div class="profile"></div>
+        <div class="profile">
+          <img src="assets/me.png" alt="picture of me">
+        </div>
       </div>
       <div class="left-bottom-row">
         <div class="skills">
           <div class="skills-top">
-            <p style="align-self: start;">What I can do with my tools</p>
+            <p class="no-wrap" style="align-self: start; user-select: none;">What I can do with my tools</p>
             <div style="flex: 1;"></div>
-            <img src="assets/tools.svg" alt="tools icon">
+            <img src="assets/tools.svg" alt="tools icon" style="user-select: none;">
           </div>
           <div style="flex: 1;"></div>
-          <p class="skills-title">Skills & Tools</p>
+          <h2 class="skills-title no-wrap" style="user-select: none;">Skills & Tools</h2>
         </div>
 
-        <div class="contact">
+        <a href="mailto:charlieconner04@gmail.com" class="contact">
           <div class="contact-top">
-            <p style="align-self: start;">Let's connect</p>
+            <p  class="no-wrap" style="align-self: start; user-select: none;">Let's connect</p>
             <div style="flex: 1;"></div>
-            <img src="assets/contact.svg" alt="contact icon">
+            <img src="assets/contact.svg" alt="contact icon" style="user-select: none;">
           </div>
           <div style="flex: 1;"></div>
-          <p class="contact-title">Contact me</p>
-        </div>
+          <h2 class="contact-title no-wrap" style="user-select: none;">Contact me</h2>
+        </a>
       </div>
     </div>
     <div class="right-side">
-      <div class="projects"></div>
+      <div class="projects">
+        <h2>Projects</h2>
+        <p class="no-wrap">What I've been doing in my free time</p>
+        <div class="projects-container">
+          <a class="proj-item no-wrap" href="https://github.com/charliec2004/NotSoSuperMario" target="_blank">
+            <p><span style="font-style: normal;">></span> Not So Super Mario Bros</p>
+            <div class="underline"></div>
+          </a>
+          <a class="proj-item no-wrap" href="https://github.com/charliec2004/War-Card-Game.git" target="_blank">
+            <p><span style="font-style: normal;">></span> War: The Card Game</p>
+            <div class="underline"></div>
+          </a>
+        </div>
+      </div>
       <div class="links">
-        <img src="assets/resume.svg" alt="resume">
+        <a 
+          href="assets/Charles_Conner_Resume.pdf" 
+          download="Charles_Conner_Resume.pdf" 
+          rel="noopener"
+        >
+          <img src="assets/resume.svg" alt="resume" style="user-select: none;">
+        </a>
         <div></div>
-        <img src="assets/github.svg" alt="github">
+        <a href="https://github.com/charliec2004" target="_blank" rel="noopener">
+          <img src="assets/github.svg" alt="github" style="user-select: none;">
+        </a>
         <div></div>
-        <img src="assets/linkedin.svg" alt="linkedin">
+        <a href="https://linkedin.com/in/charles-conner04" target="_blank" rel="noopener">
+          <img src="assets/linkedin.svg" alt="linkedin" style="user-select: none;">
+        </a>
       </div>
     </div>
   </main>

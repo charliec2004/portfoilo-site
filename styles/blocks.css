@@ -51,11 +51,11 @@
 }
 
 .left-top-row {
-  height: 56%;
+  height: 55%;
 }
 
 .left-bottom-row {
-  height: 44%;
+  height: 45%;
 }
 
 /* ---------------------------------------------------
@@ -79,22 +79,22 @@
 }
 
 .skills {
-  width: 52%;
+  width: 50%;
   height: 100%;
 }
 
 .contact {
-  width: 48%;
+  width: 50%;
   height: 100%;
 }
 
 .about-me {
-  width: 63%;
+  width: 61.5%;
   height: 100%;
 }
 
 .profile {
-  width: 37%;
+  width: 37.5%;
   min-width: 350px;
   height: 100%;
 }

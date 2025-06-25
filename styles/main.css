@@ -1,7 +1,7 @@
 main{
   display: flex;
   width: 100%;
-  height: 100%;
+  height: calc(100vh - 5rem); /* full height minus header */
   flex-direction: row;
   padding: 0;
 

@@ -15,9 +15,12 @@
    
 </head>
 <body class="page">
+  <!-- ============================================================================ -->
+  <!-- HEADER -->
+  <!-- ============================================================================ -->
   <header class="header">
     <div class="header__identity">
-      <h1 class="header__name">Charles Conner</h1>
+      <h1 class="header__name text--nowrap">Charles Conner</h1>
       <span class="header__separator">&#124;</span>
       <span class="header__title">Computer Science Student</span>
     </div>
@@ -30,13 +33,22 @@
     </nav>
   </header>
 
+  <!-- ============================================================================ -->
+  <!-- MAIN CONTENT -->
+  <!-- ============================================================================ -->
   <main class="main">
+    
+    <!-- LEFT COLUMN ------------------------------------------------------------ -->
     <section class="main__left">
+      
+      <!-- TOP ROW -------------------------------------------------------------- -->
       <div class="main__row main__row--top">
+        
+        <!-- ABOUT ME CARD ---------------------------------------------------- -->
         <article class="card card--about">
           <header class="card__header">
             <div class="card__title-section">
-              <h2 class="card__title">About me</h2>
+              <h2 class="card__title text--nowrap">About me</h2>
             </div>
             <div class="card__icon">
               <img src="assets/profile.svg" alt="Profile icon" class="icon">
@@ -47,12 +59,17 @@
           </div>
         </article>
 
+        <!-- PROFILE IMAGE CARD ----------------------------------------------- -->
         <aside class="card card--profile">
           <img src="assets/me.png" alt="Charles Conner" class="profile__image">
         </aside>
-      </div>
+        
+      </div> <!-- END: TOP ROW -->
 
+      <!-- BOTTOM ROW ----------------------------------------------------------- -->
       <div class="main__row main__row--bottom">
+        
+        <!-- SKILLS CARD ------------------------------------------------------ -->
         <article class="card card--skills">
           <header class="card__header">
             <p class="card__subtitle">What I can do with my tools</p>
@@ -61,10 +78,11 @@
             </div>
           </header>
           <div class="card__content">
-            <h2 class="card__title">Skills & Tools</h2>
+            <h2 class="card__title text--nowrap">Skills & Tools</h2>
           </div>
         </article>
 
+        <!-- CONTACT CARD ----------------------------------------------------- -->
         <article class="card card--contact">
           <a href="mailto:charlieconner04@gmail.com" class="contact__link">
             <header class="card__header">
@@ -74,17 +92,22 @@
               </div>
             </header>
             <div class="card__content">
-              <h2 class="card__title card__title--large">Contact me</h2>
+              <h2 class="card__title card__title--large text--nowrap">Contact me</h2>
             </div>
           </a>
         </article>
-      </div>
-    </section>
+        
+      </div> <!-- END: BOTTOM ROW -->
+      
+    </section> <!-- END: LEFT COLUMN -->
 
+    <!-- RIGHT COLUMN ----------------------------------------------------------- -->
     <aside class="main__right">
+      
+      <!-- PROJECTS CARD -------------------------------------------------------- -->
       <section class="card card--projects">
         <header class="card__header card__header--column">
-          <h2 class="card__title">Projects</h2>
+          <h2 class="card__title text--nowrap">Projects</h2>
           <p class="card__subtitle">What I've been doing in my free time</p>
         </header>
         <div class="projects__list">
@@ -99,6 +122,7 @@
         </div>
       </section>
 
+      <!-- SOCIAL LINKS CARD ---------------------------------------------------- -->
       <nav class="card card--links">
         <a href="assets/Charles_Conner_Resume.pdf" download="Charles_Conner_Resume.pdf" rel="noopener" class="social__link">
           <img src="assets/resume.svg" alt="Resume" class="icon">
@@ -112,9 +136,14 @@
           <img src="assets/linkedin.svg" alt="LinkedIn" class="icon">
         </a>
       </nav>
-    </aside>
-  </main>
+      
+    </aside> <!-- END: RIGHT COLUMN -->
+    
+  </main> <!-- END: MAIN CONTENT -->
 
+  <!-- ============================================================================ -->
+  <!-- FOOTER -->
+  <!-- ============================================================================ -->
   <footer class="footer">&#169; 2025 Charles Conner. All rights reserved.</footer>
 </body>
 </html>

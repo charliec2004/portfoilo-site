@@ -9,4 +9,5 @@
 }
 .overlay.active {
   opacity: 1;
+  pointer-events: auto;   /* block clicks */
 }

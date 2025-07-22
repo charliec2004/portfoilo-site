@@ -1,6 +1,6 @@
 .projects__list {
   display: flex;
-  flex-direction: row;
+  flex-direction: column; /* change to row for horizontal layout */
   flex-wrap: wrap;
   gap: var(--spacing-lg);
   width: 100%;
@@ -13,6 +13,7 @@
   min-width: 0;
   overflow: hidden;
   white-space: nowrap;
+
 }
 
 .project__title {

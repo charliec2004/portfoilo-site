@@ -1,36 +1,37 @@
-.main__left {
-  height: 100%;
-  width: 69%;
+.main__left,
+.main__right {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   gap: var(--spacing-sm);
+  min-height: 0;   /* allow vertical shrinking */
+  min-width: 0;    /* <<< allow horizontal shrinking */
+}
+
+/* Replace the fixed 69% / 31% widths with flex ratios */
+.main__left {
+  /* width: 69%; */
+  flex: 2 1 0;     /* grow 2, shrink 1, basis 0 */
+  justify-content: space-between;
 }
 
 .main__right {
-  height: 100%;
-  width: 31%;
-  display: flex;
-  flex-direction: column;
+  /* width: 31%; */
+  flex: 1 1 0;     /* grow 1, shrink 1, basis 0 */
   justify-content: center;
-  align-items: center;
-  gap: var(--spacing-sm);
 }
 
 .main__row {
   width: 100%;
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
   gap: var(--spacing-sm);
+  min-height: 0; /* crucial so flex children don’t overflow */
 }
 
+/* replace height % with flex ratios */
 .main__row--top {
-  height: 55%;
+  flex: 55;
 }
 
 .main__row--bottom {
-  height: 45%;
+  flex: 45;
 }

@@ -18,7 +18,7 @@ A modern, interactive portfolio website showcasing my skills, projects, and expe
 
 ## 🚀 Live Demo
 
-Visit the live site: [charlieconner.dev](https://charlieconner.com)
+Visit the live site: [charlieconner.com](https://charlieconner.com)
 
 ## 📦 Installation
 

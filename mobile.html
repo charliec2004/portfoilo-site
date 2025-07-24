@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Charlie Conner</title>
+    <title>Charlie Conner - Portfolio</title>
+    <meta name="description" content="Charles Conner - Computer Science Student Portfolio" />
     <link rel="icon" type="image/png" href="assets/favicon.png" />
 
     <!-- FONTS -->
@@ -19,96 +20,137 @@
   </head>
   <body class="mobile-page">
     <!-- HEADER -->
-    <header class="mobile-header">
-      <h1 class="mobile-header__name">Charlie Conner</h1>
-      <span class="mobile-header__title">Computer Science Student</span>
+    <header class="header">
+      <div class="header__identity">
+        <h1 class="header__name">Charlie Conner</h1>
+        <span class="header__title">Computer Science Student</span>
+      </div>
     </header>
 
-    <!-- MAIN CONTENT - SINGLE COLUMN -->
-    <main class="mobile-main">
+    <!-- MAIN CONTENT -->
+    <main class="main">
       <!-- Profile Image Card -->
-      <article class="mobile-card mobile-card--profile">
-        <img src="assets/me.png" alt="Charles Conner" class="mobile-profile__image" />
+      <article class="card card--profile">
+        <img 
+          src="assets/me.png" 
+          alt="Charles Conner portrait" 
+          class="profile__image"
+          loading="lazy"
+        />
       </article>
 
       <!-- About Me Card -->
-      <article class="mobile-card mobile-card--about">
-        <header class="mobile-card__header">
-          <h2 class="mobile-card__title">About me</h2>
-          <img src="assets/profile.svg" alt="Profile icon" class="mobile-icon" />
+      <article class="card card--about">
+        <header class="card__header">
+          <h2 class="card__title">About me</h2>
+          <div class="card__icon">
+            <img src="assets/profile.svg" alt="" class="icon" />
+          </div>
         </header>
-        <p class="mobile-card__text">
-          I enjoy creating digital solutions that solve real problems in thoughtful, creative ways through intuitive design and clever engineering. I care about how things work, how they feel, and how they hold up in the real world. I don’t box myself into one role. I move across the stack, across disciplines, and across ideas. I focus on clarity over complexity, blending logic with intention to build things that are useful, efficient, and built to last. I pride myself on shipping fast without cutting corners. I work best when I understand the big picture and can still dive deep when needed. I value sharp thinking, honest feedback, and process that gets out of the way. This site is a snapshot of what I’m building and where I’m headed.
+        <p class="card__text">
+          I enjoy creating digital solutions that solve real problems in thoughtful, creative ways through intuitive design and clever engineering. I care about how things work, how they feel, and how they hold up in the real world. I don't box myself into one role. I move across the stack, across disciplines, and across ideas. I focus on clarity over complexity, blending logic with intention to build things that are useful, efficient, and built to last. I pride myself on shipping fast without cutting corners. I work best when I understand the big picture and can still dive deep when needed. I value sharp thinking, honest feedback, and process that gets out of the way. This site is a snapshot of what I'm building and where I'm headed.
         </p>
       </article>
 
       <!-- Skills Card -->
-      <article class="mobile-card mobile-card--skills">
-        <header class="mobile-card__header">
-          <h2 class="mobile-card__title">Skills & Tools</h2>
-          <img src="assets/tools.svg" alt="Tools icon" class="mobile-icon" />
+      <article class="card card--skills">
+        <header class="card__header">
+          <h2 class="card__title">Skills & Tools</h2>
+          <div class="card__icon">
+            <img src="assets/tools.svg" alt="" class="icon" />
+          </div>
         </header>
-        <p class="mobile-card__subtitle">My toolbox</p>
-        <div class="mobile-skills__grid">
-          <img src="assets/html.svg" alt="HTML" class="mobile-skill-icon" />
-          <img src="assets/css.svg" alt="CSS" class="mobile-skill-icon" />
-          <img src="assets/javascript.svg" alt="JavaScript" class="mobile-skill-icon" />
-          <img src="assets/python.svg" alt="Python" class="mobile-skill-icon" />
-          <img src="assets/java.svg" alt="Java" class="mobile-skill-icon" />
-          <img src="assets/cpp.svg" alt="C++" class="mobile-skill-icon" />
-          <img src="assets/git.svg" alt="Git" class="mobile-skill-icon" />
-          <img src="assets/npm.svg" alt="NPM" class="mobile-skill-icon" />
-          <img src="assets/figma.svg" alt="Figma" class="mobile-skill-icon" />
+        <p class="card__subtitle">My toolbox</p>
+        <div class="skills__grid">
+          <img src="assets/html.svg" alt="HTML" class="skills__icon" loading="lazy" />
+          <img src="assets/css.svg" alt="CSS" class="skills__icon" loading="lazy" />
+          <img src="assets/javascript.svg" alt="JavaScript" class="skills__icon" loading="lazy" />
+          <img src="assets/python.svg" alt="Python" class="skills__icon" loading="lazy" />
+          <img src="assets/java.svg" alt="Java" class="skills__icon" loading="lazy" />
+          <img src="assets/cpp.svg" alt="C++" class="skills__icon" loading="lazy" />
+          <img src="assets/git.svg" alt="Git" class="skills__icon" loading="lazy" />
+          <img src="assets/npm.svg" alt="NPM" class="skills__icon" loading="lazy" />
+          <img src="assets/figma.svg" alt="Figma" class="skills__icon" loading="lazy" />
         </div>
       </article>
 
       <!-- Projects Card -->
-      <article class="mobile-card mobile-card--projects">
-        <header class="mobile-card__header">
-          <h2 class="mobile-card__title">Projects</h2>
+      <article class="card card--projects">
+        <header class="card__header">
+          <h2 class="card__title">Projects</h2>
         </header>
-        <p class="mobile-card__subtitle">What I've been doing in my free time</p>
-        <div class="mobile-projects__list">
-          <a href="https://github.com/charliec2004/NotSoSuperMario" target="_blank" class="mobile-project__item">
-            <span class="mobile-project__arrow">></span> Not So Super Mario Bros
+        <p class="card__subtitle">What I've been doing in my free time</p>
+        <div class="projects__list">
+          <a 
+            href="https://github.com/charliec2004/NotSoSuperMario" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="projects__item"
+          >
+            <span class="projects__arrow">></span> Not So Super Mario Bros
           </a>
-          <a href="https://github.com/charliec2004/War-Card-Game.git" target="_blank" class="mobile-project__item">
-            <span class="mobile-project__arrow">></span> War: The Card Game
+          <a 
+            href="https://github.com/charliec2004/War-Card-Game.git" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="projects__item"
+          >
+            <span class="projects__arrow">></span> War: The Card Game
           </a>
         </div>
       </article>
 
       <!-- Contact Card -->
-      <article class="mobile-card mobile-card--contact">
-        <a href="mailto:charlieconner04@gmail.com" class="mobile-contact__link">
-          <header class="mobile-card__header">
-            <h2 class="mobile-card__title mobile-card__title--large">Contact me</h2>
-            <img src="assets/contact.svg" alt="Contact icon" class="mobile-icon" />
+      <article class="card card--contact">
+        <a href="mailto:charlieconner04@gmail.com" class="contact__link">
+          <header class="card__header">
+            <h2 class="card__title card__title--large">Contact me</h2>
+            <div class="card__icon">
+              <img src="assets/contact.svg" alt="" class="icon" />
+            </div>
           </header>
-          <p class="mobile-card__subtitle">Let's connect</p>
+          <p class="card__subtitle">Let's connect</p>
         </a>
       </article>
 
       <!-- Social Links Card -->
-      <nav class="mobile-card mobile-card--social">
-        <div class="mobile-social__links">
-          <a href="assets/Charles_Conner_Resume.pdf" download="Charles_Conner_Resume.pdf" class="mobile-social__link">
-            <img src="assets/resume.svg" alt="Resume" class="mobile-icon" />
+      <nav class="card card--social">
+        <div class="social">
+          <a 
+            href="assets/Charles_Conner_Resume.pdf" 
+            download="Charles_Conner_Resume.pdf" 
+            class="social__link"
+            aria-label="Download Resume"
+          >
+            <img src="assets/resume.svg" alt="Resume" class="icon" />
           </a>
-          <a href="https://github.com/charliec2004" target="_blank" class="mobile-social__link">
-            <img src="assets/github.svg" alt="GitHub" class="mobile-icon" />
+          <a 
+            href="https://github.com/charliec2004" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="social__link"
+            aria-label="GitHub Profile"
+          >
+            <img src="assets/github.svg" alt="GitHub" class="icon" />
           </a>
-          <a href="https://linkedin.com/in/charles-conner04" target="_blank" class="mobile-social__link">
-            <img src="assets/linkedin.svg" alt="LinkedIn" class="mobile-icon" />
+          <a 
+            href="https://linkedin.com/in/charles-conner04" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="social__link"
+            aria-label="LinkedIn Profile"
+          >
+            <img src="assets/linkedin.svg" alt="LinkedIn" class="icon" />
           </a>
         </div>
       </nav>
     </main>
 
     <!-- FOOTER -->
-    <footer class="mobile-footer">
+    <footer class="footer">
       &#169; 2025 Charles Conner. All rights reserved.
     </footer>
-    <script src="js/events/mobile-detection.js"></script>
+
+    <script src="js/mobile-detection.js"></script>
   </body>
 </html>

@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Charlie Conner</title>
+    <title>Charlie Conner - Portfolio</title>
+    <meta name="description" content="Charles Conner - Computer Science Student Portfolio" />
     <link rel="icon" type="image/png" href="assets/favicon.png" />
 
     <!-- FONTS -->
@@ -18,43 +19,56 @@
     <link rel="stylesheet" href="styles/main.css" />
   </head>
   <body class="page">
-    <div class="overlay"></div>
-    <!-- ============================================================================ -->
+    <div class="overlay" aria-hidden="true"></div>
+    
     <!-- HEADER -->
-    <!-- ============================================================================ -->
     <header class="header">
       <div class="header__identity">
         <h1 class="header__name text--nowrap">Charlie Conner</h1>
-        <span class="header__separator">&#124;</span>
+        <span class="header__separator" aria-hidden="true">&#124;</span>
         <span class="header__title">Computer Science Student</span>
       </div>
       <nav class="header__nav">
-        <a href="mailto:charlieconner04@gmail.com" class="nav__button"
-          >Contact Me</a
+        <a 
+          href="mailto:charlieconner04@gmail.com" 
+          class="nav__button"
+          aria-label="Send email to Charlie Conner"
         >
-        <span class="nav__separator">&#183;</span>
-        <button class="nav__button">Skills</button>
-        <span class="nav__separator">&#183;</span>
-        <button class="nav__button">About Me</button>
+          Contact Me
+        </a>
+        <span class="nav__separator" aria-hidden="true">&#183;</span>
+        <button 
+          type="button" 
+          class="nav__button"
+          aria-label="View skills section"
+        >
+          Skills
+        </button>
+        <span class="nav__separator" aria-hidden="true">&#183;</span>
+        <button 
+          type="button" 
+          class="nav__button"
+          aria-label="View about me section"
+        >
+          About Me
+        </button>
       </nav>
     </header>
 
-    <!-- ============================================================================ -->
     <!-- MAIN CONTENT -->
-    <!-- ============================================================================ -->
     <main class="main u-no-scroll">
-      <!-- LEFT COLUMN ------------------------------------------------------------ -->
+      <!-- LEFT COLUMN -->
       <section class="main__left">
-        <!-- TOP ROW -------------------------------------------------------------- -->
+        <!-- TOP ROW -->
         <div class="main__row main__row--top">
-          <!-- ABOUT ME CARD ---------------------------------------------------- -->
-          <article class="card card--about u-no-scroll">
+          <!-- ABOUT ME CARD -->
+          <article class="card card--about u-no-scroll" tabindex="0" role="button" aria-label="Expand about me section">
             <header class="card__header">
               <div class="card__title-section">
                 <h2 class="card__title text--nowrap">About me</h2>
               </div>
               <div class="card__icon">
-                <img src="assets/profile.svg" alt="Profile icon" class="icon" />
+                <img src="assets/profile.svg" alt="" class="icon" />
               </div>
             </header>
             <div class="card__content">
@@ -66,42 +80,42 @@
             </div>
           </article>
 
-          <!-- PROFILE IMAGE CARD ----------------------------------------------- -->
+          <!-- PROFILE IMAGE CARD -->
           <aside class="card card--profile u-no-scroll">
             <img
               src="assets/me.png"
-              alt="Charles Conner"
+              alt="Charles Conner portrait"
               class="profile__image"
+              loading="lazy"
             />
           </aside>
         </div>
-        <!-- END: TOP ROW -->
 
-        <!-- BOTTOM ROW ----------------------------------------------------------- -->
+        <!-- BOTTOM ROW -->
         <div class="main__row main__row--bottom">
-          <!-- SKILLS CARD ------------------------------------------------------ -->
-          <article class="card card--skills u-no-scroll">
+          <!-- SKILLS CARD -->
+          <article class="card card--skills u-no-scroll" tabindex="0" role="button" aria-label="Expand skills section">
             <header class="card__header">
               <p class="card__subtitle">My toolbox</p>
               <div class="card__icon">
-                <img src="assets/tools.svg" alt="Tools icon" class="icon" />
+                <img src="assets/tools.svg" alt="" class="icon" />
               </div>
             </header>
-            <div class="icon--container"></div>
+            <div class="icon--container" aria-label="Skills and tools"></div>
             <h2 class="card__title text--nowrap">Skills & Tools</h2>
           </article>
 
-          <!-- CONTACT CARD ----------------------------------------------------- -->
+          <!-- CONTACT CARD -->
           <article class="card card--contact u-no-scroll">
-            <a href="mailto:charlieconner04@gmail.com" class="contact__link">
+            <a 
+              href="mailto:charlieconner04@gmail.com" 
+              class="contact__link"
+              aria-label="Send email to Charlie Conner"
+            >
               <header class="card__header">
                 <p class="card__subtitle">Let's connect</p>
                 <div class="card__icon">
-                  <img
-                    src="assets/contact.svg"
-                    alt="Contact icon"
-                    class="icon"
-                  />
+                  <img src="assets/contact.svg" alt="" class="icon" />
                 </div>
               </header>
               <div class="card__content">
@@ -112,13 +126,11 @@
             </a>
           </article>
         </div>
-        <!-- END: BOTTOM ROW -->
       </section>
-      <!-- END: LEFT COLUMN -->
 
-      <!-- RIGHT COLUMN ----------------------------------------------------------- -->
+      <!-- RIGHT COLUMN -->
       <aside class="main__right">
-        <!-- PROJECTS CARD -------------------------------------------------------- -->
+        <!-- PROJECTS CARD -->
         <section class="card card--projects u-no-scroll">
           <header class="card__header card__header--column">
             <h2 class="card__title text--nowrap">Projects</h2>
@@ -129,6 +141,7 @@
               class="project__item"
               href="https://github.com/charliec2004/NotSoSuperMario"
               target="_blank"
+              rel="noopener noreferrer"
             >
               <p class="project__title">
                 <span class="project__arrow">></span> Not So Super Mario Bros
@@ -139,6 +152,7 @@
               class="project__item"
               href="https://github.com/charliec2004/War-Card-Game.git"
               target="_blank"
+              rel="noopener noreferrer"
             >
               <p class="project__title">
                 <span class="project__arrow">></span> War: The Card Game
@@ -148,47 +162,47 @@
           </div>
         </section>
 
-        <!-- SOCIAL LINKS CARD ---------------------------------------------------- -->
+        <!-- SOCIAL LINKS CARD -->
         <nav class="card card--links u-no-scroll">
           <a
             href="assets/Charles_Conner_Resume.pdf"
             download="Charles_Conner_Resume.pdf"
             rel="noopener"
             class="social__link"
+            aria-label="Download resume"
           >
             <img src="assets/resume.svg" alt="Resume" class="icon" />
           </a>
-          <div class="social__separator"></div>
+          <div class="social__separator" aria-hidden="true"></div>
           <a
             href="https://github.com/charliec2004"
             target="_blank"
-            rel="noopener"
+            rel="noopener noreferrer"
             class="social__link"
+            aria-label="GitHub profile"
           >
             <img src="assets/github.svg" alt="GitHub" class="icon" />
           </a>
-          <div class="social__separator"></div>
+          <div class="social__separator" aria-hidden="true"></div>
           <a
             href="https://linkedin.com/in/charles-conner04"
             target="_blank"
-            rel="noopener"
+            rel="noopener noreferrer"
             class="social__link"
+            aria-label="LinkedIn profile"
           >
             <img src="assets/linkedin.svg" alt="LinkedIn" class="icon" />
           </a>
         </nav>
       </aside>
-      <!-- END: RIGHT COLUMN -->
     </main>
-    <!-- END: MAIN CONTENT -->
 
-    <!-- ============================================================================ -->
     <!-- FOOTER -->
-    <!-- ============================================================================ -->
     <footer class="footer">
       &#169; 2025 Charles Conner. All rights reserved.
     </footer>
-    <script type="module" src="js/events/click.js" defer></script>
-    <script src="js/events/mobile-detection.js"></script>
+
+    <script type="module" src="js/card-interactions.js"></script>
+    <script src="js/mobile-detection.js"></script>
   </body>
 </html>

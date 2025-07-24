@@ -240,6 +240,39 @@ function populateSkillIcons(clone) {
   });
 }
 
+/**
+ * Handles clicks on header navigation buttons to trigger card expansions
+ * 
+ * @param {Event} event - The click event object
+ */
+function handleHeaderButtonClick(event) {
+  const button = event.target.closest('.nav__button')
+  if (!button) return
+  
+  const buttonText = button.textContent.trim().toLowerCase()
+  let targetCard = null
+  
+  // Find the corresponding card based on button text
+  if (buttonText === 'about me') {
+    targetCard = document.querySelector('.card--about')
+  } else if (buttonText === 'skills') {
+    targetCard = document.querySelector('.card--skills')
+  }
+  
+  // If we found a matching card, simulate a click on it
+  if (targetCard) {
+    // Create a synthetic click event on the target card
+    const syntheticEvent = {
+      target: targetCard,
+      preventDefault: () => {},
+      stopPropagation: () => {}
+    }
+    
+    // Call the existing handleCardClick function
+    handleCardClick(syntheticEvent)
+  }
+}
+
 // ======================================
 // EVENT BINDING
 // ======================================
@@ -247,4 +280,8 @@ function populateSkillIcons(clone) {
 window.addEventListener('DOMContentLoaded', () => {
   container?.addEventListener('click', handleCardClick)  // Listen for clicks on the container
   overlay?.addEventListener('click', handleOverlayClick) // Listen for clicks on the overlay
+  
+  // Add event listener for header navigation buttons
+  const headerNav = document.querySelector('.header__nav')
+  headerNav?.addEventListener('click', handleHeaderButtonClick)
 })

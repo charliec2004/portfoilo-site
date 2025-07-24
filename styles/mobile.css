@@ -22,7 +22,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: left;
-  gap: 0.75rem;
+  gap: 1rem;
   padding: 1.25rem;
   background: var(--gradient-green);
   border-radius: var(--radius-card);
@@ -39,7 +39,6 @@
   font-size: clamp(1.2rem, 5vw, 2rem); /* Responsive font size */
   font-family: var(--font-heading);
   font-weight: 600;
-  margin-bottom: 0.25rem;
   white-space: nowrap; /* Prevent wrapping */
   overflow: hidden;
   text-overflow: ellipsis; /* Add ellipsis if still too long */
@@ -57,6 +56,8 @@
   text-overflow: ellipsis; /* Add ellipsis if still too long */
   flex-shrink: 1; /* Allow shrinking */
   min-width: 0;
+
+  margin-top: 0.2rem;
 }
 
 .mobile-main {

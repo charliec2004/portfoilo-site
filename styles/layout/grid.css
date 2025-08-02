@@ -76,3 +76,25 @@
   }
 }
 
+@media (max-width: 770px) {
+  .main__left,
+  .main__right {
+    flex-direction: column; /* Stack sections vertically */
+    width: 100%;            /* Full width on small screens */
+  }
+  
+  .main__row {
+    flex-direction: column; /* Stack rows vertically */
+    width: 100%;            /* Full width for rows */
+    position: relative;     /* Add this for absolute positioning context */
+    overflow: hidden;       /* Add this to contain the expanded cards */
+  }
+  
+  .main__row--top,
+  .main__row--bottom {
+    flex: 1 1 auto;         /* Reset flex ratios for smaller screens */
+    min-height: fit-content; /* Allow natural height */
+    max-height: none;       /* Remove height constraints */
+  }
+}
+

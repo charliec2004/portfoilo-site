@@ -20,8 +20,33 @@
 
 /* Add responsive behavior */
 @media (max-width: 1210px) { /* ← Changed from 1135px */
+  .card--profile {
+    min-width: 0;       /* Remove minimum width constraint */
+    height: 50vh;       /* Match the card.css setting */
+    min-height: 300px;  /* Ensure minimum visibility */
+    flex: 1 1 auto;     /* Equal flex ratio with about card */
+  }
+  
   .profile__image {
-    height: clamp(300px, 50vh, 600px);
+    height: 100%; /* Fill the container completely */
     border-radius: var(--radius-card); /* Ensure radius is maintained on mobile */
+  }
+}
+
+@media (max-width: 770px) {
+  .card--profile {
+    min-width: 0; /* Ensure no minimum width on mobile */
+    width: 100%; /* Take full available width */
+    height: auto; /* Let it size naturally on mobile */
+  }
+  
+  .profile__image {
+    height: clamp(250px, 40vh, 400px); /* Smaller height range for mobile */
+  }
+}
+
+@media (max-width: 480px) {
+  .profile__image {
+    height: clamp(200px, 35vh, 300px); /* Even smaller for very small screens */
   }
 }

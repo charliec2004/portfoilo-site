@@ -36,7 +36,7 @@ const CONFIG = {
   
   // Responsive settings
   responsive: {
-    disableExpansionBelow: 720 // Disable card expansion below this width (px)
+    disableExpansionBelow: null // Disable card expansion below this width (px) // not using this now!
   },
   
   skills: [
@@ -142,16 +142,36 @@ function isCardExpansionDisabled() {
 }
 
 /**
+ * Get the appropriate container for card expansion based on screen size
+ */
+function getExpansionContainer(targetCard) {
+  const isMobile = window.innerWidth <= 770;
+  
+  if (isMobile) {
+    // On mobile, expand within the row container
+    const row = targetCard.closest('.main__row');
+    return row || safeQuerySelector(CONFIG.selectors.container);
+  } else {
+    // On larger screens, use the main left container
+    return safeQuerySelector(CONFIG.selectors.container);
+  }
+}
+
+/**
  * Create and position card clone
  */
 function createCardClone(originalCard, container) {
-  if (!originalCard || !container) return null;
+  if (!originalCard) return null;
+  
+  // Get the appropriate container based on screen size
+  const expansionContainer = getExpansionContainer(originalCard);
+  if (!expansionContainer) return null;
   
   try {
     const clone = originalCard.cloneNode(true);
     clone.classList.add(CONFIG.classes.clone);
     
-    const rect = getElementRect(originalCard, container);
+    const rect = getElementRect(originalCard, expansionContainer);
     if (!rect) return null;
     
     // Set initial position and styling
@@ -165,8 +185,8 @@ function createCardClone(originalCard, container) {
       transition: 'top 0.4s ease, left 0.4s ease, width 0.4s ease, height 0.4s ease'
     });
     
-    container.appendChild(clone);
-    return { clone, originalRect: rect };
+    expansionContainer.appendChild(clone);
+    return { clone, originalRect: rect, container: expansionContainer };
     
   } catch (error) {
     console.error('Failed to create card clone:', error);
@@ -227,8 +247,8 @@ function fadeOutSkillIcons(clone) {
 // ===========================================
 // CARD EXPANSION LOGIC
 // ===========================================
-function expandCard(clone, overlay) {
-  if (!clone || !overlay) return;
+function expandCard(clone, overlay, container) {
+  if (!clone || !overlay || !container) return;
   
   // Force layout calculation
   clone.getBoundingClientRect();
@@ -236,7 +256,7 @@ function expandCard(clone, overlay) {
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
       try {
-        // Expand to fill container
+        // Expand to fill the appropriate container
         Object.assign(clone.style, {
           top: '0',
           left: '0',
@@ -302,28 +322,21 @@ function contractCard(clone, originalRect) {
 function handleCardClick(event) {
   if (!expansionState.canExpand()) return;
   
-  // Check if card expansion is disabled for current window width
-  if (isCardExpansionDisabled()) {
-    console.log('Card expansion disabled for current window width');
-    return;
-  }
-  
   const targetCard = event.target.closest(`${CONFIG.selectors.aboutCard}, ${CONFIG.selectors.skillsCard}`);
   if (!targetCard) return;
   
-  const container = safeQuerySelector(CONFIG.selectors.container);
   const overlay = safeQuerySelector(CONFIG.selectors.overlay);
   
-  if (!container || !overlay) {
+  if (!overlay) {
     console.error('Required elements not found');
     return;
   }
   
-  const cloneData = createCardClone(targetCard, container);
+  const cloneData = createCardClone(targetCard);
   if (!cloneData) return;
   
-  const { clone, originalRect } = cloneData;
-  expansionState.setExpanded({ ...originalRect, card: targetCard }, clone);
+  const { clone, originalRect, container } = cloneData;
+  expansionState.setExpanded({ ...originalRect, card: targetCard, container }, clone);
   
   // Handle different card types
   if (targetCard.classList.contains('card--skills')) {
@@ -337,7 +350,7 @@ function handleCardClick(event) {
     }, CONFIG.timing.cardExpansion);
   }
   
-  expandCard(clone, overlay);
+  expandCard(clone, overlay, container);
 }
 
 async function handleOverlayClick(event) {
@@ -345,9 +358,8 @@ async function handleOverlayClick(event) {
   
   const { currentClone, originalCardData } = expansionState;
   const overlay = safeQuerySelector(CONFIG.selectors.overlay);
-  const container = safeQuerySelector(CONFIG.selectors.container);
   
-  if (!overlay || !container) return;
+  if (!overlay) return;
   
   // Hide overlay immediately
   overlay.classList.remove(CONFIG.classes.overlayActive);
@@ -366,9 +378,10 @@ async function handleOverlayClick(event) {
       }
     }
     
-    // Get fresh measurements for the original card
+    // Get fresh measurements for the original card using the stored container
     const originalCard = originalCardData.card;
-    const freshRect = getElementRect(originalCard, container);
+    const expansionContainer = originalCardData.container || getExpansionContainer(originalCard);
+    const freshRect = getElementRect(originalCard, expansionContainer);
     const rectToUse = freshRect || originalCardData;
     
     // Contract the card

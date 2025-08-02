@@ -27,6 +27,7 @@
   flex: 1;           /* Each takes 1/2 of the row space */
   height: 100%;
   background: var(--gradient-gold);
+  padding: var(--spacing-lg) var(--spacing-lg) 1.25rem var(--spacing-lg);
 }
 
 .card--projects {
@@ -141,15 +142,23 @@
 /* Add responsive behavior */
 @media (max-width: 1210px) {
   .card--about {
+    flex: 1 1 auto;     /* Change from flex: 2 to equal flex with profile */
     width: 100%;        /* Take full width available */
-    flex: 1 1 auto;     /* Grow to fill space */
     height: auto;       /* Let content determine height on mobile */
+  }
+
+  .card--about .card__header {
+    margin-bottom: 2rem;
+  }
+  .card--contact .card__header {
+    margin-bottom: 2rem;
   }
   
   .card--profile {
+    flex: 1 1 auto;     /* Equal flex ratio with about card */
     width: auto;        /* Let it size based on content */
-    flex: 1;
-    height: auto;       /* Let content determine height on mobile */
+    height: 50vh;       /* Give it a specific height instead of auto */
+    min-height: 300px;  /* Ensure minimum visibility */
   }
   
   .card--skills,
@@ -158,4 +167,17 @@
     flex: 1 1 auto;     /* Allow them to grow equally */
     height: auto;       /* Let content determine height on mobile */
   }
+}
+
+@media (max-width: 770px) {
+  .card--about,
+  .card--skills,
+  .card--contact {
+    padding: var(--spacing-md);
+  } 
+
+  .card__content {
+    font-size: 1.5rem;
+  }
+
 }

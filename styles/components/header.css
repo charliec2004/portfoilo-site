@@ -84,3 +84,17 @@
   letter-spacing: 0.5px;
   user-select: none;
 }
+
+/* Hide everything except the name on mobile */
+@media (max-width: 770px) {
+  .header {
+    justify-content: start; /* left offset the name */
+  }
+  
+  .header__separator,
+  .header__title,
+  .header__nav {
+    display: none; /* Hide separator, subtitle, and navigation */
+  }
+
+}

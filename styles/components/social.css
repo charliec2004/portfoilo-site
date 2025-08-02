@@ -10,7 +10,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  padding: var(--spacing-lg) var(--spacing-lg) 1.25rem var(--spacing-lg);
   width: 100%;
   height: 100%;
 }

@@ -20,3 +20,17 @@
   gap: var(--spacing-sm);
   overflow-y: auto;
 }
+
+/* Add media query for tablet layout */
+@media (max-width: 1210px) { /* ← Changed from 1135px */
+  .page {
+    min-height: 100vh; /* Ensure full height */
+    overflow-y: auto;  /* Allow page scrolling */
+  }
+  
+  .main {
+    flex-direction: column; /* Stack vertically */
+    max-height: none;       /* Remove height constraint */
+    overflow-y: visible;    /* Remove container scroll */
+  }
+}

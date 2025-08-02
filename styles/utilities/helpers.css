@@ -21,6 +21,13 @@
   overflow: hidden;
 }
 
+/* Override no-scroll on smaller screens */
+@media (max-width: 1210px) { /* ← Changed from 1135px */
+  .u-no-scroll {
+    overflow: visible; /* Allow content to flow naturally */
+  }
+}
+
 /* .u-visually-hidden
    Hides content visually but keeps it accessible to screen readers */
 .u-visually-hidden {

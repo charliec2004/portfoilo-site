@@ -20,8 +20,9 @@
   display: flex;
   align-items: center;
   gap: var(--spacing-xs);
-  flex-shrink: 1;
-  min-width: 0;
+  flex-shrink: 1;    /* Allow the identity section to shrink */
+  min-width: 0;      /* Important for text truncation */
+  overflow: hidden;  /* Hide overflow */
 }
 
 .header__name {
@@ -30,6 +31,7 @@
   font-weight: 600;
   letter-spacing: -0.7px;
   white-space: nowrap;
+  flex-shrink: 0;    /* Prevent Charlie Conner from shrinking */
 }
 
 .header__separator {
@@ -39,6 +41,7 @@
   font-weight: 350;
   letter-spacing: -1.7px;
   user-select: none;
+  flex-shrink: 0;    /* Prevent separator from shrinking */
 }
 
 .header__title {
@@ -48,13 +51,20 @@
   font-style: italic;
   font-weight: 500;
   letter-spacing: -0.7px;
+  
+  /* Text truncation properties */
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-shrink: 1;    /* Allow this to shrink */
+  min-width: 0;      /* Important for ellipsis to work */
 }
 
 .header__nav {
   display: flex;
   align-items: center;
   gap: var(--spacing-xs);
+  flex-shrink: 0;    /* Prevent navigation from shrinking */
 }
 
 .nav__button {

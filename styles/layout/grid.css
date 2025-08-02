@@ -9,32 +9,70 @@
 
 /* Replace the fixed 69% / 31% widths with flex ratios */
 .main__left {
-  /* width: 69%; */
-  flex: 2 1 0;     /* grow 2, shrink 1, basis 0 */
+  flex: 2 1 0;     /* This is good - keep it */
   justify-content: space-between;
-
-  
   position: relative;
+  max-height: var(--max-content-height);
 }
 
 .main__right {
-  /* width: 31%; */
-  flex: 1 1 0;     /* grow 1, shrink 1, basis 0 */
+  flex: 1 1 0;     /* This is good - keep it */
   justify-content: center;
+  max-height: var(--max-content-height);
 }
 
 .main__row {
   width: 100%;
   display: flex;
   gap: var(--spacing-sm);
-  min-height: 0; /* crucial so flex children don’t overflow */
+  min-height: 0; /* crucial so flex children don't overflow */
 }
 
-/* replace height % with flex ratios */
+/* replace height % with flex ratios and add max heights */
 .main__row--top {
-  flex: 55;
+  flex: 11;        /* Instead of 55 */
+  max-height: 55vh; /* Prevent excessive height */
 }
 
 .main__row--bottom {
-  flex: 45;
+  flex: 9;         /* Instead of 45 */
+  max-height: 40vh; /* Prevent excessive height */
 }
+
+/* TABLET SIZING - 1210px breakpoint */
+@media (max-width: 1210px) { /* ← Changed from 1135px */
+  .main__left,
+  .main__right {
+    max-height: none; /* Remove height constraints on mobile */
+  }
+  
+  .main__left {
+    flex: 1 1 auto;        /* Reset flex behavior */
+    width: 100%;           /* Take full width */
+    justify-content: flex-start;
+  }
+  
+  .main__right {
+    flex: 1 1 auto;        /* Reset flex behavior */
+    width: 100%;           /* Match left section width */
+    justify-content: flex-start;
+  }
+  
+  .main__row {
+    flex-direction: row;
+    height: auto;
+  }
+  
+  .main__row--top,
+  .main__row--bottom {
+    flex: 1 1 auto;        /* Reset flex ratios */
+    min-height: fit-content; /* Allow natural height */
+    max-height: none;       /* Remove height constraints */
+  }
+
+  .main__right,
+  .main__left {
+    min-height: 50vh;
+  }
+}
+

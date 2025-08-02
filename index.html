@@ -32,7 +32,7 @@
         <span class="header__separator" aria-hidden="true">&#124;</span>
         <span class="header__title">Computer Science Student</span>
       </div>
-      <nav class="header__nav">
+      <nav class="header__nav text--nowrap">
         <a 
           href="mailto:charlieconner04@gmail.com" 
           class="nav__button"
@@ -86,11 +86,13 @@
 
           <!-- PROFILE IMAGE CARD -->
           <aside class="card card--profile u-no-scroll">
+            <!-- Replace the profile image with this temporary debugging version -->
             <img
-              src="assets/me.png"
-              alt="Charles Conner portrait"
+              src="assets/charlie.webp"
+              alt="Charlie Conner portrait"
               class="profile__image"
-              loading="lazy"
+              onload="console.log('Image loaded successfully')"
+              onerror="console.log('Image failed to load:', this.src); this.style.backgroundColor='red';"
             />
           </aside>
         </div>

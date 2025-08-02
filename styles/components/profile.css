@@ -1,20 +1,27 @@
 .card--profile {
-  width: 37.5%;
+  flex: 1;           /* ← Add flexible sizing */
   min-width: var(--profile-min-width);
   height: 100%;
   background: var(--gradient-gold);
-  overflow: hidden;
+  overflow: hidden;  /* This is good - keeps it here */
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
-  padding: var(--spacing-lg) var(--spacing-lg) 0 0;
 }
 
 .profile__image {
   width: 100%;
-  height: auto;
+  height: 100%;
   object-fit: cover;
-  object-position: 60% 20%;
   user-select: none;
+  border-radius: var(--radius-card); /* Add border radius to match the card */
+}
+
+/* Add responsive behavior */
+@media (max-width: 1210px) { /* ← Changed from 1135px */
+  .profile__image {
+    height: clamp(300px, 50vh, 600px);
+    border-radius: var(--radius-card); /* Ensure radius is maintained on mobile */
+  }
 }

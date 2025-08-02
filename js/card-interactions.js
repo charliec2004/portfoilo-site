@@ -34,6 +34,11 @@ const CONFIG = {
     fallbackTimeout: 350
   },
   
+  // Responsive settings
+  responsive: {
+    disableExpansionBelow: 720 // Disable card expansion below this width (px)
+  },
+  
   skills: [
     'html.svg', 'css.svg', 'javascript.svg', 'python.svg', 'java.svg',
     'cpp.svg', 'git.svg', 'npm.svg', 'figma.svg'
@@ -127,6 +132,13 @@ function animateTextChange(textElement, newText, duration = CONFIG.timing.textFa
       resolve();
     }, duration);
   });
+}
+
+/**
+ * Check if card expansion should be disabled based on window width
+ */
+function isCardExpansionDisabled() {
+  return window.innerWidth < CONFIG.responsive.disableExpansionBelow;
 }
 
 /**
@@ -290,6 +302,12 @@ function contractCard(clone, originalRect) {
 function handleCardClick(event) {
   if (!expansionState.canExpand()) return;
   
+  // Check if card expansion is disabled for current window width
+  if (isCardExpansionDisabled()) {
+    console.log('Card expansion disabled for current window width');
+    return;
+  }
+  
   const targetCard = event.target.closest(`${CONFIG.selectors.aboutCard}, ${CONFIG.selectors.skillsCard}`);
   if (!targetCard) return;
   
@@ -373,6 +391,12 @@ async function handleOverlayClick(event) {
 }
 
 function handleHeaderButtonClick(event) {
+  // Check if card expansion is disabled for current window width
+  if (isCardExpansionDisabled()) {
+    console.log('Card expansion disabled for current window width');
+    return;
+  }
+  
   const button = event.target.closest('.nav__button');
   if (!button) return;
   

@@ -13,6 +13,7 @@ p {
   margin: 0;
 }
 
+/* Text utility classes using BEM-style naming */
 .text--nowrap {
   white-space: nowrap;
   overflow: hidden;

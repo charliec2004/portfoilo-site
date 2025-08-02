@@ -62,9 +62,9 @@
     <!-- MAIN CONTENT -->
     <main class="main u-no-scroll">
       <!-- LEFT COLUMN -->
-      <section class="main__left">
+      <section class="layout__left">
         <!-- TOP ROW -->
-        <div class="main__row main__row--top">
+        <div class="layout__row layout__row--top">
           <!-- ABOUT ME CARD -->
           <article class="card card--about u-no-scroll" tabindex="0" role="button" aria-label="Expand about me section">
             <header class="card__header">
@@ -98,7 +98,7 @@
         </div>
 
         <!-- BOTTOM ROW -->
-        <div class="main__row main__row--bottom">
+        <div class="layout__row layout__row--bottom">
           <!-- SKILLS CARD -->
           <article class="card card--skills u-no-scroll" tabindex="0" role="button" aria-label="Expand skills section">
             <header class="card__header">
@@ -107,7 +107,7 @@
                 <img src="assets/tools.svg" alt="" class="icon" />
               </div>
             </header>
-            <div class="icon--container" aria-label="Skills and tools"></div>
+            <div class="card__icon-container" aria-label="Skills and tools"></div>
             <h2 class="card__title text--nowrap">Skills & Tools</h2>
           </article>
 
@@ -115,7 +115,7 @@
           <article class="card card--contact u-no-scroll">
             <a 
               href="mailto:charlieconner04@gmail.com" 
-              class="contact__link"
+              class="social__link"
               aria-label="Send email to Charlie Conner"
             >
               <header class="card__header">
@@ -135,7 +135,7 @@
       </section>
 
       <!-- RIGHT COLUMN -->
-      <aside class="main__right">
+      <aside class="layout__right">
         <!-- PROJECTS CARD -->
         <section class="card card--projects u-no-scroll">
           <header class="card__header card__header--column">
@@ -144,26 +144,26 @@
           </header>
           <div class="projects__list">
             <a
-              class="project__item"
+              class="projects__item"
               href="https://github.com/charliec2004/NotSoSuperMario"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <p class="project__title">
-                <span class="project__arrow">></span> Not So Super Mario Bros
+              <p class="projects__title">
+                <span class="projects__arrow">></span> Not So Super Mario Bros
               </p>
-              <div class="project__underline"></div>
+              <div class="projects__underline"></div>
             </a>
             <a
-              class="project__item"
+              class="projects__item"
               href="https://github.com/charliec2004/War-Card-Game.git"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <p class="project__title">
-                <span class="project__arrow">></span> War: The Card Game
+              <p class="projects__title">
+                <span class="projects__arrow">></span> War: The Card Game
               </p>
-              <div class="project__underline"></div>
+              <div class="projects__underline"></div>
             </a>
           </div>
         </section>
@@ -174,27 +174,27 @@
             href="assets/Charles_Conner_Resume.pdf"
             download="Charles_Conner_Resume.pdf"
             rel="noopener"
-            class="social__link"
+            class="card__link"
             aria-label="Download resume"
           >
             <img src="assets/resume.svg" alt="Resume" class="icon" />
           </a>
-          <div class="social__separator" aria-hidden="true"></div>
+          <div class="card__separator" aria-hidden="true"></div>
           <a
             href="https://github.com/charliec2004"
             target="_blank"
             rel="noopener noreferrer"
-            class="social__link"
+            class="card__link"
             aria-label="GitHub profile"
           >
             <img src="assets/github.svg" alt="GitHub" class="icon" />
           </a>
-          <div class="social__separator" aria-hidden="true"></div>
+          <div class="card__separator" aria-hidden="true"></div>
           <a
             href="https://linkedin.com/in/charles-conner04"
             target="_blank"
             rel="noopener noreferrer"
-            class="social__link"
+            class="card__link"
             aria-label="LinkedIn profile"
           >
             <img src="assets/linkedin.svg" alt="LinkedIn" class="icon" />
@@ -209,6 +209,5 @@
     </footer>
 
     <script type="module" src="js/card-interactions.js"></script>
-    <script src="js/mobile-detection.js"></script>
   </body>
 </html>

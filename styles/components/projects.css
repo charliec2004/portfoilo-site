@@ -6,17 +6,16 @@
   width: 100%;
 }
 
-.project__item {
+.projects__item {
   display: flex;
   flex-direction: column;
   flex-shrink: 1;
   min-width: 0;
   overflow: hidden;
   white-space: nowrap;
-
 }
 
-.project__title {
+.projects__title {
   font-size: 1.25rem;
   font-family: var(--font-mono), var(--font-accent), sans-serif;
   font-style: italic;
@@ -27,11 +26,11 @@
   user-select: none;
 }
 
-.project__arrow {
+.projects__arrow {
   font-style: normal;
 }
 
-.project__underline {
+.projects__underline {
   background-color: var(--color-text-primary);
   height: 1px;
   width: 100%;

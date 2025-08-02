@@ -5,7 +5,7 @@
   background: var(--color-separator);
 }
 
-.contact__link {
+.social__link {
   display: flex;
   flex-direction: column;
   justify-content: center;

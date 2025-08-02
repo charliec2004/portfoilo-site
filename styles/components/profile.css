@@ -22,8 +22,8 @@
 @media (max-width: 1210px) { /* ← Changed from 1135px */
   .card--profile {
     min-width: 0;       /* Remove minimum width constraint */
-    height: 50vh;       /* Match the card.css setting */
-    min-height: 300px;  /* Ensure minimum visibility */
+    height: 55vh;       /* Increased from 50vh to prevent clipping */
+    min-height: 350px;  /* Increased from 300px to ensure better visibility */
     flex: 1 1 auto;     /* Equal flex ratio with about card */
   }
   
@@ -33,20 +33,29 @@
   }
 }
 
+/* Intermediate breakpoint for smoother transition */
+@media (max-width: 950px) {
+  .card--profile {
+    height: 60vh;       /* Slightly taller at intermediate size */
+    min-height: 380px;  /* Higher minimum height */
+  }
+}
+
 @media (max-width: 770px) {
   .card--profile {
     min-width: 0; /* Ensure no minimum width on mobile */
     width: 100%; /* Take full available width */
     height: auto; /* Let it size naturally on mobile */
+    min-height: 320px; /* Ensure minimum height even on mobile */
   }
   
   .profile__image {
-    height: clamp(250px, 40vh, 400px); /* Smaller height range for mobile */
+    height: clamp(320px, 45vh, 450px); /* Increased minimum from 250px to 320px */
   }
 }
 
 @media (max-width: 480px) {
   .profile__image {
-    height: clamp(200px, 35vh, 300px); /* Even smaller for very small screens */
+    height: clamp(280px, 40vh, 350px); /* Increased minimum from 200px to 280px */
   }
 }

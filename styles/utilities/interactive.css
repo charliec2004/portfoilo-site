@@ -1,8 +1,9 @@
 .card--about,
 .card--skills,
 .card--contact,
-.project__item,
-.social__link {
+.projects__item,
+.social__link,
+.card__link {
   cursor: pointer;
 }
 

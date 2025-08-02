@@ -42,7 +42,7 @@
   border: 0;
 }
 
-.dim {
+.u-dimmed {
   opacity: 0.1;
   z-index: 5;
 }

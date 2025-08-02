@@ -109,17 +109,7 @@
   flex-shrink: 0;
 }
 
-.icon {
-  user-select: none;
-  display: flex;
-}
-
-.card__title-section {
-  display: flex;
-  flex-direction: column;
-}
-
-.icon--container {
+.card__icon-container {
   display: flex;
   flex-direction: row;
   flex: 1;
@@ -131,6 +121,32 @@
   flex-wrap: wrap;
   /* Add minimum height to prevent layout shifts */
   min-height: 2rem;
+}
+
+.card__title-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.card__link {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: var(--spacing-sm);
+  flex-shrink: 0;
+}
+
+.card__separator {
+  width: 0.94px;
+  height: 46.158px;
+  flex-shrink: 0;
+  background: var(--color-separator);
+}
+
+.icon {
+  user-select: none;
+  display: flex;
 }
 
 /* Ensure the skills card title stays in place */
@@ -157,8 +173,9 @@
   .card--profile {
     flex: 1 1 auto;     /* Equal flex ratio with about card */
     width: auto;        /* Let it size based on content */
-    height: 50vh;       /* Give it a specific height instead of auto */
-    min-height: 300px;  /* Ensure minimum visibility */
+    height: 55vh;       /* Increased from 50vh to prevent clipping */
+    min-height: 350px;  /* Increased from 300px to ensure better visibility */
+    min-width: 0;       /* Remove minimum width constraint */
   }
   
   .card--skills,
@@ -166,6 +183,14 @@
     width: 100%;        /* Each takes full width in their row */
     flex: 1 1 auto;     /* Allow them to grow equally */
     height: auto;       /* Let content determine height on mobile */
+  }
+}
+
+/* Intermediate breakpoint for smoother profile card transition */
+@media (max-width: 950px) {
+  .card--profile {
+    height: 60vh;       /* Slightly taller at intermediate size */
+    min-height: 380px;  /* Higher minimum height */
   }
 }
 
@@ -180,4 +205,9 @@
     font-size: 1.5rem;
   }
 
+  .card--profile {
+    min-width: 0; /* Ensure no minimum width on mobile */
+    width: 100%; /* Take full available width */
+    height: auto; /* Let it size naturally on mobile */
+  }
 }

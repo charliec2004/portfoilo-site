@@ -1,5 +1,5 @@
-.main__left,
-.main__right {
+.layout__left,
+.layout__right {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
@@ -8,20 +8,20 @@
 }
 
 /* Replace the fixed 69% / 31% widths with flex ratios */
-.main__left {
+.layout__left {
   flex: 2 1 0;     /* This is good - keep it */
   justify-content: space-between;
   position: relative;
   max-height: var(--max-content-height);
 }
 
-.main__right {
+.layout__right {
   flex: 1 1 0;     /* This is good - keep it */
   justify-content: center;
   max-height: var(--max-content-height);
 }
 
-.main__row {
+.layout__row {
   width: 100%;
   display: flex;
   gap: var(--spacing-sm);
@@ -29,69 +29,69 @@
 }
 
 /* replace height % with flex ratios and add max heights */
-.main__row--top {
+.layout__row--top {
   flex: 11;        /* Instead of 55 */
   max-height: 55vh; /* Prevent excessive height */
 }
 
-.main__row--bottom {
+.layout__row--bottom {
   flex: 9;         /* Instead of 45 */
   max-height: 40vh; /* Prevent excessive height */
 }
 
 /* TABLET SIZING - 1210px breakpoint */
 @media (max-width: 1210px) { /* ← Changed from 1135px */
-  .main__left,
-  .main__right {
+  .layout__left,
+  .layout__right {
     max-height: none; /* Remove height constraints on mobile */
   }
   
-  .main__left {
+  .layout__left {
     flex: 1 1 auto;        /* Reset flex behavior */
     width: 100%;           /* Take full width */
     justify-content: flex-start;
   }
   
-  .main__right {
+  .layout__right {
     flex: 1 1 auto;        /* Reset flex behavior */
     width: 100%;           /* Match left section width */
     justify-content: flex-start;
   }
   
-  .main__row {
+  .layout__row {
     flex-direction: row;
     height: auto;
   }
   
-  .main__row--top,
-  .main__row--bottom {
+  .layout__row--top,
+  .layout__row--bottom {
     flex: 1 1 auto;        /* Reset flex ratios */
     min-height: fit-content; /* Allow natural height */
     max-height: none;       /* Remove height constraints */
   }
 
-  .main__right,
-  .main__left {
+  .layout__right,
+  .layout__left {
     min-height: 50vh;
   }
 }
 
 @media (max-width: 770px) {
-  .main__left,
-  .main__right {
+  .layout__left,
+  .layout__right {
     flex-direction: column; /* Stack sections vertically */
     width: 100%;            /* Full width on small screens */
   }
   
-  .main__row {
+  .layout__row {
     flex-direction: column; /* Stack rows vertically */
     width: 100%;            /* Full width for rows */
     position: relative;     /* Add this for absolute positioning context */
     overflow: hidden;       /* Add this to contain the expanded cards */
   }
   
-  .main__row--top,
-  .main__row--bottom {
+  .layout__row--top,
+  .layout__row--bottom {
     flex: 1 1 auto;         /* Reset flex ratios for smaller screens */
     min-height: fit-content; /* Allow natural height */
     max-height: none;       /* Remove height constraints */

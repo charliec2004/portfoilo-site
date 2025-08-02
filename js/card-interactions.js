@@ -8,13 +8,13 @@
 // ===========================================
 const CONFIG = {
   selectors: {
-    container: '.main__left',
+    container: '.layout__left',
     overlay: '.overlay',
     aboutCard: '.card--about',
     skillsCard: '.card--skills',
     headerNav: '.header__nav',
     cloneCard: '.card--clone',
-    iconContainer: '.icon--container',
+    iconContainer: '.card__icon-container',
     cardText: '.card__text'
   },
   
@@ -32,11 +32,6 @@ const CONFIG = {
     skillIconStagger: 80,
     skillIconFade: 250,
     fallbackTimeout: 350
-  },
-  
-  // Responsive settings
-  responsive: {
-    disableExpansionBelow: null // Disable card expansion below this width (px) // not using this now!
   },
   
   skills: [
@@ -135,13 +130,6 @@ function animateTextChange(textElement, newText, duration = CONFIG.timing.textFa
 }
 
 /**
- * Check if card expansion should be disabled based on window width
- */
-function isCardExpansionDisabled() {
-  return window.innerWidth < CONFIG.responsive.disableExpansionBelow;
-}
-
-/**
  * Get the appropriate container for card expansion based on screen size
  */
 function getExpansionContainer(targetCard) {
@@ -149,7 +137,7 @@ function getExpansionContainer(targetCard) {
   
   if (isMobile) {
     // On mobile, expand within the row container
-    const row = targetCard.closest('.main__row');
+    const row = targetCard.closest('.layout__row');
     return row || safeQuerySelector(CONFIG.selectors.container);
   } else {
     // On larger screens, use the main left container
@@ -404,12 +392,6 @@ async function handleOverlayClick(event) {
 }
 
 function handleHeaderButtonClick(event) {
-  // Check if card expansion is disabled for current window width
-  if (isCardExpansionDisabled()) {
-    console.log('Card expansion disabled for current window width');
-    return;
-  }
-  
   const button = event.target.closest('.nav__button');
   if (!button) return;
   

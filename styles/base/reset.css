@@ -19,6 +19,14 @@ body {
   width: 100%;
   height: 100%;
   overflow: hidden;
+
+  /* Ensure the overscroll background matches your page */
+  background-color: #242221;
+}
+
+/* keep your body.page transparent so html shows through */
+body.page {
+  background: transparent;
 }
 
 /*-------------------------------------------------------------------------------

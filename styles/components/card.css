@@ -197,7 +197,8 @@
 @media (max-width: 770px) {
   .card--about,
   .card--skills,
-  .card--contact {
+  .card--contact,
+  .card--projects {
     padding: var(--spacing-md);
   } 
 

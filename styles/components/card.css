@@ -195,7 +195,7 @@
 }
 
 @media (max-width: 1210px) {
-  /* Override large title styling for tablet and mobile */
+  /* Override large title styling for tablet */
   .card__title--large {
     font-size: 2.5rem;
     font-family: var(--font-accent);
@@ -219,11 +219,11 @@
   .card--profile {
     min-width: 0; /* Ensure no minimum width on mobile */
     width: 100%; /* Take full available width */
-    height: auto; /* Let it size naturally on mobile */
+    height: fit-content; /* Let it size naturally on mobile */
   }
 
-  /* Further reduce title size on mobile */
+  /* Slight increase title size on mobile */
   .card__title--large {
-    font-size: 2rem;
+    font-size: 3.5rem;
   }
 }

@@ -76,7 +76,7 @@
   }
 }
 
-@media (max-width: 770px) {
+@media (max-width: 640px) {
   .layout__left,
   .layout__right {
     flex-direction: column; /* Stack sections vertically */

@@ -41,7 +41,7 @@
   }
 }
 
-@media (max-width: 770px) {
+@media (max-width: 640px) {
   .card--profile {
     min-width: 0; /* Ensure no minimum width on mobile */
     width: 100%; /* Take full available width */

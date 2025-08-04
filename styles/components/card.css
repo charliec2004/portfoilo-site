@@ -194,7 +194,17 @@
   }
 }
 
-@media (max-width: 770px) {
+@media (max-width: 1210px) {
+  /* Override large title styling for tablet and mobile */
+  .card__title--large {
+    font-size: 2.5rem;
+    font-family: var(--font-accent);
+    font-weight: 700;
+    letter-spacing: normal;
+  }
+}
+
+@media (max-width: 640px) {
   .card--about,
   .card--skills,
   .card--contact,
@@ -210,5 +220,10 @@
     min-width: 0; /* Ensure no minimum width on mobile */
     width: 100%; /* Take full available width */
     height: auto; /* Let it size naturally on mobile */
+  }
+
+  /* Further reduce title size on mobile */
+  .card__title--large {
+    font-size: 2rem;
   }
 }

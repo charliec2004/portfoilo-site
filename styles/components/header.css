@@ -86,7 +86,7 @@
 }
 
 /* Hide everything except the name on mobile */
-@media (max-width: 770px) {
+@media (max-width: 640px) {
   .header {
     justify-content: start; /* left offset the name */
   }

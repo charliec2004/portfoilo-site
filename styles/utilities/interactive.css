@@ -36,7 +36,7 @@
 }
 
 /* Make expanded about card scrollable on mobile */
-@media (max-width: 770px) {
+@media (max-width: 640px) {
   .card--clone.card--about {
     overflow: hidden; /* Prevent card itself from scrolling */
     padding: var(--spacing-md); /* Ensure proper padding */
@@ -84,7 +84,7 @@
   }
 }
 
-@media (max-width: 770px) {
+@media (max-width: 640px) {
   .skill-icon {
     width: 2.5rem;
     height: 2.5rem;

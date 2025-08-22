@@ -7,14 +7,15 @@ This portfolio website follows the **BEM (Block Element Modifier)** methodology 
 ### BEM Naming Convention
 
 - **Block**: Standalone component (`card`, `header`, `layout`)
-- **Element**: Part of a block (`card__title`, `header__name`) 
+- **Element**: Part of a block (`card__title`, `header__name`)
 - **Modifier**: Variation of block/element (`card--about`, `card--skills`)
 
 ### Primary BEM Blocks
 
 #### 1. `header` Block
+
 - **Purpose**: Site navigation and identity
-- **Elements**: 
+- **Elements**:
   - `header__identity` - Name and title section
   - `header__name` - Primary name display
   - `header__separator` - Visual separator
@@ -23,6 +24,7 @@ This portfolio website follows the **BEM (Block Element Modifier)** methodology 
 - **Usage**: Contains site branding and navigation buttons
 
 #### 2. `card` Block  
+
 - **Purpose**: Content containers with interactive capabilities
 - **Modifiers**:
   - `card--about` - About me information card
@@ -42,6 +44,7 @@ This portfolio website follows the **BEM (Block Element Modifier)** methodology 
 - **Usage**: All major content sections use card variants
 
 #### 3. `layout` Block
+
 - **Purpose**: Page structure and grid system
 - **Elements**:
   - `layout__left` - Left column container
@@ -53,6 +56,7 @@ This portfolio website follows the **BEM (Block Element Modifier)** methodology 
 - **Usage**: Controls overall page layout and responsive behavior
 
 #### 4. `projects` Block
+
 - **Purpose**: Project showcase functionality
 - **Elements**:
   - `projects__list` - Container for all projects
@@ -63,12 +67,14 @@ This portfolio website follows the **BEM (Block Element Modifier)** methodology 
 - **Usage**: Displays GitHub project links with hover effects
 
 #### 5. `profile` Block
+
 - **Purpose**: Profile image display
 - **Elements**:
   - `profile__image` - Main profile photo
 - **Usage**: Handles responsive profile image sizing and display
 
 #### 6. `social` Block
+
 - **Purpose**: Social media links and separators
 - **Elements**:
   - `social__link` - Clickable social links
@@ -86,6 +92,7 @@ Following BEM principles, utility classes use the `u-` prefix:
 - `u-dimmed` - Reduced opacity state
 
 Text utilities use the `text--` modifier pattern:
+
 - `text--nowrap` - Prevents text wrapping
 
 ### File Structure
@@ -103,6 +110,7 @@ styles/
 ### Assets Folder
 
 The `/assets/` folder contains **only** images and files:
+
 - SVG icons for skills and navigation
 - Profile images (WebP format for performance)
 - PDF resume file
@@ -113,6 +121,7 @@ The `/assets/` folder contains **only** images and files:
 ### Responsive Design
 
 The BEM blocks are designed mobile-first with three main breakpoints:
+
 - Desktop: Full card-based layout
 - Tablet (1210px): Stacked columns
 - Mobile (770px): Single column, vertical stack
@@ -122,6 +131,7 @@ Each BEM block handles its own responsive behavior, making the system modular an
 ### Interactive States
 
 Interactive elements use consistent naming:
+
 - `card--clone` - Expanded card state
 - `overlay.active` - Background overlay state
 - `skill-icon` - Animated skill icons

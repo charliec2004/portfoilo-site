@@ -7,6 +7,11 @@
   cursor: pointer;
 }
 
+.page--intro .card,
+.page--intro .card * {
+  pointer-events: none !important;
+}
+
 .card__text {
   cursor: text;   /* override the parent's pointer */
 }

@@ -13,6 +13,8 @@
   min-width: 0;
   overflow: hidden;
   white-space: nowrap;
+  position: relative;
+  padding-bottom: 0.35rem;
 }
 
 .projects__title {
@@ -24,10 +26,12 @@
   line-height: 1.5;
   letter-spacing: 0.01rem;
   user-select: none;
+  transition: color 0.3s ease;
 }
 
 .projects__arrow {
   font-style: normal;
+  transition: transform 0.35s ease;
 }
 
 .projects__underline {
@@ -35,4 +39,22 @@
   height: 1px;
   width: 100%;
   margin-top: -0.4rem;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.45s ease;
+}
+
+.projects__item:hover .projects__title,
+.projects__item:focus-visible .projects__title {
+  color: var(--color-text-accent);
+}
+
+.projects__item:hover .projects__arrow,
+.projects__item:focus-visible .projects__arrow {
+  transform: translateX(0.25rem);
+}
+
+.projects__item:hover .projects__underline,
+.projects__item:focus-visible .projects__underline {
+  transform: scaleX(1);
 }

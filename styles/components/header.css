@@ -74,6 +74,33 @@
   font-weight: 400;
   letter-spacing: 0.5px;
   user-select: none;
+  position: relative;
+  padding-bottom: 0.25rem;
+  transition: color 0.3s ease;
+}
+
+.nav__button::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  border-bottom: 1px dotted currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  opacity: 0;
+  transition: transform 0.35s ease, opacity 0.2s ease;
+}
+
+.nav__button:hover,
+.nav__button:focus-visible {
+  color: var(--color-text-accent);
+}
+
+.nav__button:hover::after,
+.nav__button:focus-visible::after {
+  transform: scaleX(1);
+  opacity: 1;
 }
 
 .nav__separator {

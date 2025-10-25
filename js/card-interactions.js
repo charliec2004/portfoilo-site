@@ -41,9 +41,178 @@ const CONFIG = {
 };
 
 const ABOUT_TEXT = {
-  short: "I enjoy creating digital solutions that solve real problems in thoughtful, creative ways through intuitive design and clever engineering...",
-  full: "I enjoy creating digital solutions that solve real problems in thoughtful, creative ways through intuitive design and clever engineering. I care about how things work, how they feel, and how they hold up in the real world. I don't box myself into one role. I move across the stack, across disciplines, and across ideas. I focus on clarity over complexity, blending logic with intention to build things that are useful, efficient, and built to last. I pride myself on shipping fast without cutting corners. I work best when I understand the big picture and can still dive deep when needed. I value sharp thinking, honest feedback, and process that gets out of the way. This site is a snapshot of what I'm building and where I'm headed."
+  short: "I like making things that work well and feel good to use.",
+  full: "I like making things that work well and feel good to use. I enjoy the process of figuring out how something should work, building it, and seeing people actually use it. I move between design and engineering because both sides shape how ideas become real. I care about clear thinking, solid systems, and details that quietly make a difference. This site is just a place to share what I’m building and learning over time."
 };
+
+const INTRO_CONFIG = {
+  duration: 1400,
+  delay: 550,
+  profileIntroDuration: 520,
+  profileIntroScale: 0.72,
+  profileIntroEasing: 'cubic-bezier(0.19, 1, 0.22, 1)',
+  profileHold: 0.35,
+  initialProfileScale: 0.96,
+  initialCardScale: 0.88,
+  profilePeakScale: 1.06,
+  easing: 'cubic-bezier(0.22, 1, 0.36, 1)'
+};
+
+let introPlayed = false;
+
+// ===========================================
+// INTRO ANIMATION
+// ===========================================
+function playIntroAnimation() {
+  if (introPlayed) return;
+  
+  const body = document.body;
+  if (!body) {
+    introPlayed = true;
+    return;
+  }
+  
+  const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReducedMotion) {
+    introPlayed = true;
+    body.classList.add('page--intro-complete');
+    return;
+  }
+  
+  const cards = Array.from(document.querySelectorAll('.card'));
+  const profileCard = cards.find((card) => card.classList.contains('card--profile'));
+  
+  if (!cards.length || !profileCard) {
+    introPlayed = true;
+    body.classList.add('page--intro-complete');
+    return;
+  }
+
+  if (typeof profileCard.animate !== 'function') {
+    introPlayed = true;
+    body.classList.add('page--intro-complete');
+    return;
+  }
+  
+  introPlayed = true;
+  body.classList.add('page--intro');
+  
+  const centerX = window.innerWidth / 2;
+  const centerY = window.innerHeight / 2;
+  
+  const states = cards.map((card, index) => {
+    const rect = card.getBoundingClientRect();
+    const translateX = centerX - (rect.left + rect.width / 2);
+    const translateY = centerY - (rect.top + rect.height / 2);
+    const isProfile = card === profileCard;
+    const startScale = isProfile ? INTRO_CONFIG.initialProfileScale : INTRO_CONFIG.initialCardScale;
+    const introScale = isProfile ? INTRO_CONFIG.profileIntroScale : startScale;
+    
+    return {
+      card,
+      isProfile,
+      startTransform: `translate(${translateX}px, ${translateY}px) scale(${startScale})`,
+      introTransform: `translate(${translateX}px, ${translateY}px) scale(${introScale})`,
+      peakTransform: `translate(${translateX}px, ${translateY}px) scale(${INTRO_CONFIG.profilePeakScale})`,
+      zIndex: isProfile ? cards.length + 5 : cards.length - index
+    };
+  });
+  
+  const cleanup = (() => {
+    let cleaned = false;
+    return () => {
+      if (cleaned) return;
+      cleaned = true;
+      states.forEach(({ card }) => {
+        card.style.transform = '';
+        card.style.opacity = '';
+        card.style.willChange = '';
+        card.style.zIndex = '';
+      });
+      body.classList.remove('page--intro');
+      body.classList.add('page--intro-complete');
+    };
+  })();
+  
+  states.forEach(({ card, introTransform, zIndex }) => {
+    card.style.transform = introTransform;
+    card.style.opacity = '0';
+    card.style.willChange = 'transform, opacity';
+    card.style.zIndex = String(zIndex);
+  });
+  
+  const profileState = states.find((state) => state.isProfile);
+  let profileIntroAnimation = null;
+  
+  if (profileState) {
+    try {
+      profileIntroAnimation = profileState.card.animate(
+        [
+          { transform: profileState.introTransform, opacity: 0 },
+          { transform: profileState.startTransform, opacity: 1 }
+        ],
+        {
+          duration: INTRO_CONFIG.profileIntroDuration,
+          easing: INTRO_CONFIG.profileIntroEasing,
+          fill: 'forwards'
+        }
+      );
+    } catch (error) {
+      console.error('Profile intro animation failed:', error);
+      profileIntroAnimation = null;
+      profileState.card.style.transform = profileState.startTransform;
+      profileState.card.style.opacity = '1';
+    }
+  }
+  
+  const runMainAnimations = () => {
+    if (profileState) {
+      profileState.card.style.transform = profileState.startTransform;
+      profileState.card.style.opacity = '1';
+    }
+    
+    let animations = [];
+    try {
+      animations = states.map(({ card, isProfile, startTransform, peakTransform }) => {
+        const keyframes = isProfile
+          ? [
+              { transform: startTransform, opacity: 1 },
+              { transform: peakTransform, opacity: 1, offset: INTRO_CONFIG.profileHold },
+              { transform: 'translate(0px, 0px) scale(1)', opacity: 1 }
+            ]
+          : [
+              { transform: startTransform, opacity: 0 },
+              { transform: startTransform, opacity: 0, offset: INTRO_CONFIG.profileHold },
+              { transform: 'translate(0px, 0px) scale(1)', opacity: 1 }
+            ];
+        
+        return card.animate(keyframes, {
+          duration: INTRO_CONFIG.duration,
+          easing: INTRO_CONFIG.easing,
+          delay: INTRO_CONFIG.delay,
+          fill: 'forwards'
+        });
+      });
+    } catch (error) {
+      console.error('Intro animation failed to start:', error);
+      cleanup();
+      return;
+    }
+    
+    Promise.all(animations.map((animation) => animation.finished.catch(() => {}))).finally(cleanup);
+  };
+  
+  if (profileIntroAnimation) {
+    profileIntroAnimation.finished
+      .then(() => runMainAnimations())
+      .catch((error) => {
+        console.error('Profile intro animation interrupted:', error);
+        runMainAnimations();
+      });
+  } else {
+    runMainAnimations();
+  }
+}
 
 // ===========================================
 // STATE MANAGEMENT
@@ -157,7 +326,7 @@ function createCardClone(originalCard, container) {
   
   try {
     const clone = originalCard.cloneNode(true);
-    clone.classList.add(CONFIG.classes.clone);
+    clone.classList.add(CONFIG.classes.clone, 'card--interaction-locked');
     
     const rect = getElementRect(originalCard, expansionContainer);
     if (!rect) return null;
@@ -325,6 +494,7 @@ function handleCardClick(event) {
   
   const { clone, originalRect, container } = cloneData;
   expansionState.setExpanded({ ...originalRect, card: targetCard, container }, clone);
+  targetCard.classList.add('card--interaction-locked');
   
   // Handle different card types
   if (targetCard.classList.contains('card--skills')) {
@@ -387,6 +557,10 @@ async function handleOverlayClick(event) {
       currentClone.remove();
     }
   } finally {
+    const originalCard = originalCardData && originalCardData.card;
+    if (originalCard) {
+      originalCard.classList.remove('card--interaction-locked');
+    }
     expansionState.reset();
   }
 }
@@ -448,10 +622,26 @@ function initializeEventListeners() {
 // MODULE INITIALIZATION
 // ===========================================
 function init() {
+  const startListeners = () => initializeEventListeners();
+  
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeEventListeners);
+    document.addEventListener('DOMContentLoaded', startListeners, { once: true });
   } else {
-    initializeEventListeners();
+    startListeners();
+  }
+  
+  const startIntro = () => {
+    if (window.requestAnimationFrame) {
+      window.requestAnimationFrame(() => playIntroAnimation());
+    } else {
+      playIntroAnimation();
+    }
+  };
+  
+  if (document.readyState === 'complete') {
+    startIntro();
+  } else {
+    window.addEventListener('load', startIntro, { once: true });
   }
 }
 

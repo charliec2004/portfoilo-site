@@ -1,5 +1,12 @@
 export const PROJECTS = [
   {
+    name: 'Semester Scheduler',
+    url: 'https://github.com/charliec2004/semester-scheduler-app',
+    repo: 'charliec2004/semester-scheduler-app',
+    description: 'An automated scheduling system that builds optimal weekly staff rosters using constraint programming (Google OR-Tools CP-SAT).',
+    tech: ['TypeScript', 'Python', 'Electron', 'React'],
+  },
+  {
     name: 'ML Tennis Match Predictor',
     url: 'https://github.com/charliec2004/ML-Tenis-Match-Predictor',
     repo: 'charliec2004/ML-Tenis-Match-Predictor',

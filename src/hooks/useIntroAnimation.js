@@ -2,9 +2,9 @@ import { useEffect, useRef } from 'react';
 import useReducedMotion from './useReducedMotion';
 
 const INTRO = {
-  duration: 1400,
-  delay: 550,
-  profileIntroDuration: 520,
+  duration: 800,
+  delay: 250,
+  profileIntroDuration: 300,
   profileIntroScale: 0.72,
   profileIntroEasing: 'cubic-bezier(0.19, 1, 0.22, 1)',
   profileHold: 0.35,

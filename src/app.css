@@ -198,7 +198,7 @@ html, body {
   --tilt-ry: 0deg;
   --tilt-s: 1;
   transform: perspective(800px) rotateX(var(--tilt-rx)) rotateY(var(--tilt-ry)) scale3d(var(--tilt-s), var(--tilt-s), var(--tilt-s));
-  transition: transform 0.15s ease-out, filter 0.3s ease;
+  transition: filter 0.3s ease;
 }
 
 @media (prefers-reduced-motion: reduce) {

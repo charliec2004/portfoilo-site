@@ -1,12 +1,17 @@
 import { useCallback, useRef, useEffect, useState } from 'react';
 import useReducedMotion from './useReducedMotion';
 
-const MAX_TILT = 6; // degrees
+const MAX_TILT = 3; // degrees
+const LERP = 0.18; // how fast current catches up to target (0-1, lower = smoother)
 
 export default function useMagneticTilt({ disabled = false } = {}) {
   const reducedMotion = useReducedMotion();
-  const rafId = useRef(null);
   const [isTouch, setIsTouch] = useState(false);
+
+  // Per-element state stored via WeakMap so multiple cards don't interfere
+  const elState = useRef(new WeakMap());
+  const loopId = useRef(null);
+  const activeEls = useRef(new Set());
 
   useEffect(() => {
     const mql = window.matchMedia('(pointer: coarse)');
@@ -18,28 +23,67 @@ export default function useMagneticTilt({ disabled = false } = {}) {
 
   const skip = reducedMotion || disabled || isTouch;
 
+  // Continuous animation loop that lerps all active cards toward their targets
+  const tick = useCallback(() => {
+    for (const el of activeEls.current) {
+      const s = elState.current.get(el);
+      if (!s) continue;
+
+      s.cx += (s.tx - s.cx) * LERP;
+      s.cy += (s.ty - s.cy) * LERP;
+
+      el.style.setProperty('--tilt-rx', `${(-s.cy * MAX_TILT * 2).toFixed(2)}deg`);
+      el.style.setProperty('--tilt-ry', `${(s.cx * MAX_TILT * 2).toFixed(2)}deg`);
+      el.style.setProperty('--tilt-x', s.cx.toFixed(4));
+      el.style.setProperty('--tilt-y', s.cy.toFixed(4));
+
+      // Stop looping once the card has settled back to rest
+      if (s.tx === 0 && s.ty === 0 && Math.abs(s.cx) < 0.001 && Math.abs(s.cy) < 0.001) {
+        s.cx = 0;
+        s.cy = 0;
+        el.style.setProperty('--tilt-rx', '0deg');
+        el.style.setProperty('--tilt-ry', '0deg');
+        el.style.setProperty('--tilt-x', '0');
+        el.style.setProperty('--tilt-y', '0');
+        activeEls.current.delete(el);
+      }
+    }
+
+    if (activeEls.current.size > 0) {
+      loopId.current = requestAnimationFrame(tick);
+    } else {
+      loopId.current = null;
+    }
+  }, []);
+
+  const ensureLoop = useCallback(() => {
+    if (loopId.current == null) {
+      loopId.current = requestAnimationFrame(tick);
+    }
+  }, [tick]);
+
   const onMouseMove = useCallback(
     (e) => {
       if (skip) return;
 
       const el = e.currentTarget;
-      const { clientX, clientY } = e;
+      const rect = el.getBoundingClientRect();
+      const tx = (e.clientX - rect.left) / rect.width - 0.5;
+      const ty = (e.clientY - rect.top) / rect.height - 0.5;
 
-      if (rafId.current) cancelAnimationFrame(rafId.current);
-
-      rafId.current = requestAnimationFrame(() => {
-        const rect = el.getBoundingClientRect();
-        const x = (clientX - rect.left) / rect.width - 0.5;
-        const y = (clientY - rect.top) / rect.height - 0.5;
-
-        el.style.setProperty('--tilt-rx', `${(-y * MAX_TILT * 2).toFixed(1)}deg`);
-        el.style.setProperty('--tilt-ry', `${(x * MAX_TILT * 2).toFixed(1)}deg`);
+      if (!elState.current.has(el)) {
+        elState.current.set(el, { cx: 0, cy: 0, tx: 0, ty: 0 });
         el.style.setProperty('--tilt-s', '1');
-        el.style.setProperty('--tilt-x', x.toFixed(3));
-        el.style.setProperty('--tilt-y', y.toFixed(3));
-      });
+      }
+
+      const s = elState.current.get(el);
+      s.tx = tx;
+      s.ty = ty;
+
+      activeEls.current.add(el);
+      ensureLoop();
     },
-    [skip]
+    [skip, ensureLoop]
   );
 
   const onMouseLeave = useCallback(
@@ -47,16 +91,24 @@ export default function useMagneticTilt({ disabled = false } = {}) {
       if (skip) return;
 
       const el = e.currentTarget;
-      if (rafId.current) cancelAnimationFrame(rafId.current);
-
-      el.style.setProperty('--tilt-rx', '0deg');
-      el.style.setProperty('--tilt-ry', '0deg');
+      const s = elState.current.get(el);
+      if (s) {
+        s.tx = 0;
+        s.ty = 0;
+      }
       el.style.setProperty('--tilt-s', '1');
-      el.style.setProperty('--tilt-x', '0');
-      el.style.setProperty('--tilt-y', '0');
+      // Don't remove from activeEls — let it lerp back to 0 smoothly
+      ensureLoop();
     },
-    [skip]
+    [skip, ensureLoop]
   );
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (loopId.current) cancelAnimationFrame(loopId.current);
+    };
+  }, []);
 
   return { onMouseMove, onMouseLeave };
 }

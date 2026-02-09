@@ -3,6 +3,7 @@ import { PROJECTS } from '../../data/projects';
 import useGitHubRepos from '../../hooks/useGitHubRepos';
 
 const LANG_COLORS = {
+  TypeScript: '#3178C6',
   Python: '#3572A5',
   Java: '#B07219',
   JavaScript: '#F1E05A',
@@ -62,15 +63,15 @@ const ProjectsCard = forwardRef(function ProjectsCard({ tiltHandlers = {}, ...pr
               {/* GitHub metadata */}
               {gh && (
                 <div className="flex items-center gap-3 mt-1 text-[0.7rem] text-text-muted font-heading">
-                  {gh.language && (
-                    <span className="flex items-center gap-1">
+                  {gh.languages?.map((l) => (
+                    <span key={l.name} className="flex items-center gap-1">
                       <span
                         className="w-2 h-2 rounded-full inline-block"
-                        style={{ background: LANG_COLORS[gh.language] || '#ccc' }}
+                        style={{ background: LANG_COLORS[l.name] || '#ccc' }}
                       />
-                      {gh.language}
+                      {l.name}
                     </span>
-                  )}
+                  ))}
                   {gh.stars > 0 && <span>&#9733; {gh.stars}</span>}
                   {gh.updatedAt && <span>{gh.updatedAt}</span>}
                 </div>

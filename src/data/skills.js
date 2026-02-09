@@ -13,6 +13,7 @@ export const SKILLS = [
   { file: 'tailwind.svg', name: 'Tailwind', tooltip: 'Utility-first CSS framework', category: 'Frameworks' },
   { file: 'nodejs.svg', name: 'Node.js', tooltip: 'Server-side JavaScript runtime', category: 'Frameworks' },
   { file: 'vite.svg', name: 'Vite', tooltip: 'Fast frontend build tooling', category: 'Frameworks' },
+  { file: 'electron.svg', name: 'Electron', tooltip: 'Cross-platform desktop apps', category: 'Frameworks' },
 
   // Tools
   { file: 'git.svg', name: 'Git', tooltip: 'Version control, branching', category: 'Tools' },
@@ -39,4 +40,5 @@ export const BADGE_SHAPES = [
   { borderRadius: '47% 53% 56% 44% / 52% 48% 53% 47%', rotate: -3 },
   { borderRadius: '51% 49% 46% 54% / 50% 50% 49% 51%', rotate: 2 },
   { borderRadius: '49% 51% 54% 46% / 44% 56% 51% 49%', rotate: -1 },
+  { borderRadius: '54% 46% 50% 50% / 48% 52% 46% 54%', rotate: 3 },
 ];

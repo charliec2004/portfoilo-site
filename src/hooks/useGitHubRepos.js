@@ -1,14 +1,20 @@
 import { useState, useEffect } from 'react';
 
 const CACHE_KEY = 'gh_repos_cache';
+const CACHE_VERSION = 2; // bump when data shape changes
 const CACHE_TTL = 30 * 60 * 1000; // 30 minutes
 
-function getCache() {
+function getCache(repos) {
   try {
     const raw = sessionStorage.getItem(CACHE_KEY);
     if (!raw) return null;
     const parsed = JSON.parse(raw);
-    if (Date.now() - parsed.timestamp > CACHE_TTL) {
+    if (parsed.version !== CACHE_VERSION || Date.now() - parsed.timestamp > CACHE_TTL) {
+      sessionStorage.removeItem(CACHE_KEY);
+      return null;
+    }
+    // Invalidate if any current repo is missing from cache
+    if (repos && repos.some((r) => !parsed.data[r.repo])) {
       sessionStorage.removeItem(CACHE_KEY);
       return null;
     }
@@ -20,7 +26,7 @@ function getCache() {
 
 function setCache(data) {
   try {
-    sessionStorage.setItem(CACHE_KEY, JSON.stringify({ data, timestamp: Date.now() }));
+    sessionStorage.setItem(CACHE_KEY, JSON.stringify({ data, timestamp: Date.now(), version: CACHE_VERSION }));
   } catch { /* quota exceeded — ignore */ }
 }
 
@@ -36,11 +42,11 @@ function relativeTime(dateString) {
 }
 
 export default function useGitHubRepos(repos) {
-  const [data, setData] = useState(() => getCache() || {});
-  const [loading, setLoading] = useState(() => !getCache());
+  const [data, setData] = useState(() => getCache(repos) || {});
+  const [loading, setLoading] = useState(() => !getCache(repos));
 
   useEffect(() => {
-    const cached = getCache();
+    const cached = getCache(repos);
     if (cached) {
       setData(cached);
       setLoading(false);
@@ -51,18 +57,27 @@ export default function useGitHubRepos(repos) {
 
     Promise.allSettled(
       repos.map((r) =>
-        fetch(`https://api.github.com/repos/${r.repo}`)
-          .then((res) => {
-            if (!res.ok) throw new Error(`${res.status}`);
-            return res.json();
-          })
-          .then((json) => ({
+        Promise.all([
+          fetch(`https://api.github.com/repos/${r.repo}`)
+            .then((res) => { if (!res.ok) throw new Error(`${res.status}`); return res.json(); }),
+          fetch(`https://api.github.com/repos/${r.repo}/languages`)
+            .then((res) => { if (!res.ok) throw new Error(`${res.status}`); return res.json(); }),
+        ]).then(([json, langs]) => {
+          const totalBytes = Object.values(langs).reduce((a, b) => a + b, 0);
+          const languages = totalBytes > 0
+            ? Object.entries(langs)
+                .map(([name, bytes]) => ({ name, percent: bytes / totalBytes }))
+                .filter((l) => l.percent >= 0.25)
+                .sort((a, b) => b.percent - a.percent)
+            : [];
+          return {
             repo: r.repo,
             description: json.description,
-            language: json.language,
+            languages,
             stars: json.stargazers_count,
             updatedAt: relativeTime(json.pushed_at),
-          }))
+          };
+        })
       )
     ).then((results) => {
       if (cancelled) return;

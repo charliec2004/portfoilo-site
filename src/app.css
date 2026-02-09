@@ -1,0 +1,446 @@
+@import "tailwindcss";
+
+/* ============================================
+   THEME: Design Token Mapping
+   ============================================ */
+@theme {
+  /* Colors */
+  --color-text-primary: #F9F6EE;
+  --color-text-secondary: #d2cebf;
+  --color-text-muted: rgba(236, 236, 236, 0.65);
+  --color-text-accent: rgba(179, 142, 57, 0.80);
+  --color-separator: rgba(178, 178, 178, 0.50);
+  --color-bg-dark: #242221;
+  --color-bg-dark-end: #2B2625;
+  --color-bg-gold: rgba(155, 124, 51, 0.75);
+  --color-bg-green: #2D5132;
+
+  /* Fonts */
+  --font-heading: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-accent: "Merriweather", serif;
+  --font-mono: Menlo, Monaco, "Courier New", monospace;
+
+  /* Radius */
+  --radius-card: 35px;
+
+  /* Breakpoints */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 770px;
+  --breakpoint-lg: 1210px;
+}
+
+/* ============================================
+   BASE OVERRIDES
+   Tailwind preflight doesn't set these
+   ============================================ */
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+@media (max-width: 1210px) {
+  html, body {
+    overflow: visible;
+    overflow-x: hidden;
+  }
+}
+
+/* ============================================
+   CUSTOM UTILITIES
+   Things Tailwind can't express natively
+   ============================================ */
+
+/* Gradients */
+.bg-gradient-page {
+  background: radial-gradient(94.2% 94.2% at 53.97% 5.8%, #242221 0%, #2B2625 100%);
+}
+
+.bg-gradient-green {
+  background: radial-gradient(50% 50% at 50% 50%, #2D5132 0%, #2D5132 100%);
+}
+
+.bg-gradient-gold {
+  background: linear-gradient(180deg, rgba(155, 124, 51, 0.75) 0%, rgba(155, 124, 51, 0.75) 100%);
+}
+
+/* Inset shadow */
+.shadow-card-inset {
+  box-shadow: 1px 1px 0px 0px rgba(255, 255, 255, 0.25) inset,
+              1px 1px 0px 0px rgba(0, 0, 0, 0.25);
+}
+
+/* ============================================
+   SCROLLBAR
+   ============================================ */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(249, 246, 238, 0.15);
+  border-radius: 2px;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(249, 246, 238, 0.15) transparent;
+}
+
+/* ============================================
+   NAV BUTTON UNDERLINE
+   Pseudo-element animation — can't do in Tailwind
+   ============================================ */
+.nav-button {
+  position: relative;
+  background: none;
+  border: none;
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  padding: 0;
+  text-decoration: none;
+}
+
+.nav-button::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  border-bottom: 1px dotted var(--color-text-accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.3s ease;
+}
+
+.nav-button:hover::after,
+.nav-button:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.nav-button:hover,
+.nav-button:focus-visible {
+  color: var(--color-text-accent);
+}
+
+/* ============================================
+   OVERLAY
+   ============================================ */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 10;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ============================================
+   PROFILE CARD — Custom Breakpoints
+   Breakpoints that Tailwind can't express
+   ============================================ */
+@media (max-width: 950px) {
+  .profile-card {
+    height: 60vh;
+    min-height: 380px;
+  }
+}
+
+@media (max-width: 640px) {
+  .profile-card__img {
+    height: clamp(320px, 45vh, 450px);
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-card__img {
+    height: clamp(280px, 40vh, 350px);
+  }
+}
+
+/* ============================================
+   FILM GRAIN OVERLAY
+   SVG turbulence noise — CSS only
+   ============================================ */
+.film-grain {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .film-grain {
+    display: none;
+  }
+}
+
+/* ============================================
+   MAGNETIC TILT — CSS custom properties driven by JS
+   ============================================ */
+[data-card] {
+  --tilt-rx: 0deg;
+  --tilt-ry: 0deg;
+  --tilt-s: 1;
+  transform: perspective(800px) rotateX(var(--tilt-rx)) rotateY(var(--tilt-ry)) scale3d(var(--tilt-s), var(--tilt-s), var(--tilt-s));
+  transition: transform 0.15s ease-out, filter 0.3s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-card] {
+    transform: none;
+    transition: filter 0.3s ease;
+  }
+}
+
+/* ============================================
+   SKILL BADGES
+   Organic blob-shaped icon containers
+   ============================================ */
+.skill-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  --badge-bg: rgba(255, 255, 255, 0.06);
+  background: var(--badge-bg);
+  transition: background 0.2s ease;
+}
+
+.skill-badge:hover {
+  --badge-bg: rgba(255, 255, 255, 0.12);
+}
+
+@media (max-width: 640px) {
+  .skill-badge {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+}
+
+/* ============================================
+   SKILL ICON TOOLTIPS
+   CSS-only tooltips via ::after pseudo-element
+   ============================================ */
+.skill-tooltip {
+  position: relative;
+}
+
+.skill-tooltip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 0;
+  transform: scale(0.95);
+  padding: 6px 12px;
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-style: normal;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  background: rgba(36, 34, 33, 0.92);
+  border: 1px solid rgba(179, 142, 57, 0.3);
+  border-radius: 8px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 20;
+}
+
+.skill-tooltip:hover::after,
+.skill-tooltip:focus-visible::after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+@media (pointer: coarse) {
+  .skill-tooltip::after {
+    display: none;
+  }
+}
+
+/* ============================================
+   CUSTOM CURSOR
+   Hide default cursor on fine pointer devices
+   ============================================ */
+@media (pointer: fine) and (hover: hover) {
+  * {
+    cursor: none !important;
+  }
+}
+
+/* ============================================
+   SCROLL-REVEAL (Mobile / Tablet)
+   ============================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ============================================
+   PROFILE CARD IMAGE PARALLAX
+   Uses --tilt-x / --tilt-y from useMagneticTilt
+   ============================================ */
+[data-card="profile"] .profile-card__img {
+  transform: translate(calc(var(--tilt-x, 0) * -20px), calc(var(--tilt-y, 0) * -20px)) scale(1.08);
+  transition: transform 0.15s ease-out;
+}
+
+@media (pointer: coarse), (prefers-reduced-motion: reduce) {
+  [data-card="profile"] .profile-card__img {
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ============================================
+   COPY EMAIL TOAST
+   ============================================ */
+.copy-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 14px 14px 20px;
+  background: rgba(36, 34, 33, 0.95);
+  border: 1px solid rgba(179, 142, 57, 0.4);
+  border-radius: 14px;
+  z-index: 1500;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 18px rgba(179, 142, 57, 0.2), 0 0 40px rgba(179, 142, 57, 0.08);
+  animation: toast-slide-in 0.35s ease, toast-glow 2.5s ease-in-out infinite;
+  overflow: hidden;
+}
+
+/* Shimmer sweep */
+.copy-toast::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    rgba(179, 142, 57, 0.12) 45%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(179, 142, 57, 0.12) 55%,
+    transparent 70%
+  );
+  transform: translateX(-100%);
+  animation: toast-shimmer 2.8s ease 0.5s infinite;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.copy-toast__email {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--color-text-primary);
+  letter-spacing: -0.3px;
+}
+
+.copy-toast__label {
+  font-family: var(--font-accent);
+  font-size: 0.72rem;
+  font-style: italic;
+  color: var(--color-text-accent);
+  margin-top: 2px;
+}
+
+.copy-toast__close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.copy-toast__close:hover {
+  color: var(--color-text-primary);
+}
+
+.copy-toast__timer-ring {
+  animation: timer-deplete 10s linear forwards;
+}
+
+@keyframes timer-deplete {
+  to { stroke-dashoffset: 81.68; }
+}
+
+@keyframes toast-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes toast-glow {
+  0%, 100% { box-shadow: 0 0 18px rgba(179, 142, 57, 0.2), 0 0 40px rgba(179, 142, 57, 0.08); }
+  50% { box-shadow: 0 0 24px rgba(179, 142, 57, 0.3), 0 0 50px rgba(179, 142, 57, 0.12); }
+}
+
+@keyframes toast-shimmer {
+  0% { transform: translateX(-100%); }
+  60%, 100% { transform: translateX(100%); }
+}
+
+@media (max-width: 640px) {
+  .copy-toast {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .copy-toast {
+    animation: none;
+  }
+  .copy-toast::after {
+    animation: none;
+  }
+  .copy-toast__timer-ring {
+    animation: none;
+  }
+}

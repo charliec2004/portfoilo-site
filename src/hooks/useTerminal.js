@@ -18,8 +18,6 @@ const COMMANDS = new Map([
     '  linkedin    Open my LinkedIn profile',
     '  clear       Clear the terminal',
     '  exit        Close the terminal',
-    '',
-    'Tip: Press ` (backtick) to toggle the terminal.',
   ].join('\n')],
 
   ['about', () =>

@@ -1,121 +1,49 @@
-# Charlie Conner - Portfolio Website
+# Charlie Conner - Portfolio
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
-[![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
-[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+[![React](https://img.shields.io/badge/React-19-61DAFB?style=flat&logo=react&logoColor=white)](https://react.dev)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.0-06B6D4?style=flat&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
+[![Vite](https://img.shields.io/badge/Vite-7-646CFF?style=flat&logo=vite&logoColor=white)](https://vite.dev)
 
-A modern, interactive portfolio website showcasing my skills, projects, and experience as a Computer Science student. Built with vanilla HTML, CSS, and JavaScript using BEM methodology for clean, maintainable styling.
+A portfolio site built with React, Tailwind CSS 4, and Vite. Features magnetic tilt cards, a built-in terminal, scroll-reveal animations, and an expandable card system with cross-fade transitions.
 
-## ✨ Features
+**Live site**: [charlieconner.com](https://charlieconner.com)
 
-- **Interactive Card System**: Expandable cards with smooth animations for detailed content viewing
-- **Responsive Design**: Optimized for all screen sizes and devices  
-- **Modern UI/UX**: Clean, professional design with intuitive navigation
-- **BEM CSS Architecture**: Organized, maintainable CSS following Block Element Modifier methodology
-- **Smooth Animations**: CSS transitions and JavaScript-powered interactions
-- **Accessibility**: Semantic HTML and keyboard navigation support
-- **Performance Optimized**: Lightweight vanilla JavaScript with no external dependencies
+## Getting Started
 
-## 🚀 How to View the Site
-
-### Local Development
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/charliec2004/portfolio-site.git
-   cd portfolio-site
-   ```
-
-2. **Open directly in browser**
-   ```bash
-   # Simply open the index.html file
-   open index.html
-   ```
-
-3. **Or use a local server (recommended)**
-   ```bash
-   # Using Python (if installed)
-   python -m http.server 8000
-   
-   # Using Node.js (if installed)
-   npx serve .
-   
-   # Then visit http://localhost:8000
-   ```
-
-### Live Site
-Visit: [charlieconner.com](https://charlieconner.com)
-
-## 🎯 CSS Architecture
-
-This project uses **BEM (Block Element Modifier)** methodology for CSS organization:
-
-- **Blocks**: Independent, reusable components (e.g., `card`, `header`, `layout`)
-- **Elements**: Parts of blocks that have no standalone meaning (e.g., `card__title`, `header__name`)  
-- **Modifiers**: Variants of blocks or elements (e.g., `card--about`, `card--skills`)
-
-## 🏗️ Project Structure
-
-```
-portfolio-site/
-├── index.html                 # Main HTML file
-├── styles/
-│   ├── main.css              # Main stylesheet with imports
-│   ├── base/                 # Base styles
-│   │   ├── variables.css     # CSS custom properties
-│   │   ├── reset.css         # CSS reset
-│   │   └── typography.css    # Typography styles
-│   ├── layout/               # Layout components
-│   │   ├── page.css          # Page-level layout
-│   │   └── grid.css          # Grid system
-│   ├── components/           # UI components (BEM blocks)
-│   │   ├── header.css        # Header block styles
-│   │   ├── card.css          # Card block styles
-│   │   ├── profile.css       # Profile block styles
-│   │   ├── projects.css      # Projects block styles
-│   │   ├── social.css        # Social links block styles
-│   │   └── footer.css        # Footer block styles
-│   └── utilities/            # Utility classes
-│       ├── interactive.css   # Interactive states
-│       ├── helpers.css       # Helper classes
-│       └── overlay.css       # Overlay utility
-├── js/
-│   └── card-interactions.js  # Card interaction logic
-├── assets/                   # Images and files only
-│   ├── *.svg                 # SVG icons
-│   ├── charlie.webp          # Profile image
-│   ├── favicon.png           # Site favicon
-│   └── Charles_Conner_Resume.pdf
-└── README.md
+```bash
+git clone https://github.com/charliec2004/portfoilo-site.git
+cd portfoilo-site
+npm install
+npm run dev
 ```
 
-## 🛠️ Technologies Used
+## Tech Stack
 
-- **Frontend**: HTML5, CSS3, JavaScript (ES6+)
-- **CSS Methodology**: BEM (Block Element Modifier)
-- **Fonts**: Inter, Merriweather (Google Fonts)
-- **Icons**: Custom SVG icons
-- **Animations**: CSS Transitions & Transforms
-- **Architecture**: Modular CSS with CSS Custom Properties
+- **Framework**: React 19
+- **Styling**: Tailwind CSS 4 (CSS-first `@theme` config)
+- **Build**: Vite 7
+- **Deployment**: GitHub Actions → GitHub Pages
+- **Fonts**: Inter, Merriweather
 
-## 📱 Browser Support
+## Project Structure
 
-- Chrome (latest)
-- Firefox (latest)  
-- Safari (latest)
-- Edge (latest)
+```text
+src/
+├── assets/              # Images, icons, skill SVGs
+├── components/
+│   ├── cards/           # AboutCard, ProfileCard, SkillsCard, etc.
+│   ├── layout/          # MainGrid, LeftColumn, RightColumn
+│   ├── Terminal.jsx     # Built-in terminal (press ` to open)
+│   ├── Cursor.jsx       # Custom cursor
+│   └── FilmGrain.jsx    # Film grain overlay
+├── data/                # Projects, skills data
+├── hooks/               # Tilt, animations, terminal, GitHub API
+├── app.css              # Theme tokens, custom utilities
+└── App.jsx              # Root layout
+```
 
-## 📄 License
+## Contact
 
-MIT License - See [LICENSE](LICENSE) file for details.
-
-## 📧 Contact
-
-**Charles Conner**
 - Email: [charlieconner04@gmail.com](mailto:charlieconner04@gmail.com)
 - LinkedIn: [charles-conner04](https://linkedin.com/in/charles-conner04)
 - GitHub: [charliec2004](https://github.com/charliec2004)
-
----
-
-⭐ **If you found this project interesting, please consider giving it a star!**

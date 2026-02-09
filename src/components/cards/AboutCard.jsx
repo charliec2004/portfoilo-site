@@ -2,8 +2,8 @@ import { forwardRef } from 'react';
 import profileIcon from '../../assets/icons/profile.svg';
 
 const ABOUT_TEXT = {
-  short: "I like making things.",
-  full: "I like making things that work well and feel good to use. I enjoy the process of figuring out how something should work, building it, and seeing people actually use it. I move between design and engineering because both sides shape how ideas become real. I care about clear thinking, solid systems, and details that quietly make a difference. This site is just a place to share what I'm building and learning over time.",
+  short: "I like building things.",
+  full: "I like building things. I move quickly, learn by doing, and adjust based on what breaks or gets used, because I believe decisions only matter once they meet reality. I hate unnecessary complexity. I work across engineering and product because that is where ideas get pressure tested and turned into something real. I care deeply about momentum, honest feedback, and progress that compounds. This site is a running log of what I am building, what works, and what I am still figuring out."
 };
 
 const AboutCard = forwardRef(function AboutCard({ onClick, expanded, phase, expansionTiming, tiltHandlers = {}, mobileExpanded = false }, ref) {

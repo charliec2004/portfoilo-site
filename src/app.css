@@ -309,6 +309,16 @@ html, body {
 }
 
 /* ============================================
+   ORGANIC CARD SHAPES — subtle imperfection per card
+   ============================================ */
+[data-card="profile"] { border-radius: 44px 34px 40px 31px / 32px 42px 34px 43px; }
+[data-card="about"]   { border-radius: 34px 43px 31px 40px / 42px 32px 44px 34px; }
+[data-card="skills"]  { border-radius: 40px 31px 43px 34px / 34px 44px 32px 42px; }
+[data-card="projects"]{ border-radius: 32px 42px 34px 44px / 43px 31px 40px 32px; }
+[data-card="contact"] { border-radius: 43px 32px 34px 42px / 31px 44px 40px 34px; }
+[data-card="social"]  { border-radius: 31px 40px 42px 32px / 44px 34px 32px 43px; }
+
+/* ============================================
    PROFILE CARD IMAGE PARALLAX
    Uses --tilt-x / --tilt-y from useMagneticTilt
    ============================================ */

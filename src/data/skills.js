@@ -7,6 +7,7 @@ export const SKILLS = [
   { file: 'python.svg', name: 'Python', tooltip: 'ML projects, data analysis', category: 'Languages' },
   { file: 'java.svg', name: 'Java', tooltip: 'OOP, data structures', category: 'Languages' },
   { file: 'cpp.svg', name: 'C++', tooltip: 'Systems programming, algorithms', category: 'Languages' },
+  { file: 'sql.svg', name: 'SQL', tooltip: 'Database queries, schema design', category: 'Languages' },
 
   // Frameworks
   { file: 'react.svg', name: 'React', tooltip: 'Component-driven UI development', category: 'Frameworks' },
@@ -14,11 +15,14 @@ export const SKILLS = [
   { file: 'nodejs.svg', name: 'Node.js', tooltip: 'Server-side JavaScript runtime', category: 'Frameworks' },
   { file: 'vite.svg', name: 'Vite', tooltip: 'Fast frontend build tooling', category: 'Frameworks' },
   { file: 'electron.svg', name: 'Electron', tooltip: 'Cross-platform desktop apps', category: 'Frameworks' },
+  { file: 'nextjs.svg', name: 'Next.js', tooltip: 'Full-stack React framework', category: 'Frameworks' },
 
   // Tools
   { file: 'git.svg', name: 'Git', tooltip: 'Version control, branching', category: 'Tools' },
   { file: 'npm.svg', name: 'npm', tooltip: 'Package management, scripts', category: 'Tools' },
   { file: 'figma.svg', name: 'Figma', tooltip: 'UI design, prototyping', category: 'Tools' },
+  { file: 'aws.svg', name: 'AWS', tooltip: 'Cloud infrastructure, services', category: 'Tools' },
+  { file: 'docker.svg', name: 'Docker', tooltip: 'Containerization, deployment', category: 'Tools' },
 ];
 
 export const SKILL_CATEGORIES = ['Languages', 'Frameworks', 'Tools'];
@@ -41,4 +45,8 @@ export const BADGE_SHAPES = [
   { borderRadius: '51% 49% 46% 54% / 50% 50% 49% 51%', rotate: 2 },
   { borderRadius: '49% 51% 54% 46% / 44% 56% 51% 49%', rotate: -1 },
   { borderRadius: '54% 46% 50% 50% / 48% 52% 46% 54%', rotate: 3 },
+  { borderRadius: '48% 50% 53% 47% / 52% 44% 50% 48%', rotate: -4 },
+  { borderRadius: '52% 46% 48% 54% / 46% 50% 54% 48%', rotate: 2 },
+  { borderRadius: '45% 53% 50% 47% / 53% 45% 47% 52%', rotate: -3 },
+  { borderRadius: '50% 48% 44% 52% / 48% 54% 50% 46%', rotate: 4 },
 ];

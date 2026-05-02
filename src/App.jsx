@@ -101,19 +101,21 @@ export default function App() {
 
   const handleAboutClick = useCallback(() => {
     if (isMobile) {
+      scrollToSection(aboutRef);
       toggleMobile('about');
     } else if (aboutRef.current && leftColRef.current) {
       expand('about', aboutRef.current, leftColRef.current);
     }
-  }, [isMobile, toggleMobile, expand]);
+  }, [isMobile, toggleMobile, expand, scrollToSection]);
 
   const handleSkillsClick = useCallback(() => {
     if (isMobile) {
+      scrollToSection(skillsRef);
       toggleMobile('skills');
     } else if (skillsRef.current && leftColRef.current) {
       expand('skills', skillsRef.current, leftColRef.current);
     }
-  }, [isMobile, toggleMobile, expand]);
+  }, [isMobile, toggleMobile, expand, scrollToSection]);
 
   const handleOverlayClick = useCallback(() => {
     collapse();

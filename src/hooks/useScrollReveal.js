@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import useReducedMotion from './useReducedMotion';
 
-const BREAKPOINT = 1210;
+const BREAKPOINT = 960;
 const INTRO_DELAY = 2000;
 const STAGGER = 120; // ms between each card reveal
 

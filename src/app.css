@@ -26,7 +26,7 @@
   /* Breakpoints */
   --breakpoint-sm: 640px;
   --breakpoint-md: 770px;
-  --breakpoint-lg: 1210px;
+  --breakpoint-lg: 960px;
 }
 
 /* ============================================
@@ -38,7 +38,7 @@ html, body {
   overflow: hidden;
 }
 
-@media (max-width: 1210px) {
+@media (max-width: 960px) {
   html, body {
     overflow: visible;
     overflow-x: hidden;

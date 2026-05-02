@@ -18,23 +18,23 @@ export default function Header({
     <>
       <header
         className={`rounded-card bg-gradient-green shadow-card-inset w-full max-w-[2000px] flex shrink-0 flex-row items-center justify-between ${
-          useDrawerNav ? 'min-h-[4.25rem] h-auto px-5 py-3.5' : 'h-20 px-8'
+          useDrawerNav ? 'min-h-[4.25rem] h-auto px-5 py-3.5' : 'h-20 px-6 xl:px-8'
         }`}
       >
         <div className="flex min-w-0 shrink items-center gap-2 overflow-hidden">
           <h1
             className={`font-heading font-semibold tracking-[-0.7px] whitespace-nowrap shrink-0 ${
-              useDrawerNav ? 'text-[clamp(1.45rem,5vw,2.5rem)]' : 'text-[2.5rem]'
+              useDrawerNav ? 'text-[clamp(1.45rem,5vw,2.5rem)]' : 'text-[clamp(1.6rem,2.6vw,2.5rem)]'
             }`}
           >
             Charlie Conner
           </h1>
           {!useDrawerNav ? (
             <>
-              <span className="max-sm:hidden shrink-0 select-none font-heading text-[2rem] font-[350] tracking-[-1.7px] text-text-muted">
+              <span className="max-[1180px]:hidden shrink-0 select-none font-heading text-[2rem] font-[350] tracking-[-1.7px] text-text-muted">
                 |
               </span>
-              <span className="font-accent max-sm:hidden min-w-0 shrink overflow-hidden text-ellipsis whitespace-nowrap text-[1.8rem] font-medium italic tracking-[-0.7px] text-text-accent">
+              <span className="font-accent max-[1180px]:hidden min-w-0 shrink overflow-hidden text-ellipsis whitespace-nowrap text-[1.8rem] font-medium italic tracking-[-0.7px] text-text-accent">
                 Computer Science Student
               </span>
             </>

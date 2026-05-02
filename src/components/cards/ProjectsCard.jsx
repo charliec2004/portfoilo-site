@@ -24,7 +24,7 @@ const ProjectsCard = forwardRef(function ProjectsCard({ tiltHandlers = {} }, ref
     <section
       ref={ref}
       data-card="projects"
-      className="rounded-card bg-gradient-green shadow-card-inset w-full flex-1 flex flex-col gap-4 overflow-hidden p-8 max-lg:p-7 max-sm:px-7 max-sm:py-8"
+      className="rounded-card bg-gradient-green shadow-card-inset w-full flex-1 flex flex-col gap-4 overflow-hidden p-6 xl:p-8 max-lg:p-7 max-sm:px-7 max-sm:py-8"
       onMouseMove={tiltHandlers.onMouseMove}
       onMouseLeave={tiltHandlers.onMouseLeave}
     >

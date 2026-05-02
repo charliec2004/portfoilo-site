@@ -261,7 +261,7 @@ const SkillsCard = forwardRef(function SkillsCard({
     <article
       ref={ref}
       data-card="skills"
-      className={`rounded-card bg-gradient-green shadow-card-inset flex-1 h-full flex flex-col justify-start items-stretch gap-8 p-8 overflow-visible max-lg:w-full max-lg:flex-auto max-lg:h-auto max-lg:p-7 max-sm:px-7 max-sm:py-8 ${isMobile ? '' : 'cursor-pointer hover:brightness-[0.88]'} ${slotHidden ? 'opacity-0 pointer-events-none' : ''}`}
+      className={`rounded-card bg-gradient-green shadow-card-inset flex-1 h-full flex flex-col justify-start items-stretch gap-6 xl:gap-8 p-6 xl:p-8 overflow-visible max-lg:w-full max-lg:flex-auto max-lg:h-auto max-lg:p-7 max-sm:px-7 max-sm:py-8 ${isMobile ? '' : 'cursor-pointer hover:brightness-[0.88]'} ${slotHidden ? 'opacity-0 pointer-events-none' : ''}`}
       onClick={isMobile ? undefined : onClick}
       onMouseMove={tiltHandlers.onMouseMove}
       onMouseLeave={tiltHandlers.onMouseLeave}

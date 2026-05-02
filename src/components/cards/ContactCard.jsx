@@ -6,7 +6,7 @@ const ContactCard = forwardRef(function ContactCard({ tiltHandlers = {}, onCopyE
     <article
       ref={ref}
       data-card="contact"
-      className="rounded-card bg-gradient-gold shadow-card-inset flex-1 h-full overflow-hidden max-lg:w-full max-lg:flex-auto max-lg:h-auto p-8 pb-5 max-lg:p-7 max-lg:pb-6 max-sm:px-7 max-sm:py-8 max-sm:pb-7"
+      className="rounded-card bg-gradient-gold shadow-card-inset flex-1 h-full overflow-hidden max-lg:w-full max-lg:flex-auto max-lg:h-auto p-6 xl:p-8 pb-5 max-lg:p-7 max-lg:pb-6 max-sm:px-7 max-sm:py-8 max-sm:pb-7"
       onMouseMove={tiltHandlers.onMouseMove}
       onMouseLeave={tiltHandlers.onMouseLeave}
     >
@@ -25,7 +25,7 @@ const ContactCard = forwardRef(function ContactCard({ tiltHandlers = {}, onCopyE
           </div>
         </header>
         <div className="flex-1 flex flex-col justify-end">
-          <h2 className="text-[3.75rem] text-text-primary font-accent font-bold select-none whitespace-nowrap tracking-[-1.2px] max-lg:text-[2.5rem] max-lg:tracking-normal max-sm:text-[3.5rem]">
+          <h2 className="text-[clamp(2.5rem,4.4vw,3.75rem)] text-text-primary font-accent font-bold select-none whitespace-nowrap tracking-[-1.2px] max-lg:text-[2.5rem] max-lg:tracking-normal max-sm:text-[3.5rem]">
             Contact me
           </h2>
         </div>

@@ -111,7 +111,7 @@ const AboutCard = forwardRef(function AboutCard({ onClick, expanded, phase, expa
     <article
       ref={ref}
       data-card="about"
-      className="rounded-card bg-gradient-green shadow-card-inset flex-2 h-full flex flex-col justify-between overflow-hidden cursor-pointer hover:brightness-[0.88] max-lg:flex-auto max-lg:w-full max-lg:h-auto p-8 max-lg:p-7 max-sm:px-7 max-sm:py-8"
+      className="rounded-card bg-gradient-green shadow-card-inset flex-2 h-full flex flex-col justify-between overflow-hidden cursor-pointer hover:brightness-[0.88] max-lg:flex-auto max-lg:w-full max-lg:h-auto p-6 xl:p-8 max-lg:p-7 max-sm:px-7 max-sm:py-8"
       onClick={onClick}
       onMouseMove={tiltHandlers.onMouseMove}
       onMouseLeave={tiltHandlers.onMouseLeave}

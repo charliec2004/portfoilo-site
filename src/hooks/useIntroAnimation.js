@@ -12,6 +12,10 @@ const INTRO = {
   initialCardScale: 0.88,
   profilePeakScale: 1.06,
   easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+  /** Target hero width (px) for profile during intro center-hold; capped to viewport. */
+  profileHeroTargetPx: 380,
+  /** Pop-in entry scale factor relative to the (computed) hero scale. */
+  profileEntryRatio: 0.75,
 };
 
 export default function useIntroAnimation(cardRefs) {
@@ -47,20 +51,39 @@ export default function useIntroAnimation(cardRefs) {
     const centerX = window.innerWidth / 2;
     const centerY = window.innerHeight / 2;
 
+    /**
+     * Profile shouldn't read tiny mid-intro on narrow viewports where its grid
+     * cell is small. Aim the centered hero at a fixed-px target (capped to a
+     * portion of viewport width) and derive scale from the actual rendered width.
+     */
+    const profileFinalWidth =
+      profileCard?.getBoundingClientRect().width || 400;
+    const heroTargetPx = Math.min(
+      INTRO.profileHeroTargetPx,
+      window.innerWidth * 0.62
+    );
+    const profileHeroScale = Math.max(
+      INTRO.initialProfileScale,
+      heroTargetPx / profileFinalWidth
+    );
+    const profileEntryScale = profileHeroScale * INTRO.profileEntryRatio;
+    const profilePeakScale = Math.max(profileHeroScale, INTRO.profilePeakScale);
+
     const states = cards.map((card, index) => {
       const rect = card.getBoundingClientRect();
       const tx = centerX - (rect.left + rect.width / 2);
       const ty = centerY - (rect.top + rect.height / 2);
       const isProfile = card === profileCard;
-      const startScale = isProfile ? INTRO.initialProfileScale : INTRO.initialCardScale;
-      const introScale = isProfile ? INTRO.profileIntroScale : startScale;
+      const startScale = isProfile ? profileHeroScale : INTRO.initialCardScale;
+      const introScale = isProfile ? profileEntryScale : startScale;
+      const peakScale = isProfile ? profilePeakScale : INTRO.profilePeakScale;
 
       return {
         card,
         isProfile,
         start: `translate(${tx}px, ${ty}px) scale(${startScale})`,
         intro: `translate(${tx}px, ${ty}px) scale(${introScale})`,
-        peak: `translate(${tx}px, ${ty}px) scale(${INTRO.profilePeakScale})`,
+        peak: `translate(${tx}px, ${ty}px) scale(${peakScale})`,
         zIndex: isProfile ? cards.length + 5 : cards.length - index,
       };
     });

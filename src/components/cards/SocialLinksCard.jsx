@@ -18,7 +18,10 @@ import { TOOLTIP_DWELL_MS } from '../../constants/tooltipTiming';
 import useReducedMotion from '../../hooks/useReducedMotion';
 
 const Separator = () => (
-  <div className="w-[0.94px] h-[46.158px] shrink-0 bg-separator" aria-hidden="true" />
+  <div
+    className="w-px h-9 xl:h-[46.158px] shrink-0 bg-separator"
+    aria-hidden="true"
+  />
 );
 
 const ITEMS = [
@@ -249,7 +252,7 @@ const SocialLinksCard = forwardRef(function SocialLinksCard(
         className="rounded-card w-full shrink-0 overflow-visible"
       >
         <div
-          className="social-card-face magnetic-tilt-surface bg-gradient-green shadow-card-inset w-full min-h-[80px] py-2 flex flex-row justify-center items-center gap-4"
+          className="social-card-face magnetic-tilt-surface bg-gradient-green shadow-card-inset w-full min-h-[68px] xl:min-h-[80px] flex flex-row justify-center items-center gap-1.5 xl:gap-4 px-3 xl:px-5 py-2"
           onMouseMove={tiltHandlers.onMouseMove}
           onMouseLeave={tiltHandlers.onMouseLeave}
         >
@@ -262,7 +265,7 @@ const SocialLinksCard = forwardRef(function SocialLinksCard(
                 aria-describedby={socialTooltip?.anchorKey === item.key ? socialTooltipTipId : undefined}
                 {...(item.download ? { download: item.download } : {})}
                 {...(item.external ? { target: '_blank', rel: 'noopener noreferrer' } : { rel: 'noopener' })}
-                className="flex flex-col justify-center items-center p-4 shrink-0 group"
+                className="flex flex-col justify-center items-center px-2.5 py-2.5 xl:p-4 shrink-0 group"
                 aria-label={item.ariaLabel}
                 onMouseEnter={linksArmed ? (e) => scheduleDwellShow(e, item) : undefined}
                 onMouseLeave={linksArmed ? scheduleHideTooltip : undefined}
@@ -272,7 +275,7 @@ const SocialLinksCard = forwardRef(function SocialLinksCard(
                 <img
                   src={item.icon}
                   alt={item.alt}
-                  className="select-none transition-[filter] duration-300 group-hover:brightness-[0.85] group-focus-visible:brightness-[0.85]"
+                  className="block w-[1.4rem] h-[1.4rem] xl:w-auto xl:h-auto select-none transition-[filter] duration-300 group-hover:brightness-[0.85] group-focus-visible:brightness-[0.85]"
                 />
               </a>
             </span>

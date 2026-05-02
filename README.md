@@ -45,5 +45,5 @@ src/
 ## Contact
 
 - Email: [charlieconner04@gmail.com](mailto:charlieconner04@gmail.com)
-- LinkedIn: [charles-conner04](https://linkedin.com/in/charles-conner04)
+- LinkedIn: [charlescon](https://linkedin.com/in/charlescon)
 - GitHub: [charliec2004](https://github.com/charliec2004)

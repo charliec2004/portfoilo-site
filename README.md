@@ -12,7 +12,7 @@ A portfolio site built with React, Tailwind CSS 4, and Vite. Features magnetic t
 
 ```bash
 git clone https://github.com/charliec2004/portfoilo-site.git
-cd portfoilo-site
+cd portfolio-site
 npm install
 npm run dev
 ```

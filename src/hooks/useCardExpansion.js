@@ -10,6 +10,15 @@ const TIMING = {
   skillIconStagger: 80,
 };
 
+/**
+ * Must match `MOBILE_BREAKPOINT` in `useMobileExpansion.js` and `BREAKPOINT`
+ * in `useScrollReveal.js`. Below this width the app renders the stacked
+ * mobile layout, so the desktop clone-overlay expansion can't be used.
+ * Was previously hard-coded to 1210, which left a dead band (960–1209)
+ * where the layout was desktop but clicks silently no-op'd.
+ */
+const DESKTOP_EXPANSION_MIN_PX = 960;
+
 export default function useCardExpansion() {
   const [expandedCard, setExpandedCard] = useState(null); // 'about' | 'skills' | null
   const [phase, setPhase] = useState('idle');
@@ -20,7 +29,7 @@ export default function useCardExpansion() {
 
   useEffect(() => {
     const handleResize = () => {
-      const isDesktop = window.innerWidth >= 1210;
+      const isDesktop = window.innerWidth >= DESKTOP_EXPANSION_MIN_PX;
       if (!isDesktop && expandedCard !== null) {
         setExpandedCard(null);
         setPhase('idle');
@@ -42,7 +51,7 @@ export default function useCardExpansion() {
   const expand = useCallback((cardType, cardEl, containerEl) => {
     if (phase !== 'idle' || !cardEl || !containerEl) return;
     // Disable clone-based expansion on mobile/tablet — stacked layout breaks it
-    if (window.innerWidth < 1210) return;
+    if (window.innerWidth < DESKTOP_EXPANSION_MIN_PX) return;
 
     const containerRect = containerEl.getBoundingClientRect();
     const cardRect = cardEl.getBoundingClientRect();

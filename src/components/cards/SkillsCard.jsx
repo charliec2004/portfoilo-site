@@ -24,6 +24,17 @@ for (const cat of SKILL_CATEGORIES) {
   skillsByCategory[cat] = SKILLS.filter((s) => s.category === cat);
 }
 
+/**
+ * Inside the mobile band (<960px), Skills behaves in two sub-bands:
+ *   - SMALL_MOBILE_MAX_PX and below: card is always expanded, badges
+ *     animate in via IntersectionObserver scroll-reveal.
+ *   - Above SMALL_MOBILE_MAX_PX (up to the desktop breakpoint): card is
+ *     collapsed by default and taps to expand inline (matches AboutCard).
+ * Matches Tailwind's `sm` breakpoint so it lines up with other `max-sm:*`
+ * tweaks elsewhere in the file.
+ */
+const SMALL_MOBILE_MAX_PX = 640;
+
 const SkillsCard = forwardRef(function SkillsCard({
   onClick,
   expanded,
@@ -31,6 +42,8 @@ const SkillsCard = forwardRef(function SkillsCard({
   expansionTiming,
   tiltHandlers = {},
   isMobile = false,
+  /** Mobile mid-band: controlled by App's useMobileExpansion (tap-to-expand). */
+  mobileExpanded = false,
   /** Desktop expansion: hide grid-slot card while clone overlay is showing */
   slotHidden = false,
   tooltipPageReady = false,
@@ -44,22 +57,37 @@ const SkillsCard = forwardRef(function SkillsCard({
   /** Matches badge opacity/transform transition duration */
   const SKILL_ICON_ENTER_MS = 300;
 
-  const [mobileScrollRevealed, setMobileScrollRevealed] = useState(false);
+  // Sub-band detector inside the mobile range. See SMALL_MOBILE_MAX_PX above.
+  const [isSmallMobile, setIsSmallMobile] = useState(
+    () => typeof window !== 'undefined' && window.innerWidth <= SMALL_MOBILE_MAX_PX
+  );
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const check = () => setIsSmallMobile(window.innerWidth <= SMALL_MOBILE_MAX_PX);
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+
+  // Mobile mode: 'small' = always-on + scroll reveal, 'mid' = tap-to-expand.
+  const mobileMode = isMobile ? (isSmallMobile ? 'small' : 'mid') : null;
+  const isMidMobileTapToExpand = mobileMode === 'mid';
+
   const cardInnerRef = useRef(null);
 
-  useEffect(() => {
-    if (!isMobile) return;
-    const el = cardInnerRef.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) { setMobileScrollRevealed(true); observer.disconnect(); } },
-      { threshold: 0.15 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [isMobile]);
-
-  const showIcons = isMobile ? mobileScrollRevealed : desktopShowIcons;
+  // showIcons drives the badge stagger animation in.
+  // - Desktop: gated on phase === 'expanded'.
+  // - Mobile small (iPhone-sized): always visible immediately. The user
+  //   explicitly asked that nothing require tap-or-scroll to reveal at
+  //   this size — everything is already expanded.
+  // - Mobile mid: gated on tap (mobileExpanded).
+  let showIcons;
+  if (!isMobile) {
+    showIcons = desktopShowIcons;
+  } else if (mobileMode === 'small') {
+    showIcons = true;
+  } else {
+    showIcons = mobileExpanded;
+  }
 
   const [skillMotionReady, setSkillMotionReady] = useState(false);
 
@@ -257,30 +285,92 @@ const SkillsCard = forwardRef(function SkillsCard({
 
   let globalIndex = 0;
 
+  // Card is interactive on desktop AND in the mid-mobile tap-to-expand band.
+  // Small-mobile keeps the card always-expanded and non-interactive (the
+  // skill grid auto-reveals on scroll, so there's nothing to toggle).
+  const isInteractive = !isMobile || isMidMobileTapToExpand;
+  const articleClickHandler = isInteractive ? onClick : undefined;
+
   return (
     <article
       ref={ref}
       data-card="skills"
-      className={`rounded-card bg-gradient-green shadow-card-inset flex-1 h-full flex flex-col justify-start items-stretch gap-6 xl:gap-8 p-6 xl:p-8 overflow-visible max-lg:w-full max-lg:flex-auto max-lg:h-auto max-lg:p-7 max-sm:px-7 max-sm:py-8 ${isMobile ? '' : 'cursor-pointer hover:brightness-[0.88]'} ${slotHidden ? 'opacity-0 pointer-events-none' : ''}`}
-      onClick={isMobile ? undefined : onClick}
+      // STRUCTURAL CLIP: `overflow-hidden` on the article guarantees the
+      // rounded-card box can never be visually exceeded, regardless of how
+      // many skills exist or how short the slot becomes. Scrolling is
+      // delegated to the inner badge container below — see `skills-scroll`
+      // class. Tooltips render via a portal to document.body, so clipping
+      // here doesn't affect them.
+      className={`rounded-card bg-gradient-green shadow-card-inset flex-1 h-full flex flex-col justify-start items-stretch gap-6 xl:gap-8 p-6 xl:p-8 overflow-hidden max-lg:w-full max-lg:flex-auto max-lg:h-auto max-lg:p-7 max-sm:px-7 max-sm:py-8 ${isInteractive ? 'cursor-pointer hover:brightness-[0.88]' : ''} ${slotHidden ? 'opacity-0 pointer-events-none' : ''}`}
+      onClick={articleClickHandler}
       onMouseMove={tiltHandlers.onMouseMove}
       onMouseLeave={tiltHandlers.onMouseLeave}
-      tabIndex={isMobile ? undefined : slotHidden ? -1 : 0}
+      tabIndex={isInteractive ? (slotHidden ? -1 : 0) : undefined}
       aria-hidden={slotHidden ? true : undefined}
-      role={isMobile ? undefined : 'button'}
-      aria-label={isMobile ? undefined : 'View my skills and tools'}
+      role={isInteractive ? 'button' : undefined}
+      aria-label={isInteractive ? 'View my skills and tools' : undefined}
+      aria-expanded={isMidMobileTapToExpand ? mobileExpanded : undefined}
     >
       <header className="w-full flex items-center justify-between shrink-0">
         <p className="text-[0.85rem] font-accent italic text-text-primary font-normal leading-relaxed select-none">
           Things I use
         </p>
-        <div className="shrink-0">
+        <div className="shrink-0 flex items-center gap-3">
+          {/* Mid-mobile expand affordance — chevron rotates with state.
+              Hidden in every other mode so it doesn't add visual noise. */}
+          {isMidMobileTapToExpand ? (
+            <span
+              aria-hidden="true"
+              className="font-mono text-[1.1rem] text-text-muted select-none transition-transform duration-300"
+              style={{ transform: mobileExpanded ? 'rotate(180deg)' : 'rotate(0deg)' }}
+            >
+              v
+            </span>
+          ) : null}
           <img src={toolsIcon} alt="" className="select-none" />
         </div>
       </header>
+      {/* Mid-mobile collapse: animate the grid container's row from 0fr→1fr
+          (true content height, no rubber band) and fade in. Other modes keep
+          the grid mounted full-size and need `flex-1 min-h-0` so the wrapper
+          absorbs the remaining article height — without it `mt-auto` on the
+          "Skills & Tools" h2 below has no free space to push into and the
+          h2 gets pushed past the card slot. */}
+      <div
+        className={`grid w-full ${
+          isMidMobileTapToExpand
+            ? 'overflow-hidden transition-[grid-template-rows,opacity] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]'
+            : 'flex-1 min-h-0'
+        }`}
+        style={
+          isMidMobileTapToExpand
+            ? {
+                gridTemplateRows: mobileExpanded ? '1fr' : '0fr',
+                opacity: mobileExpanded ? 1 : 0,
+              }
+            : { gridTemplateRows: '1fr' }
+        }
+        aria-hidden={isMidMobileTapToExpand ? !mobileExpanded : undefined}
+        // When expanded in mid-mobile, the article's onClick toggles collapse.
+        // Stop propagation here so taps on the skill grid don't bubble up and
+        // close the card mid-interaction. Header / footer (siblings of this
+        // div) still bubble up and act as the toggle affordance.
+        onClick={
+          isMidMobileTapToExpand && mobileExpanded
+            ? (e) => e.stopPropagation()
+            : undefined
+        }
+      >
       <div
         ref={cardInnerRef}
-        className="flex flex-col flex-1 w-full min-h-0 gap-10 overflow-visible max-lg:flex-none"
+        // BOUNDED SCROLL: when content > available row height, the badges
+        // scroll *inside* this container instead of pushing the "Skills &
+        // Tools" footer past the article's clip. `overflow-x-hidden` is
+        // explicit so the rare horizontal overflow from rotated badge
+        // wrappers can't ever leak. `skills-scroll` enables a thin styled
+        // scrollbar (see app.css). On mid-mobile-tap-to-expand mode we keep
+        // it hidden so the parent grid-row collapse stays clean.
+        className={`flex flex-col w-full min-h-0 gap-10 overflow-y-auto overflow-x-hidden skills-scroll max-lg:flex-none ${isMidMobileTapToExpand ? 'overflow-hidden' : ''}`}
       >
         {SKILL_CATEGORIES.map((category, catIdx) => {
           const skills = skillsByCategory[category];
@@ -363,7 +453,8 @@ const SkillsCard = forwardRef(function SkillsCard({
           );
         })}
       </div>
-      <h2 className="text-[2.5rem] text-text-primary font-semibold select-none whitespace-nowrap shrink-0 mt-auto pt-12 max-sm:pt-10 relative">
+      </div>
+      <h2 className="text-text-primary font-semibold select-none whitespace-nowrap shrink-0 mt-auto pt-12 max-sm:pt-10 relative text-[clamp(1.6rem,7vw,2.5rem)] sm:text-[2.5rem]">
         Skills &amp; Tools
       </h2>
       {skillTooltip && typeof document !== 'undefined'

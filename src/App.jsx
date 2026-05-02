@@ -132,8 +132,13 @@ export default function App() {
     return () => window.removeEventListener('keydown', handleEscape);
   }, [isExpanded, collapse, mobileExpandedCard, toggleMobile]);
 
+  // max-lg uses min-h-[100dvh] (dynamic viewport height) instead of
+  // min-h-screen so iOS Safari's collapsing URL bar doesn't cut content
+  // off. The max-lg:p[tlbr]-[max(1.25rem,env(safe-area-inset-*))] padding
+  // respects the notch + home indicator safe areas (only meaningful with
+  // viewport-fit=cover in index.html).
   return (
-    <div className="bg-gradient-page text-text-primary flex h-screen max-lg:h-auto max-lg:min-h-screen flex-col items-center gap-4 overflow-hidden p-4 max-lg:gap-5 max-lg:overflow-visible max-lg:p-5">
+    <div className="bg-gradient-page text-text-primary flex h-screen max-lg:h-auto max-lg:min-h-[100dvh] flex-col items-center gap-4 overflow-hidden p-4 max-lg:gap-5 max-lg:overflow-visible max-lg:p-5 max-lg:pt-[max(1.25rem,env(safe-area-inset-top))] max-lg:pb-[max(1.25rem,env(safe-area-inset-bottom))] max-lg:pl-[max(1.25rem,env(safe-area-inset-left))] max-lg:pr-[max(1.25rem,env(safe-area-inset-right))]">
       <Header
         useDrawerNav={isMobile}
         onSkillsClick={handleSkillsClick}
@@ -150,7 +155,13 @@ export default function App() {
             <ProfileCard ref={profileRef} />
           </div>
           <ProjectsCard ref={projectsRef} />
-          <SkillsCard ref={skillsRef} isMobile tooltipPageReady={tooltipPageReady} />
+          <SkillsCard
+            ref={skillsRef}
+            isMobile
+            onClick={handleSkillsClick}
+            mobileExpanded={mobileExpandedCard === 'skills'}
+            tooltipPageReady={tooltipPageReady}
+          />
           <ContactCard ref={contactRef} onCopyEmail={handleCopyEmail} />
           <SocialLinksCard ref={socialRef} tooltipPageReady={tooltipPageReady} />
         </div>

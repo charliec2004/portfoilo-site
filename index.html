@@ -2,7 +2,15 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--
+      viewport-fit=cover: lets the page extend behind the status bar /
+      home-indicator safe areas on iOS, which combined with `env(safe-area-inset-*)`
+      in app.css avoids the white gap under Safari's URL bar.
+    -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
     <title>Charlie Conner - Portfolio</title>
     <meta name="description" content="Charles Conner - Computer Science Student Portfolio" />
     <link rel="icon" type="image/png" href="/favicon.png" />

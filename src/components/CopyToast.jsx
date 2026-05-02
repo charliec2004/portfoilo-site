@@ -1,8 +1,6 @@
 import { useEffect } from 'react';
 
 const DURATION = 10000;
-const RADIUS = 13;
-const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 
 export default function CopyToast({ onClose }) {
   useEffect(() => {
@@ -20,7 +18,7 @@ export default function CopyToast({ onClose }) {
 
   return (
     <div className="copy-toast" role="status" aria-live="polite">
-      <div>
+      <div className="copy-toast__body">
         <p className="copy-toast__email">charlieconner04@gmail.com</p>
         <p className="copy-toast__label">copied to clipboard</p>
       </div>
@@ -30,22 +28,19 @@ export default function CopyToast({ onClose }) {
         onClick={onClose}
         aria-label="Dismiss"
       >
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-          <circle
-            className="copy-toast__timer-ring"
-            cx="16"
-            cy="16"
-            r={RADIUS}
-            stroke="rgba(179, 142, 57, 0.5)"
-            strokeWidth="2"
-            strokeDasharray={CIRCUMFERENCE}
-            strokeLinecap="round"
-            transform="rotate(-90 16 16)"
-          />
-          <line x1="12.5" y1="12.5" x2="19.5" y2="19.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-          <line x1="19.5" y1="12.5" x2="12.5" y2="19.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <line x1="3.5" y1="3.5" x2="12.5" y2="12.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+          <line x1="12.5" y1="3.5" x2="3.5" y2="12.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
         </svg>
       </button>
+      {/* Horizontal progress bar at the bottom of the toast that depletes
+          over DURATION. Replaces an SVG depleting-ring around the close
+          button — the ring rendered as a partial arc with two round caps
+          mid-animation, which read as visual noise around the X icon
+          on mobile. A linear bar is the standard pattern (Sonner, Radix
+          Toast, etc.), reads cleanly at any width, and doesn't crowd the
+          tap target. */}
+      <div className="copy-toast__progress" aria-hidden="true" />
     </div>
   );
 }

@@ -30,18 +30,47 @@
 }
 
 /* ============================================
+   FLUID MID-BAND PROGRESS
+   ──────────────────────────────────────────────
+   Single source of truth for interpolating
+   dimensions across the 960 → 1280px viewport
+   range. Evaluates to 0 at <=960px and 1 at
+   >=1280px, lerping linearly in between.
+   Used by inline calc()s on SocialLinksCard,
+   ProfileCard, Header, etc., so values that
+   used to snap at `xl` (1280px) now glide.
+   ============================================ */
+:root {
+  /* (100vw - 960px) / 320px → unitless ratio (length / length).
+     clamp() bounds it to 0..1 so we get a clean lerp factor. */
+  --mid-progress: clamp(0, calc((100vw - 960px) / 320px), 1);
+}
+
+/* ============================================
    BASE OVERRIDES
    Tailwind preflight doesn't set these
+   ──────────────────────────────────────────────
+   `background-color` on html+body is critical on iOS Safari: the area
+   behind the dynamic URL bar (and overscroll/rubber-band region) is
+   painted from the html/body background. Without this, you get a white
+   bar under the address bar whenever it animates or you overscroll.
+   Match `--color-bg-dark` so the seam is invisible.
    ============================================ */
 html, body {
   height: 100%;
   overflow: hidden;
+  background-color: var(--color-bg-dark);
 }
 
 @media (max-width: 960px) {
   html, body {
     overflow: visible;
     overflow-x: hidden;
+    /* Use dynamic viewport height on mobile so the page doesn't get cut
+       off by Safari's URL bar (100vh = URL-bar-hidden height, which is
+       larger than the actually visible area when the bar is present). */
+    height: auto;
+    min-height: 100dvh;
   }
 }
 
@@ -88,6 +117,14 @@ html, body {
 * {
   scrollbar-width: thin;
   scrollbar-color: rgba(249, 246, 238, 0.15) transparent;
+}
+
+/* Small right-padding inside the skills scroll area so badges don't sit
+   flush against the 4px scrollbar when overflow kicks in. Scrollbar
+   styling itself is inherited from the global rules above. */
+.skills-scroll {
+  padding-right: 6px;
+  scroll-padding-block: 12px;
 }
 
 /* ============================================
@@ -163,6 +200,18 @@ html, body {
   .mobile-drawer-backdrop {
     animation: mobile-drawer-fade-in 240ms ease-out both;
   }
+
+  /* Closing variants — same easings as their open counterparts but with
+     a slightly faster slide-out so the dismissal feels snappy. The panel
+     animation is the longest one running; <MobileDrawer> listens for its
+     `animationend` to unmount. */
+  .mobile-drawer-panel--closing {
+    animation: mobile-drawer-slide-out 260ms cubic-bezier(0.32, 0, 0.67, 0) both;
+  }
+
+  .mobile-drawer-backdrop--closing {
+    animation: mobile-drawer-fade-out 220ms ease-in both;
+  }
 }
 
 @keyframes mobile-drawer-slide-in {
@@ -187,7 +236,32 @@ html, body {
   }
 }
 
+@keyframes mobile-drawer-slide-out {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  to {
+    transform: translateX(100%);
+    opacity: 0.94;
+  }
+}
+
+@keyframes mobile-drawer-fade-out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  /* Reduced motion: drawer skips the closing phase entirely (the JS in
+     MobileDrawer.jsx unmounts immediately when reducedMotion is true),
+     so we only need to disable the open-side animations here. */
   .mobile-drawer-panel,
   .mobile-drawer-backdrop {
     animation: none !important;
@@ -525,15 +599,21 @@ html, body {
 
 /* ============================================
    COPY EMAIL TOAST
+   ──────────────────────────────────────────────
+   Bottom positioning uses max(24px, env(safe-area-inset-bottom) + 8px)
+   so the toast doesn't sit behind the iOS home-indicator pill when the
+   page is viewport-fit=cover. `position: fixed` is relative to the
+   layout viewport, which on iOS Safari does NOT account for the home
+   indicator inset on its own.
    ============================================ */
 .copy-toast {
   position: fixed;
-  bottom: 24px;
+  bottom: max(24px, calc(env(safe-area-inset-bottom) + 8px));
   right: 24px;
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 14px 14px 14px 20px;
+  padding: 14px 10px 14px 20px;
   background: rgba(36, 34, 33, 0.95);
   border: 1px solid rgba(179, 142, 57, 0.25);
   border-radius: 14px;
@@ -542,6 +622,15 @@ html, body {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
   animation: toast-slide-in 0.35s ease;
   overflow: hidden;
+  /* The ::after gradient sweep + the absolutely-positioned progress bar
+     both anchor to this stacking context. */
+}
+
+.copy-toast__body {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1 1 auto;
 }
 
 .copy-toast__email {
@@ -549,6 +638,10 @@ html, body {
   font-size: 0.82rem;
   color: var(--color-text-primary);
   letter-spacing: -0.3px;
+  /* Long emails on narrow phones shouldn't push the close button off-card. */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .copy-toast__label {
@@ -560,28 +653,45 @@ html, body {
 }
 
 .copy-toast__close {
+  /* 44×44 hit target satisfies Apple HIG and Material guidelines for
+     touch. The visible icon is 16×16 inside; the rest is hit padding. */
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 44px;
+  height: 44px;
   background: none;
   border: none;
   padding: 0;
   color: var(--color-text-muted);
   cursor: pointer;
-  transition: color 0.2s ease;
+  transition: color 0.2s ease, background-color 0.2s ease;
   flex-shrink: 0;
+  border-radius: 999px;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.copy-toast__close:hover {
+.copy-toast__close:hover,
+.copy-toast__close:focus-visible {
   color: var(--color-text-primary);
+  background-color: rgba(255, 255, 255, 0.06);
 }
 
-.copy-toast__timer-ring {
-  animation: timer-deplete 10s linear forwards;
+.copy-toast__progress {
+  /* Linear depleting bar, hugs the bottom edge of the toast. */
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 100%;
+  background: rgba(179, 142, 57, 0.55);
+  transform-origin: left center;
+  animation: toast-progress-deplete 10s linear forwards;
 }
 
-@keyframes timer-deplete {
-  to { stroke-dashoffset: 81.68; }
+@keyframes toast-progress-deplete {
+  from { transform: scaleX(1); }
+  to   { transform: scaleX(0); }
 }
 
 @keyframes toast-slide-in {
@@ -595,12 +705,15 @@ html, body {
   }
 }
 
-
 @media (max-width: 640px) {
   .copy-toast {
     left: 16px;
     right: 16px;
-    bottom: 16px;
+    bottom: max(16px, calc(env(safe-area-inset-bottom) + 8px));
+    /* Tighter padding on narrow phones so the email + close button still
+       fit cleanly with the wider hit target. */
+    padding: 12px 8px 12px 18px;
+    gap: 8px;
   }
 }
 
@@ -608,7 +721,9 @@ html, body {
   .copy-toast {
     animation: none;
   }
-  .copy-toast__timer-ring {
+  .copy-toast__progress {
     animation: none;
+    /* Without the depletion animation, leave the bar fully visible — it
+       still communicates "there's a timer" via its presence. */
   }
 }

@@ -1,5 +1,6 @@
 import {
   forwardRef,
+  Fragment,
   useState,
   useRef,
   useEffect,
@@ -17,11 +18,12 @@ import { readTooltipTiltTransform } from '../../utils/readTooltipTiltTransform';
 import { TOOLTIP_DWELL_MS } from '../../constants/tooltipTiming';
 import useReducedMotion from '../../hooks/useReducedMotion';
 
+// 36px at <=1279px, 42px at >=1280px. We previously interpolated via
+// `--mid-progress`, but Firefox silently drops `calc(... * var(--mid-progress))`
+// inline-style values to 0 — separators rendered as `height: 0`, no
+// visible divider between icons. Tailwind breakpoints work in all engines.
 const Separator = () => (
-  <div
-    className="w-px h-9 xl:h-[46.158px] shrink-0 bg-separator"
-    aria-hidden="true"
-  />
+  <div className="w-px shrink-0 bg-separator h-9 xl:h-[42px]" aria-hidden="true" />
 );
 
 const ITEMS = [
@@ -251,21 +253,36 @@ const SocialLinksCard = forwardRef(function SocialLinksCard(
         aria-label="Social links"
         className="rounded-card w-full shrink-0 overflow-visible"
       >
+        {/* min-h, gap, and side padding all snap at xl (1280px) instead
+            of fluidly interpolating via `--mid-progress`. The fluid path
+            relied on `length / length` inside calc() which Firefox does
+            not always compute (the inline gap evaluated to `normal`),
+            collapsing the row into clumped icons with no visible
+            separators. Hard breakpoints render identically everywhere. */}
         <div
-          className="social-card-face magnetic-tilt-surface bg-gradient-green shadow-card-inset w-full min-h-[68px] xl:min-h-[80px] flex flex-row justify-center items-center gap-1.5 xl:gap-4 px-3 xl:px-5 py-2"
+          className="social-card-face magnetic-tilt-surface bg-gradient-green shadow-card-inset w-full flex flex-row justify-center items-center py-2 min-h-[68px] xl:min-h-[80px] gap-2 xl:gap-4 px-3 xl:px-5"
           onMouseMove={tiltHandlers.onMouseMove}
           onMouseLeave={tiltHandlers.onMouseLeave}
         >
+          {/* Uses React Fragments instead of `<span className="contents">`
+              wrappers. Firefox renders `display: contents` children as
+              flex items most of the time, but flex `gap` distribution on
+              contents-children is buggy on certain Firefox versions —
+              icons would clump together with no separators visible.
+              Fragments emit no DOM at all, so the link/separator are
+              true direct flex children of the row in every browser. */}
           {ITEMS.map((item, index) => (
-            <span key={item.key} className="contents">
+            <Fragment key={item.key}>
               {index > 0 ? <Separator /> : null}
+              {/* Link padding + icon size snap at xl(1280) instead of
+                  the prior `--mid-progress` lerp; same Firefox issue. */}
               <a
                 href={item.href}
                 data-tooltip-tilt-z={0}
                 aria-describedby={socialTooltip?.anchorKey === item.key ? socialTooltipTipId : undefined}
                 {...(item.download ? { download: item.download } : {})}
                 {...(item.external ? { target: '_blank', rel: 'noopener noreferrer' } : { rel: 'noopener' })}
-                className="flex flex-col justify-center items-center px-2.5 py-2.5 xl:p-4 shrink-0 group"
+                className="flex flex-col justify-center items-center shrink-0 group p-2.5 xl:p-4"
                 aria-label={item.ariaLabel}
                 onMouseEnter={linksArmed ? (e) => scheduleDwellShow(e, item) : undefined}
                 onMouseLeave={linksArmed ? scheduleHideTooltip : undefined}
@@ -275,10 +292,10 @@ const SocialLinksCard = forwardRef(function SocialLinksCard(
                 <img
                   src={item.icon}
                   alt={item.alt}
-                  className="block w-[1.4rem] h-[1.4rem] xl:w-auto xl:h-auto select-none transition-[filter] duration-300 group-hover:brightness-[0.85] group-focus-visible:brightness-[0.85]"
+                  className="block select-none transition-[filter] duration-300 group-hover:brightness-[0.85] group-focus-visible:brightness-[0.85] w-7 h-7 xl:w-11 xl:h-11"
                 />
               </a>
-            </span>
+            </Fragment>
           ))}
         </div>
       </nav>

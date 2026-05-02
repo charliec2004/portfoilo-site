@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
 import charlieWebp from '../../assets/images/charlie.webp';
 
-const ProfileCard = forwardRef(function ProfileCard({ tiltHandlers = {}, ...props }, ref) {
+const ProfileCard = forwardRef(function ProfileCard({ tiltHandlers = {} }, ref) {
   return (
     <aside
       ref={ref}

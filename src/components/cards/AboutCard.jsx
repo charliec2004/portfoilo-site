@@ -1,21 +1,117 @@
-import { forwardRef } from 'react';
+import { forwardRef, useMemo } from 'react';
 import profileIcon from '../../assets/icons/profile.svg';
+import useReducedMotion from '../../hooks/useReducedMotion';
 
 const ABOUT_TEXT = {
   short: "I like building things.",
-  full: "I like building things. I move quickly, learn by doing, and adjust based on what breaks or gets used, because I believe decisions only matter once they meet reality. I hate unnecessary complexity. I work across engineering and product because that is where ideas get pressure tested and turned into something real. I care deeply about momentum, honest feedback, and progress that compounds. This site is a running log of what I am building, what works, and what I am still figuring out."
+  full: "I like building things. I move fast, learn by doing, and change course when something breaks or actually gets used. Decisions don't really mean anything until they hit reality. I have no patience for complexity that isn't earning its keep. I work across engineering and product because that's where ideas stop being ideas and start being real. What I care about is momentum, honest feedback, and progress that adds up. This site is a running log of what I'm building, what's working, and what I'm still figuring out.",
 };
 
+const textClass =
+  'text-[1.25rem] font-accent text-text-secondary font-normal leading-relaxed';
+
+function useDesktopExpansionOpacity(phase, expansionTiming, reducedMotion) {
+  return useMemo(() => {
+    const expansionMs = expansionTiming?.expansion ?? 400;
+    const collapseFadeMs = expansionTiming?.contentFadeOut ?? 150;
+    const shortFadeMs = 150;
+    const fullFadeMs = 300;
+
+    if (reducedMotion) {
+      switch (phase) {
+        case 'expanded':
+          return {
+            short: { opacity: 0, transition: 'none' },
+            full: { opacity: 1, transition: 'none' },
+          };
+        case 'collapsing':
+        case 'contracting':
+        case 'expanding':
+        default:
+          return {
+            short: { opacity: 1, transition: 'none' },
+            full: { opacity: 0, transition: 'none' },
+          };
+      }
+    }
+
+    switch (phase) {
+      case 'expanding':
+        return {
+          short: {
+            opacity: 1,
+            transition: 'opacity 0s linear',
+          },
+          full: {
+            opacity: 0,
+            transition: 'opacity 0s linear',
+          },
+        };
+      case 'expanded':
+        return {
+          short: {
+            opacity: 0,
+            transition: `opacity ${shortFadeMs}ms ease`,
+            transitionDelay: `${expansionMs}ms`,
+          },
+          full: {
+            opacity: 1,
+            transition: `opacity ${fullFadeMs}ms ease`,
+            transitionDelay: `${expansionMs + shortFadeMs}ms`,
+          },
+        };
+      case 'collapsing':
+        return {
+          short: {
+            opacity: 1,
+            transition: `opacity ${collapseFadeMs}ms ease`,
+            transitionDelay: '0ms',
+          },
+          full: {
+            opacity: 0,
+            transition: `opacity ${collapseFadeMs}ms ease`,
+            transitionDelay: '0ms',
+          },
+        };
+      case 'contracting':
+        return {
+          short: {
+            opacity: 1,
+            transition: 'none',
+            transitionDelay: '0ms',
+          },
+          full: {
+            opacity: 0,
+            transition: 'none',
+            transitionDelay: '0ms',
+          },
+        };
+      default:
+        return {
+          short: {
+            opacity: 1,
+            transition: 'none',
+          },
+          full: {
+            opacity: 0,
+            transition: 'none',
+          },
+        };
+    }
+  }, [phase, expansionTiming, reducedMotion]);
+}
+
 const AboutCard = forwardRef(function AboutCard({ onClick, expanded, phase, expansionTiming, tiltHandlers = {}, mobileExpanded = false }, ref) {
-  // Desktop clone cross-fade flags
-  const shortVisible = !expanded || phase !== 'expanded';
-  const fullVisible = expanded && phase === 'expanded';
+  const reducedMotion = useReducedMotion();
+  const desktopOpacity = useDesktopExpansionOpacity(phase, expansionTiming, reducedMotion);
+
+  const desktopExpansionActive = Boolean(expanded && phase && phase !== 'idle');
 
   return (
     <article
       ref={ref}
       data-card="about"
-      className="rounded-card bg-gradient-green shadow-card-inset flex-2 h-full flex flex-col justify-start p-8 overflow-hidden cursor-pointer hover:brightness-[0.88] max-lg:flex-auto max-lg:w-full max-lg:h-auto max-sm:p-6"
+      className="rounded-card bg-gradient-green shadow-card-inset flex-2 h-full flex flex-col justify-between overflow-hidden cursor-pointer hover:brightness-[0.88] max-[1210px]:justify-start max-[1210px]:gap-6 max-lg:flex-auto max-lg:w-full max-lg:h-auto p-8 max-lg:p-7 max-sm:px-7 max-sm:py-8"
       onClick={onClick}
       onMouseMove={tiltHandlers.onMouseMove}
       onMouseLeave={tiltHandlers.onMouseLeave}
@@ -24,60 +120,49 @@ const AboutCard = forwardRef(function AboutCard({ onClick, expanded, phase, expa
       aria-label="Learn more about me"
       aria-expanded={mobileExpanded || undefined}
     >
-      <header className="w-full flex items-center justify-between mr-4 max-lg:mb-8">
-        <div className="flex flex-col">
-          <h2 className="text-[2.5rem] text-text-primary font-semibold select-none whitespace-nowrap">
-            About me
-          </h2>
-        </div>
+      <header className="w-full flex items-center justify-between shrink-0">
+        <h2 className="text-[2.5rem] text-text-primary font-semibold select-none whitespace-nowrap">
+          About me
+        </h2>
         <div className="shrink-0">
           <img src={profileIcon} alt="" className="select-none" />
         </div>
       </header>
-      <div
-        className={`flex-1 flex flex-col justify-end ${!expanded ? 'max-lg:max-h-20 max-lg:overflow-hidden max-lg:[transition:max-height_0.4s_ease]' : ''}`}
-        style={mobileExpanded ? { maxHeight: '500px' } : {}}
-      >
-        {expanded ? (
-          <div className="relative">
-            {/* Short text: in normal flow, determines layout height */}
-            <p
-              className="text-[1.25rem] font-accent italic text-text-secondary font-normal leading-relaxed"
-              style={{
-                opacity: shortVisible ? 1 : 0,
-                transition: 'opacity 0.2s ease',
-              }}
-            >
-              {ABOUT_TEXT.short}
-            </p>
-            {/* Full text: absolutely positioned overlay, cross-fades with short */}
-            <p
-              className="absolute bottom-0 left-0 right-0 text-[1.25rem] font-accent italic text-text-secondary font-normal leading-relaxed"
-              style={{
-                opacity: fullVisible ? 1 : 0,
-                transition: fullVisible ? 'opacity 0.3s ease 0.15s' : 'opacity 0.15s ease',
-              }}
-              aria-hidden={!fullVisible}
-            >
-              {ABOUT_TEXT.full}
-            </p>
-          </div>
-        ) : (
-          <p className="text-[1.25rem] font-accent italic text-text-secondary font-normal leading-relaxed">
+
+      {desktopExpansionActive ? (
+        <div className="relative flex-1 min-h-0 w-full flex flex-col justify-end mt-4 overflow-hidden">
+          {/* Full bio behind — scroll when taller than slot */}
+          <p
+            className={`${textClass} absolute inset-x-0 bottom-0 max-h-full overflow-y-auto z-0`}
+            style={{
+              fontStyle: 'italic',
+              ...desktopOpacity.full,
+            }}
+          >
+            {ABOUT_TEXT.full}
+          </p>
+          {/* Short line on top — fades after geometry settles */}
+          <p
+            className={`${textClass} relative z-10 shrink-0`}
+            style={{
+              fontStyle: 'italic',
+              pointerEvents: phase === 'expanded' ? 'none' : 'auto',
+              ...desktopOpacity.short,
+            }}
+          >
+            {ABOUT_TEXT.short}
+          </p>
+        </div>
+      ) : (
+        <div
+          className="flex flex-col justify-end overflow-hidden transition-[max-height] duration-400 ease-in-out shrink-0 mt-4"
+          style={{ maxHeight: mobileExpanded ? '500px' : '2.2em' }}
+        >
+          <p className={textClass} style={{ fontStyle: 'italic' }}>
             {mobileExpanded ? ABOUT_TEXT.full : ABOUT_TEXT.short}
           </p>
-        )}
-      </div>
-      {/* Mobile expand chevron — hidden on desktop */}
-      <div className="hidden max-lg:flex justify-center mt-2">
-        <span
-          className="text-text-muted text-[0.6rem] select-none transition-transform duration-300"
-          style={{ transform: mobileExpanded ? 'rotate(180deg)' : 'rotate(0deg)' }}
-          aria-hidden="true"
-        >
-          &#9662;
-        </span>
-      </div>
+        </div>
+      )}
     </article>
   );
 });

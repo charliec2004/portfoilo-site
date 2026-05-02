@@ -1,5 +1,13 @@
 export const PROJECTS = [
   {
+    name: 'Quorum',
+    url: 'https://tryquorum.app',
+    subtitle: 'Platform · Live',
+    subtitleAccent: true,
+    description: 'A degree planner that parses your school\'s actual catalog and lays out every requirement across every semester in one clear plan.',
+    tech: ['React', 'TypeScript', 'Next.js', 'Agentic Pipelines'],
+  },
+  {
     name: 'Semester Scheduler',
     url: 'https://github.com/charliec2004/semester-scheduler-app',
     repo: 'charliec2004/semester-scheduler-app',

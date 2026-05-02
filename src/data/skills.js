@@ -13,13 +13,24 @@ export const SKILLS = [
   { file: 'react.svg', name: 'React', tooltip: 'Component-driven UI development', category: 'Frameworks' },
   { file: 'tailwind.svg', name: 'Tailwind', tooltip: 'Utility-first CSS framework', category: 'Frameworks' },
   { file: 'nodejs.svg', name: 'Node.js', tooltip: 'Server-side JavaScript runtime', category: 'Frameworks' },
-  { file: 'vite.svg', name: 'Vite', tooltip: 'Fast frontend build tooling', category: 'Frameworks' },
   { file: 'electron.svg', name: 'Electron', tooltip: 'Cross-platform desktop apps', category: 'Frameworks' },
   { file: 'nextjs.svg', name: 'Next.js', tooltip: 'Full-stack React framework', category: 'Frameworks' },
 
   // Tools
   { file: 'git.svg', name: 'Git', tooltip: 'Version control, branching', category: 'Tools' },
   { file: 'npm.svg', name: 'npm', tooltip: 'Package management, scripts', category: 'Tools' },
+  {
+    file: 'codex.svg',
+    name: 'Codex',
+    tooltip: 'OpenAI coding agent',
+    category: 'Tools',
+  },
+  {
+    file: 'claude-code.svg',
+    name: 'Claude Code',
+    tooltip: 'Anthropic coding agent',
+    category: 'Tools',
+  },
   { file: 'figma.svg', name: 'Figma', tooltip: 'UI design, prototyping', category: 'Tools' },
   { file: 'aws.svg', name: 'AWS', tooltip: 'Cloud infrastructure, services', category: 'Tools' },
   { file: 'docker.svg', name: 'Docker', tooltip: 'Containerization, deployment', category: 'Tools' },

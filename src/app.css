@@ -131,6 +131,70 @@ html, body {
 }
 
 /* ============================================
+   MOBILE DRAWER NAV (matches green cards)
+   ============================================ */
+.mobile-drawer-nav-item {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+  text-align: left;
+  padding: 0.9rem 0.75rem;
+  border-radius: 14px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.mobile-drawer-nav-item:hover,
+.mobile-drawer-nav-item:focus-visible {
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--color-text-accent);
+  outline: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .mobile-drawer-panel {
+    animation: mobile-drawer-slide-in 320ms cubic-bezier(0.33, 1, 0.68, 1) both;
+  }
+
+  .mobile-drawer-backdrop {
+    animation: mobile-drawer-fade-in 240ms ease-out both;
+  }
+}
+
+@keyframes mobile-drawer-slide-in {
+  from {
+    transform: translateX(100%);
+    opacity: 0.94;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes mobile-drawer-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-drawer-panel,
+  .mobile-drawer-backdrop {
+    animation: none !important;
+  }
+}
+
+/* ============================================
    OVERLAY
    ============================================ */
 .overlay {
@@ -146,6 +210,48 @@ html, body {
 .overlay.active {
   opacity: 1;
   pointer-events: auto;
+}
+
+/* ============================================
+   PROJECT SUBTITLE — gold accent + subtle shimmer
+   ============================================ */
+.project-subtitle-accent-shimmer {
+  display: inline-block;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: linear-gradient(
+    105deg,
+    rgba(179, 142, 57, 0.45) 0%,
+    rgba(179, 142, 57, 0.92) 22%,
+    rgba(249, 246, 238, 0.95) 45%,
+    rgba(179, 142, 57, 0.92) 58%,
+    rgba(179, 142, 57, 0.45) 100%
+  );
+  background-size: 240% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: project-subtitle-shimmer 5s ease-in-out infinite;
+}
+
+@keyframes project-subtitle-shimmer {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-subtitle-accent-shimmer {
+    animation: none;
+    background: none;
+    background-clip: unset;
+    -webkit-background-clip: unset;
+    color: var(--color-text-accent);
+  }
 }
 
 /* ============================================
@@ -193,16 +299,27 @@ html, body {
 /* ============================================
    MAGNETIC TILT — CSS custom properties driven by JS
    ============================================ */
-[data-card] {
+[data-card],
+.magnetic-tilt-surface {
   --tilt-rx: 0deg;
   --tilt-ry: 0deg;
   --tilt-s: 1;
-  transform: perspective(800px) rotateX(var(--tilt-rx)) rotateY(var(--tilt-ry)) scale3d(var(--tilt-s), var(--tilt-s), var(--tilt-s));
   transition: filter 0.3s ease;
 }
 
+[data-card]:not([data-card="social"]),
+.magnetic-tilt-surface {
+  transform: perspective(800px) rotateX(var(--tilt-rx)) rotateY(var(--tilt-ry)) scale3d(var(--tilt-s), var(--tilt-s), var(--tilt-s));
+}
+
+/* Outer shell only: tilt lives on .magnetic-tilt-surface inside so inset shadow + radius don't ghost */
+[data-card="social"] {
+  transform: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  [data-card] {
+  [data-card]:not([data-card="social"]),
+  .magnetic-tilt-surface {
     transform: none;
     transition: filter 0.3s ease;
   }
@@ -235,8 +352,8 @@ html, body {
 }
 
 /* ============================================
-   SKILL ICON TOOLTIPS
-   CSS-only tooltips via ::after pseudo-element
+   SKILL ICON TOOLTIPS — legacy CSS (::after)
+   Default behavior matches original shipped CSS.
    ============================================ */
 .skill-tooltip {
   position: relative;
@@ -260,7 +377,7 @@ html, body {
   white-space: nowrap;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition: opacity 150ms cubic-bezier(0.33, 1, 0.68, 1), transform 150ms cubic-bezier(0.33, 1, 0.68, 1);
   z-index: 20;
 }
 
@@ -272,6 +389,72 @@ html, body {
 
 @media (pointer: coarse) {
   .skill-tooltip::after {
+    display: none;
+  }
+}
+
+/* Desktop fine pointer: JS portal clamps into viewport — hide native ::after (would clip in cards) */
+.skill-tooltip.skill-tooltip--portal-target::after {
+  display: none !important;
+}
+
+/* ============================================
+   SKILL ICON TOOLTIPS — portal + viewport clamp (JS)
+   Shell is positioned (left/top); inner carries visuals + scale fade (no layout fight).
+   ============================================ */
+.skill-tooltip-shell {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 10050;
+  pointer-events: none;
+}
+
+/* Match tilt plane with anchored badge/link while tooltip is portaled to body */
+.skill-tooltip-tilt-follow {
+  transform-origin: center center;
+}
+
+.skill-tooltip-portal {
+  position: relative;
+  display: inline-block;
+  max-width: min(280px, calc(100vw - 20px));
+  padding: 6px 12px;
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--color-text-primary);
+  background: rgba(36, 34, 33, 0.92);
+  border: 1px solid rgba(179, 142, 57, 0.3);
+  border-radius: 8px;
+  white-space: normal;
+  overflow-wrap: break-word;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 150ms cubic-bezier(0.33, 1, 0.68, 1), transform 150ms cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.skill-tooltip-portal.is-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skill-tooltip::after {
+    transition: none;
+  }
+
+  /* Snap visibility via .is-visible only — avoid flashing hidden portaled nodes */
+  .skill-tooltip-portal {
+    transition: none;
+  }
+}
+
+@media (pointer: coarse) {
+  .skill-tooltip-shell.skill-tooltip-portal--fine-pointer-only {
     display: none;
   }
 }
@@ -318,6 +501,12 @@ html, body {
 [data-card="contact"] { border-radius: 43px 32px 34px 42px / 31px 44px 40px 34px; }
 [data-card="social"]  { border-radius: 31px 40px 42px 32px / 44px 34px 32px 43px; }
 
+/* Clip tilt/paint to same organic radius as outer shell (overflow on outer flattened the top curve). */
+[data-card="social"] .social-card-face {
+  border-radius: inherit;
+  overflow: hidden;
+}
+
 /* ============================================
    PROFILE CARD IMAGE PARALLAX
    Uses --tilt-x / --tilt-y from useMagneticTilt
@@ -346,32 +535,13 @@ html, body {
   gap: 16px;
   padding: 14px 14px 14px 20px;
   background: rgba(36, 34, 33, 0.95);
-  border: 1px solid rgba(179, 142, 57, 0.4);
+  border: 1px solid rgba(179, 142, 57, 0.25);
   border-radius: 14px;
   z-index: 1500;
   backdrop-filter: blur(8px);
-  box-shadow: 0 0 18px rgba(179, 142, 57, 0.2), 0 0 40px rgba(179, 142, 57, 0.08);
-  animation: toast-slide-in 0.35s ease, toast-glow 2.5s ease-in-out infinite;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  animation: toast-slide-in 0.35s ease;
   overflow: hidden;
-}
-
-/* Shimmer sweep */
-.copy-toast::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    105deg,
-    transparent 30%,
-    rgba(179, 142, 57, 0.12) 45%,
-    rgba(255, 255, 255, 0.08) 50%,
-    rgba(179, 142, 57, 0.12) 55%,
-    transparent 70%
-  );
-  transform: translateX(-100%);
-  animation: toast-shimmer 2.8s ease 0.5s infinite;
-  pointer-events: none;
-  border-radius: inherit;
 }
 
 .copy-toast__email {
@@ -425,15 +595,6 @@ html, body {
   }
 }
 
-@keyframes toast-glow {
-  0%, 100% { box-shadow: 0 0 18px rgba(179, 142, 57, 0.2), 0 0 40px rgba(179, 142, 57, 0.08); }
-  50% { box-shadow: 0 0 24px rgba(179, 142, 57, 0.3), 0 0 50px rgba(179, 142, 57, 0.12); }
-}
-
-@keyframes toast-shimmer {
-  0% { transform: translateX(-100%); }
-  60%, 100% { transform: translateX(100%); }
-}
 
 @media (max-width: 640px) {
   .copy-toast {
@@ -445,9 +606,6 @@ html, body {
 
 @media (prefers-reduced-motion: reduce) {
   .copy-toast {
-    animation: none;
-  }
-  .copy-toast::after {
     animation: none;
   }
   .copy-toast__timer-ring {

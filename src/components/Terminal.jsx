@@ -142,7 +142,6 @@ export default function Terminal() {
     lines,
     inputValue,
     setInputValue,
-    handleSubmit,
     handleKeyDown,
     close,
   } = useTerminal();

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 
 export default function Cursor() {
   const dotRef = useRef(null);
@@ -125,12 +126,12 @@ export default function Cursor() {
     willChange: 'transform',
   };
 
-  return (
+  const layers = (
     <>
       {/* Glow trail — slowest, largest */}
       <div
         ref={glowRef}
-        style={{ ...base, width: 60, height: 60, zIndex: 9998 }}
+        style={{ ...base, width: 60, height: 60, zIndex: 10098 }}
       />
       {/* Ring — medium speed, morphs on hover */}
       <div
@@ -141,7 +142,7 @@ export default function Cursor() {
           height: 40,
           border: '1.5px solid rgba(249, 246, 238, 0.35)',
           transition: 'width 0.25s ease, height 0.25s ease, border-color 0.25s ease, border-width 0.2s ease',
-          zIndex: 9999,
+          zIndex: 10099,
         }}
       />
       {/* Dot — instant, snappy */}
@@ -154,9 +155,11 @@ export default function Cursor() {
           background: '#F9F6EE',
           transition: 'width 0.15s ease, height 0.15s ease, opacity 0.15s ease, background 0.2s ease',
           boxShadow: '0 0 6px 1px rgba(249, 246, 238, 0.3)',
-          zIndex: 10000,
+          zIndex: 10100,
         }}
       />
     </>
   );
+
+  return typeof document !== 'undefined' ? createPortal(layers, document.body) : null;
 }

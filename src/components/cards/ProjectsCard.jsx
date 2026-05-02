@@ -12,8 +12,8 @@ const LANG_COLORS = {
   'C++': '#F34B7D',
 };
 
-const ProjectsCard = forwardRef(function ProjectsCard({ tiltHandlers = {}, ...props }, ref) {
-  const { data: ghData, loading } = useGitHubRepos(PROJECTS);
+const ProjectsCard = forwardRef(function ProjectsCard({ tiltHandlers = {} }, ref) {
+  const { data: ghData } = useGitHubRepos(PROJECTS);
   const [expandedProject, setExpandedProject] = useState(null);
 
   const toggleProject = (name) => {
@@ -24,7 +24,7 @@ const ProjectsCard = forwardRef(function ProjectsCard({ tiltHandlers = {}, ...pr
     <section
       ref={ref}
       data-card="projects"
-      className="rounded-card bg-gradient-green shadow-card-inset w-full flex-1 flex flex-col p-8 max-sm:p-6 gap-4 overflow-hidden"
+      className="rounded-card bg-gradient-green shadow-card-inset w-full flex-1 flex flex-col gap-4 overflow-hidden p-8 max-lg:p-7 max-sm:px-7 max-sm:py-8"
       onMouseMove={tiltHandlers.onMouseMove}
       onMouseLeave={tiltHandlers.onMouseLeave}
     >
@@ -60,8 +60,17 @@ const ProjectsCard = forwardRef(function ProjectsCard({ tiltHandlers = {}, ...pr
                 <div className="bg-text-primary h-px w-full -mt-[0.4rem] scale-x-0 origin-left transition-transform duration-450 group-hover:scale-x-100 group-focus-visible:scale-x-100" />
               </button>
 
+              {/* Subtitle for non-GitHub projects */}
+              {project.subtitle && !project.repo && (
+                <p
+                  className={`mt-1 text-[0.7rem] font-heading ${project.subtitleAccent ? 'project-subtitle-accent-shimmer' : 'text-text-muted'}`}
+                >
+                  {project.subtitle}
+                </p>
+              )}
+
               {/* GitHub metadata */}
-              {gh && (
+              {project.repo && gh && (
                 <div className="flex items-center gap-3 mt-1 text-[0.7rem] text-text-muted font-heading">
                   {gh.languages?.map((l) => (
                     <span key={l.name} className="flex items-center gap-1">
@@ -102,7 +111,7 @@ const ProjectsCard = forwardRef(function ProjectsCard({ tiltHandlers = {}, ...pr
                     rel="noopener noreferrer"
                     className="text-[0.8rem] font-heading font-semibold text-text-accent hover:underline self-start"
                   >
-                    View on GitHub &rarr;
+                    {project.repo ? 'View on GitHub' : 'Visit'} &rarr;
                   </a>
                 </div>
               </div>

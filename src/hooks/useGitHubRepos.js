@@ -13,8 +13,7 @@ function getCache(repos) {
       sessionStorage.removeItem(CACHE_KEY);
       return null;
     }
-    // Invalidate if any current repo is missing from cache
-    if (repos && repos.some((r) => !parsed.data[r.repo])) {
+    if (repos && repos.some((r) => r.repo && !parsed.data[r.repo])) {
       sessionStorage.removeItem(CACHE_KEY);
       return null;
     }
@@ -56,7 +55,7 @@ export default function useGitHubRepos(repos) {
     let cancelled = false;
 
     Promise.allSettled(
-      repos.map((r) =>
+      repos.filter((r) => r.repo).map((r) =>
         Promise.all([
           fetch(`https://api.github.com/repos/${r.repo}`)
             .then((res) => { if (!res.ok) throw new Error(`${res.status}`); return res.json(); }),

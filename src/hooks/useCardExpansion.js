@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 
 const TIMING = {
   expansion: 400,
@@ -18,10 +18,31 @@ export default function useCardExpansion() {
   const containerRef = useRef(null);
   const cardRef = useRef(null);
 
+  useEffect(() => {
+    const handleResize = () => {
+      const isDesktop = window.innerWidth >= 1210;
+      if (!isDesktop && expandedCard !== null) {
+        setExpandedCard(null);
+        setPhase('idle');
+        savedRect.current = null;
+        containerRef.current = null;
+        cardRef.current = null;
+      }
+      if (isDesktop && expandedCard === null && phase !== 'idle') {
+        setPhase('idle');
+        savedRect.current = null;
+        containerRef.current = null;
+        cardRef.current = null;
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [expandedCard, phase]);
+
   const expand = useCallback((cardType, cardEl, containerEl) => {
     if (phase !== 'idle' || !cardEl || !containerEl) return;
     // Disable clone-based expansion on mobile/tablet — stacked layout breaks it
-    if (window.innerWidth <= 1210) return;
+    if (window.innerWidth < 1210) return;
 
     const containerRect = containerEl.getBoundingClientRect();
     const cardRect = cardEl.getBoundingClientRect();
@@ -48,7 +69,16 @@ export default function useCardExpansion() {
   }, [phase]);
 
   const collapse = useCallback(() => {
-    if (phase !== 'expanded') return;
+    if (phase !== 'expanded') {
+      if (expandedCard !== null) {
+        setExpandedCard(null);
+        setPhase('idle');
+        savedRect.current = null;
+        containerRef.current = null;
+        cardRef.current = null;
+      }
+      return;
+    }
     // Phase 1: content fades out while card stays full-size
     setPhase('collapsing');
 
@@ -65,7 +95,7 @@ export default function useCardExpansion() {
       containerRef.current = null;
       cardRef.current = null;
     }, TIMING.contentFadeOut + TIMING.contraction + 50);
-  }, [phase]);
+  }, [phase, expandedCard]);
 
   const getCloneStyle = useCallback(() => {
     if (!savedRect.current) return {};

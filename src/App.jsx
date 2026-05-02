@@ -1,4 +1,4 @@
-import { useRef, useCallback, useState, useEffect } from 'react';
+import { useRef, useCallback, useState, useEffect, useMemo } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Overlay from './components/Overlay';
@@ -22,6 +22,11 @@ import useMagneticTilt from './hooks/useMagneticTilt';
 import useKonamiCode from './hooks/useKonamiCode';
 import useScrollReveal from './hooks/useScrollReveal';
 import useMobileExpansion from './hooks/useMobileExpansion';
+import useReducedMotion from './hooks/useReducedMotion';
+import {
+  PAGE_TOOLTIP_GATE_DESKTOP_MS,
+  PAGE_TOOLTIP_GATE_MOBILE_MS,
+} from './constants/tooltipTiming';
 
 export default function App() {
   const aboutRef = useRef(null);
@@ -32,16 +37,43 @@ export default function App() {
   const socialRef = useRef(null);
   const leftColRef = useRef(null);
 
-  const cardRefs = [aboutRef, profileRef, skillsRef, contactRef, projectsRef, socialRef];
+  const cardRefs = useMemo(
+    () => [aboutRef, profileRef, skillsRef, contactRef, projectsRef, socialRef],
+    []
+  );
   useIntroAnimation(cardRefs);
 
   const { expandedCard, phase, expand, collapse, getCloneStyle, isExpanded, TIMING } =
     useCardExpansion();
 
-  const tilt = useMagneticTilt({ disabled: isExpanded });
+  const tilt = useMagneticTilt();
   const konamiActivated = useKonamiCode();
   useScrollReveal(cardRefs);
   const { isMobile, mobileExpandedCard, toggleMobile } = useMobileExpansion();
+  const reducedMotion = useReducedMotion();
+  const tooltipGateMs = isMobile ? PAGE_TOOLTIP_GATE_MOBILE_MS : PAGE_TOOLTIP_GATE_DESKTOP_MS;
+  const [tooltipPageReady, setTooltipPageReady] = useState(() => reducedMotion);
+
+  useEffect(() => {
+    if (reducedMotion) {
+      setTooltipPageReady(true);
+      return;
+    }
+    setTooltipPageReady(false);
+    const id = window.setTimeout(() => setTooltipPageReady(true), tooltipGateMs);
+    return () => window.clearTimeout(id);
+  }, [reducedMotion, tooltipGateMs]);
+
+  const scrollToSection = useCallback(
+    (sectionRef) => {
+      if (!sectionRef?.current) return;
+      sectionRef.current.scrollIntoView({
+        behavior: reducedMotion ? 'auto' : 'smooth',
+        block: 'start',
+      });
+    },
+    [reducedMotion]
+  );
 
   const [showCopyToast, setShowCopyToast] = useState(false);
   const [copyToastKey, setCopyToastKey] = useState(0);
@@ -99,35 +131,67 @@ export default function App() {
   }, [isExpanded, collapse, mobileExpandedCard, toggleMobile]);
 
   return (
-    <div className="bg-gradient-page h-screen flex flex-col items-center gap-4 p-4 text-text-primary overflow-hidden max-lg:h-auto max-lg:min-h-screen max-lg:overflow-visible">
-      <Header onSkillsClick={handleSkillsClick} onAboutClick={handleAboutClick} onCopyEmail={handleCopyEmail} />
+    <div className="bg-gradient-page text-text-primary flex h-screen max-lg:h-auto max-lg:min-h-screen flex-col items-center gap-4 overflow-hidden p-4 max-lg:gap-5 max-lg:overflow-visible max-lg:p-5">
+      <Header
+        useDrawerNav={isMobile}
+        onSkillsClick={handleSkillsClick}
+        onAboutClick={handleAboutClick}
+        onCopyEmail={handleCopyEmail}
+        onNavigateProjects={() => scrollToSection(projectsRef)}
+      />
       <Overlay active={isExpanded && phase !== 'collapsing' && phase !== 'contracting'} onClick={handleOverlayClick} />
-      <MainGrid>
-        <LeftColumn
-          ref={leftColRef}
-          expandedCard={expandedCard}
-          phase={phase}
-          cloneStyle={getCloneStyle()}
-          onCollapse={collapse}
-          expansionTiming={TIMING}
-          topRow={
-            <>
-              <AboutCard ref={aboutRef} onClick={handleAboutClick} tiltHandlers={tilt} mobileExpanded={mobileExpandedCard === 'about'} />
-              <ProfileCard ref={profileRef} tiltHandlers={tilt} />
-            </>
-          }
-          bottomRow={
-            <>
-              <SkillsCard ref={skillsRef} onClick={handleSkillsClick} tiltHandlers={tilt} mobileExpanded={mobileExpandedCard === 'skills'} />
-              <ContactCard ref={contactRef} tiltHandlers={tilt} onCopyEmail={handleCopyEmail} />
-            </>
-          }
-        />
-        <RightColumn>
-          <ProjectsCard ref={projectsRef} tiltHandlers={tilt} />
-          <SocialLinksCard ref={socialRef} tiltHandlers={tilt} />
-        </RightColumn>
-      </MainGrid>
+
+      {isMobile ? (
+        <div className="flex flex-col gap-4 w-full flex-1">
+          <div className="flex gap-4 max-sm:flex-col">
+            <AboutCard ref={aboutRef} onClick={handleAboutClick} mobileExpanded={mobileExpandedCard === 'about'} />
+            <ProfileCard ref={profileRef} />
+          </div>
+          <ProjectsCard ref={projectsRef} />
+          <SkillsCard ref={skillsRef} isMobile tooltipPageReady={tooltipPageReady} />
+          <ContactCard ref={contactRef} onCopyEmail={handleCopyEmail} />
+          <SocialLinksCard ref={socialRef} tooltipPageReady={tooltipPageReady} />
+        </div>
+      ) : (
+        <MainGrid>
+          <LeftColumn
+            ref={leftColRef}
+            expandedCard={expandedCard}
+            phase={phase}
+            cloneStyle={getCloneStyle()}
+            onCollapse={collapse}
+            expansionTiming={TIMING}
+            tiltHandlers={tilt}
+            tooltipPageReady={tooltipPageReady}
+            topRow={
+              <>
+                <AboutCard ref={aboutRef} onClick={handleAboutClick} expanded={expandedCard === 'about'} phase={phase} expansionTiming={TIMING} tiltHandlers={tilt} />
+                <ProfileCard ref={profileRef} tiltHandlers={tilt} />
+              </>
+            }
+            bottomRow={
+              <>
+                <SkillsCard
+                  ref={skillsRef}
+                  onClick={handleSkillsClick}
+                  expanded={expandedCard === 'skills'}
+                  phase={phase}
+                  expansionTiming={TIMING}
+                  tiltHandlers={tilt}
+                  tooltipPageReady={tooltipPageReady}
+                  slotHidden={expandedCard === 'skills' && phase !== 'idle'}
+                />
+                <ContactCard ref={contactRef} tiltHandlers={tilt} onCopyEmail={handleCopyEmail} />
+              </>
+            }
+          />
+          <RightColumn>
+            <ProjectsCard ref={projectsRef} tiltHandlers={tilt} />
+            <SocialLinksCard ref={socialRef} tiltHandlers={tilt} tooltipPageReady={tooltipPageReady} />
+          </RightColumn>
+        </MainGrid>
+      )}
+
       <Footer />
       <FilmGrain />
       <Cursor />

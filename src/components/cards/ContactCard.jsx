@@ -1,12 +1,12 @@
 import { forwardRef } from 'react';
 import contactIcon from '../../assets/icons/contact.svg';
 
-const ContactCard = forwardRef(function ContactCard({ tiltHandlers = {}, onCopyEmail, ...props }, ref) {
+const ContactCard = forwardRef(function ContactCard({ tiltHandlers = {}, onCopyEmail }, ref) {
   return (
     <article
       ref={ref}
       data-card="contact"
-      className="rounded-card bg-gradient-gold shadow-card-inset flex-1 h-full p-8 pb-5 overflow-hidden max-lg:w-full max-lg:flex-auto max-lg:h-auto max-sm:p-6"
+      className="rounded-card bg-gradient-gold shadow-card-inset flex-1 h-full overflow-hidden max-lg:w-full max-lg:flex-auto max-lg:h-auto p-8 pb-5 max-lg:p-7 max-lg:pb-6 max-sm:px-7 max-sm:py-8 max-sm:pb-7"
       onMouseMove={tiltHandlers.onMouseMove}
       onMouseLeave={tiltHandlers.onMouseLeave}
     >

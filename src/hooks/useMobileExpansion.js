@@ -4,12 +4,12 @@ const MOBILE_BREAKPOINT = 1210;
 
 export default function useMobileExpansion() {
   const [isMobile, setIsMobile] = useState(
-    () => typeof window !== 'undefined' && window.innerWidth <= MOBILE_BREAKPOINT
+    () => typeof window !== 'undefined' && window.innerWidth < MOBILE_BREAKPOINT
   );
-  const [expandedCard, setExpandedCard] = useState(null); // 'about' | 'skills' | null
+  const [expandedCard, setExpandedCard] = useState(null);
 
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth <= MOBILE_BREAKPOINT);
+    const check = () => setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
     window.addEventListener('resize', check);
     return () => window.removeEventListener('resize', check);
   }, []);
